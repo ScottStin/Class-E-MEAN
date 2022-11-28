@@ -1,0 +1,33 @@
+<div class="dialog-modal">
+    <div style = "background-color: #6200EE"  class="dialog-header flex align-item-center flex-wrap">
+        <h2 mat-dialog-title style="padding:15px; color:white">{{data.Exam}}</h2>
+    </div>
+    <mat-dialog-content class="mat-typography">
+        <h3>{{data.Description}}</h3><hr>        
+        <mat-vertical-stepper [linear]="false" #stepper [animationDuration]="'200'">
+            <mat-step *ngFor="let question of data.Questions">
+                <h2>{{question.questionName}}</h2> 
+                <h4>{{question.questionDescription}}</h4>
+                <p class="m-3 p-3 border border-dark">{{question.questionPrompt}}</p>
+                <form class="example-form">                
+                    <mat-form-field class="example-full-width">
+                      <textarea matInput placeholder="Write your response here..."></textarea>
+                    </mat-form-field>
+                  </form>
+            </mat-step>
+            <!-- <mat-step>
+                <ng-template matStepLabel>Done</ng-template>
+                You are now done.
+                <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button>Reset</button>
+                </div>
+            </mat-step> -->
+        </mat-vertical-stepper>
+
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>  
+    <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Submit Exam</button>
+    </mat-dialog-actions>
+</div>

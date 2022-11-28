@@ -1,0 +1,42 @@
+<div class="container">
+    <app-header></app-header>
+    <div class="d-flex flex-row">             
+        <div class = "card col-3 text-dark bg-white shadow m-3" style="border-radius: 15px;">
+            <div class="container offset-1">
+                <app-navbar [currentUser] = "currentUser" [activePage]="urlAddress"></app-navbar>
+            </div>
+        </div>
+        <div class="col-9 .bg-secondary">      
+            <div class="container"> 
+                
+                <div  *ngIf = "urlAddress ==='/home'" >
+                    <div class="text-dark card bg-white m-3 mb-4 shadow padding-3" style="border-radius: 15px;">
+                        <div class="row p-3">                            
+                            <div *ngFor = "let lessonType of lessonTypes" [ngStyle]="{'color':filterLessonType === lessonType ? 'blue':''}" class="filters col-3 text-center" ><h2  (click)="applyFilter(lessonType)">{{lessonType}}</h2></div>                         
+                        </div>
+                    </div>                
+                    <div *ngFor="let lesson of lessons">
+                        <div *ngIf = "lesson.classType === filterLessonType && (lesson.level.includes(currentUser.level)||!currentUser.level)">
+                            <app-lesson-card [allUsers]="users" [currentUser] = "currentUser" [teacher] = "lesson.teacher"  [lessonType] = "lesson.classType" [lessonLevel] = "lesson.level" [description] = "lesson.description" [startTime]="lesson.startTime" [lessonDate]="lesson.startDate"></app-lesson-card>
+                        </div>
+                    </div>   
+                </div> 
+
+                <div  *ngIf = "urlAddress ==='/teacher/mystudents'" >                                      
+                    <div *ngFor="let user of users">
+                        <div *ngIf = "user.userType === 'Student'">
+                            <app-lesson-card [allUsers]="users" [currentUser] = "currentUser" [student] = "user.name"  [level] = "user.level" [nationality] = "user.nationality" [email] = "user.email"></app-lesson-card>
+                        </div>
+                    </div>   
+                </div> 
+
+                <div  *ngIf = "urlAddress ==='/teacher/exams'" >
+                    <app-exams-show></app-exams-show>
+                </div> 
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
