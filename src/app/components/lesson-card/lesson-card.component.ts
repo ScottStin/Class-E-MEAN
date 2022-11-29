@@ -4,6 +4,9 @@ import { Component, OnInit,Input } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GeneralDialogComponent } from '../general-dialog/general-dialog.component';
 import { Router } from '@angular/router';
+import { faEarthAmericas } from '@fortawesome/free-solid-svg-icons';
+import { faAt } from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-lesson-card',
@@ -11,7 +14,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./lesson-card.component.css']
 })
 export class LessonCardComponent implements OnInit {
+  @Input() page: string | undefined;
   @Input() teacher: string | undefined;
+  @Input() classSize: any | undefined;
+  @Input() studentsEnrolled: any | undefined;
   @Input() lessonType: string | undefined;
   @Input() lessonLevel: any | undefined;
   @Input() description: string | undefined;
@@ -25,6 +31,9 @@ export class LessonCardComponent implements OnInit {
   @Input() email: any | undefined;
 
   urlAddress:string=""
+  faEarthAmericas=faEarthAmericas
+  faAt=faAt
+  faStar=faStar
 
   constructor(public dialog: MatDialog, private router: Router) { 
   }
@@ -45,10 +54,19 @@ export class LessonCardComponent implements OnInit {
   }
 
   openRegisterDialog(){
+    let dialogData
     if(this.currentUser?.userType==="Student" && this.currentUser.level){
-      console.log("registered")
+      console.log("registered")      
+      if(this.studentsEnrolled.includes(this.currentUser)){
+        dialogData={
+          header: 'Are you sure you want to cancel this class?',
+          body: "Your place will no longer be reserved. If you're cancelling less than 24 hours before the class starts, you may still be charged a cancellation fee.",
+          rightButton:'Leave class',
+          leftButton: 'Stay in class',
+          // routerLink:'/home'
+        }
+      }
     } else{    
-      let dialogData
       if(!this.currentUser){
         dialogData={
         header: 'Wait! You have to sign in first',
@@ -58,15 +76,25 @@ export class LessonCardComponent implements OnInit {
         leftButton: 'Cancel',
         routerLink:'student/login-signup'
       }
-      } if (this.currentUser.userType === "Student"&& !this.currentUser.level){
+      } if (this.currentUser.userType === "Student"&& !this.currentUser.level && !this.currentUser.eltComplete){
         dialogData={
           header: 'You need to take your free English Level Test first',
           body: 'Before you enrol in your first lesson, we need to assess your English level so we can put you in the right class. The test takes about 10 minutes and is compeletely free. Click below to take it.',
           rightButton:'Take my English Level Test',
           leftButton: 'Cancel',
-          routerLink:''
+          routerLink:'/exams'
         }
-      }
+      } if (this.currentUser.userType === "Student"&& !this.currentUser.level && this.currentUser.eltComplete){
+        dialogData={
+          header: 'Your level test is being marked',
+          body: "Your level test is being marked by one of our native English teachers. This usually takes 12-48 hours. Once your test is marked, you'll be recieve your results and be able to join the live classes.",
+          rightButton:'Okay',
+          // leftButton: 'Okay',
+          // routerLink:'/home'
+        }
+      } 
+    }
+    if(dialogData){
       const dialogRef = this.dialog.open(GeneralDialogComponent,{
         width: '530px',
         data: dialogData,
@@ -76,6 +104,7 @@ export class LessonCardComponent implements OnInit {
         console.log(`Dialog result: ${result}`);
       });
     }
+
   }
 
 }

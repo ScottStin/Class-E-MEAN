@@ -27,6 +27,7 @@ import {MatTableModule} from '@angular/material/table';
 import { ExamDisplayIndividualComponent } from './components/exam-display-individual/exam-display-individual.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatInputModule} from '@angular/material/input';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import {MatInputModule} from '@angular/material/input';
     RouterModule,
     MatTableModule,
     MatStepperModule,
-    MatInputModule
+    MatInputModule,
+    MatChipsModule
     // CdkDialogContainer
   ],
   providers: [],

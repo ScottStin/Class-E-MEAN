@@ -10,8 +10,9 @@ const routes: Routes = [
   { path: 'home', component: HomepageComponent, pathMatch: 'full',},
   { path: 'student/login-signup', component: LoginSignupComponent, pathMatch: 'full',},
   // { path: 'teacher/exams', component: ExamsShowComponent, pathMatch: 'full',},
-  { path: 'teacher/exams', component: HomepageComponent, pathMatch: 'full',},
+  { path: 'exams', component: HomepageComponent, pathMatch: 'full',},
   { path: 'teacher/mystudents', component: HomepageComponent, pathMatch: 'full',},
+  { path: 'myclasses', component: HomepageComponent, pathMatch: 'full',},
 ];
 
 @NgModule({

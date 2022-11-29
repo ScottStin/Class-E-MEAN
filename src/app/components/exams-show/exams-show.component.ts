@@ -1,5 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import {animate, state, style, transition, trigger} from '@angular/animations';
@@ -19,41 +19,25 @@ import { ExamDisplayIndividualComponent } from '../exam-display-individual/exam-
     ]),
   ],
 })
-// export class ExamsShowComponent {
-//   dataSource = ELEMENT_DATA;
-//   columnsToDisplay = ['Exam', 'Type', 'Time (min)', 'Default Welcome Exam?', 'Assigned Teacher'];
-//   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
-//   expandedElement: PeriodicElement | null | undefined;
-// }
-
-// export interface PeriodicElement {
-//   Exam: string;
-//   Type: string;
-//   position: number;
-//   'Time (min)': number;
-//   'Students Enrolled':Array<any>;
-//   'Students Completed':Array<any>;
-//   'Default Welcome Exam?':boolean
-//   'Assigned Teacher': string;
-//   Description: string;
-//   Questions:Array<any>;
-// }
 
 export class ExamsShowComponent {
+  @Input() currentUser: any | undefined;
 
   // const ELEMENT_DATA: PeriodicElement[] = [
-  columnsToDisplay = ['Exam Name', 'Type', 'Time (min)', 'Default Welcome Exam?', 'Assigned Teacher','Students Enrolled','Students Completed','Actions'];
+  columnsToDisplayTeacher = ['Exam Name', 'Type', 'Time (min)', 'Default Welcome Exam?', 'Assigned Teacher','Students Enrolled','Students Completed','Actions'];
+  columnsToDisplayStudent = ['Exam Name', 'Type', 'Time (min)', 'My Result','Actions'];
   tableData = [
     {
       position: 1,
       Exam: 'English Level Test',
       Type: 'ELT',
       Time: NaN,
-      'Students Enrolled': ['Naufal Omarieza','Daniel Angel'],
-      'Students Completed': ['Daniel Angel'],
+      'Students Enrolled': ['Naufal Omarieza','Daniel Angel','Dom Argentino'],
+      'Students Completed': [{student:'Daniel Angel',score:7.5},{student:'Dom Argentino',score:''}],
       'Default Welcome Exam?':true,
       'Assigned Teacher': 'Scot Stinson',
       Description: `Welcome to YouSTUDY! This general English level test will help us to assess your English level and assign you to the correct class. It takes about 10 minutes to complete and is completely free.`,
+      totalScore: 10,
       Questions:[
         {questionNumber:1,questionName:'Question 1',questionType:'Audio-Response',questionLength:NaN, points:10,questionDescription:'Read the question below and record your answer.',questionPrompt:'What do you do you a living? Do you enjoy it? Why/why not?',questionImage:'',
           questionAnswer:[
@@ -62,6 +46,13 @@ export class ExamsShowComponent {
                 {studentResponse:"I'm a student. I love it."},
                 {teacherResponse:"Great answer, Daniel!"},
                 {questionScore:9},
+              ]
+            },
+            {
+              'Dom Argentino':[
+                {studentResponse:"I work in a cafe. I hate it."},
+                {teacherResponse:""},
+                {questionScore:''},
               ]
             },
           ]
@@ -73,6 +64,13 @@ export class ExamsShowComponent {
                 {studentResponse:"I would be doctor"},
                 {teacherResponse:"Good answer daniel, but here we need an article, 'a', with the noun 'docotr'"},
                 {questionScore:6},
+              ]
+            },
+            {
+              'Dom Argentino':[
+                {studentResponse:"I want to win the lottery and not work anymore"},
+                {teacherResponse:""},
+                {questionScore:""},
               ]
             },
           ]
@@ -89,13 +87,16 @@ export class ExamsShowComponent {
       'Default Welcome Exam?':false,
       'Assigned Teacher': 'Scott Stinson',
       Description: `This exam will test you on the IELTS Reading Section. You have 60 minutes to complete 3 exercises.`,
+      totalScore: 10,
       Questions:[]
     },
   ];
   tableDataFiltered = this.tableData
 
   constructor(public dialog: MatDialog) {}
-  ngOnInit(): void{ }
+  ngOnInit(): void{
+    // this.getExamResult()
+   }
 
   filterExams(searchExams: any){
     console.log(searchExams)
@@ -109,6 +110,20 @@ export class ExamsShowComponent {
    // return <mat-icon>arrow_upward</mat-icon>
   }
 
+  getExamResult(exam:any){
+    let result=""
+    if(exam['Students Completed'].filter((obj: { student: any; })=>{return obj.student === this.currentUser.name}).length>0){
+      if (exam['Students Completed'].filter((obj: { student: any; })=>{return obj.student === this.currentUser.name})[0].score!==''){
+        result = `${exam['Students Completed'].filter((obj: { student: any; })=>{return obj.student === this.currentUser.name})[0].score} / ${exam.totalScore}`
+      } else {
+        result = "Your exam is still being marked"
+      }
+    } else{
+      result = '-'
+    }
+    return result
+  }
+
   openExamDialog(exam: any){ 
 
     const dialogRef = this.dialog.open(ExamDisplayIndividualComponent,{
@@ -119,51 +134,5 @@ export class ExamsShowComponent {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
-
   }
 }
-// export class ExamsShowComponent implements OnInit { 
- 
-
-// Exams = [
-//   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-//   {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-//   {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-//   {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-//   {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-//   {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-//   {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-//   {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-//   {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-//   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-// ];
-
-//   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-//   dataSource = new MatTableDataSource(this.Exams);
-//   columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
-
-//   constructor(private _liveAnnouncer: LiveAnnouncer) { }
-
-//   ngOnInit(): void {
-//   }
-  
-//   @ViewChild(MatSort)
-//   sort: MatSort = new MatSort;
-
-//   ngAfterViewInit() {
-//     this.dataSource.sort = this.sort;
-//   }
-
-//     announceSortChange(sortState: Sort) {
-//     // This example uses English messages. If your application supports
-//     // multiple language, you would internationalize these strings.
-//     // Furthermore, you can customize the message to add additional
-//     // details about the values being sorted.
-//     if (sortState.direction) {
-//       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-//     } else {
-//       this._liveAnnouncer.announce('Sorting cleared');
-//     }
-//   }
-
-// }
