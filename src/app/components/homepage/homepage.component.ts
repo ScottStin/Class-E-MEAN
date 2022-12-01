@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-homepage',
@@ -33,6 +34,9 @@ export class HomepageComponent implements OnInit {
   ]
 
   lessons = [
+    {teacher: this.users[1].name,length:1, startDate:'Thursday Dec 1 2022', startTime: '19:00', level:['A2 Lower-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
+    {teacher: this.users[1].name,length:4, startDate:'Thursday Dec 1 2022', startTime: '20:00', level:['A2 Lower-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
+    {teacher: this.users[1].name,length:2, startDate:'Tuesday Oct 22 2022', startTime: '17:00', level:['A2 Lower-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
     {teacher: this.users[1].name,length:2, startDate:'Monday Dec 12 2022', startTime: '17:00', level:['A2 Lower-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[8],this.users[9]],studentsAttended:[], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
     {teacher: this.users[4].name,length:2, startDate:'Sunday Dec 11 2022', startTime: '11:00', level:['B2 Upper-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:3,studentsEnrolled:[this.users[7],this.users[8],this.users[9]],studentsAttended:[],description:"Weekend general English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
     {teacher: this.users[0].name,length:2, startDate:'Monday Dec 12 2022', startTime: '17:00', level:['B2 Upper-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:8,studentsEnrolled:[this.users[7],this.users[8],this.users[9]],studentsAttended:[],description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
@@ -56,15 +60,18 @@ export class HomepageComponent implements OnInit {
   lessonTypes:Array<string> = ["General English","IELTS Exam Prep","PTE Exam Prep","Cambridge Exam Prep"]
 
   filterLessonType:string = ""
+  filterLessonDate:string = "All Lessons"
   currentUser: any =""
   urlAddress:string=""
-  displayUsers = this.users
+  displayUsers = this.users 
+  displayLessons:any = this.lessons
+  faPlus = faPlus
 
   constructor(private router: Router) {  }
 
   ngOnInit(): void {
     this.filterLessonType = this.lessonTypes[0]
-    this.currentUser=this.users[7]
+    this.currentUser=this.users[1]
     this.urlAddress = this.router.url
     console.log(this.urlAddress)
     this.lessonStudentsEnrolled(this.lessons[1])
@@ -91,7 +98,29 @@ export class HomepageComponent implements OnInit {
   }
 
   applyFilterLessonDate(lessonDate:any){
+    this.displayLessons = []
+    this.filterLessonDate = lessonDate
+    this.lessons.filter(obj=>{     
+      console.log(new Date(new Date(`${obj.startDate} ${this.lessons[0].startTime}:00`).setHours(new Date(`${obj.startDate} ${obj.startTime}:00`).getHours()+2)))   
+        if (this.filterLessonDate === 'Upcoming Lessons' && new Date(new Date(`${obj.startDate} ${this.lessons[0].startTime}:00`).setHours(new Date(`${obj.startDate} ${obj.startTime}:00`).getHours()+2)) >= new Date()){
+          this.displayLessons.push(obj)
+        }
+        if (this.filterLessonDate === 'Past Lessons' && new Date(new Date(`${obj.startDate} ${this.lessons[0].startTime}:00`).setHours(new Date(`${obj.startDate} ${obj.startTime}:00`).getHours()+2)) < new Date()){
+          this.displayLessons.push(obj)
+        }
+        if (this.filterLessonDate === 'All Lessons'){
+          this.displayLessons.push(obj)
+        }
+    })
+    console.log(this.displayLessons)
+    console.log(this.lessons)
+    console.log(new Date())
     
+  //   console.log(this.filterLessonDate)
+  //   let lessonDateFormatted = new Date(`${this.lessons[0].startDate} ${this.lessons[0].startTime}:00`) 
+  //   console.log(new Date(lessonDateFormatted.setHours(lessonDateFormatted.getHours()+2)))
+  //   let lessDateFormattedWithHours = new Date(lessonDateFormatted.setHours(lessonDateFormatted.getHours()+2))
+  // //   console.log(new Date(lessonDateFormatted.setDate(lessonDateFormatted.getDate()+(1))))
   }
 
 }

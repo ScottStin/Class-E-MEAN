@@ -39,12 +39,15 @@
                 </div> 
 
                 <div  *ngIf = "urlAddress ==='/myclasses'" >
-                    <div class="text-dark card bg-white m-3 mb-4 shadow padding-3" style="border-radius: 15px;">
+                    <div class="text-dark card bg-white m-3 mb-4 shadow padding-3" style="border-radius: 15px;"> 
                         <div class="row p-3">                            
-                            <div *ngFor = "let lessonDate of ['Upcoming Lessons','Past Lessons']" class="filters col-6 text-center" ><h2  (click)="applyFilterLessonDate(lessonDate)">{{lessonDate}}</h2></div>                         
+                            <div *ngFor = "let lessonDate of ['Upcoming Lessons','Past Lessons','All Lessons']" class="filters col-4 text-center" [ngStyle]="{'color':filterLessonDate === lessonDate ? 'blue':'grey'}"> <h2  (click)="applyFilterLessonDate(lessonDate)">{{lessonDate}}</h2></div>                         
                         </div>
-                    </div>                
-                    <div *ngFor="let lesson of lessons">
+                        <!-- <button mat-raised-button color="primary"><fa-icon [icon]="faPlus"></fa-icon> Create New Lesson</button> -->
+                    </div>
+                    
+                                    
+                    <div *ngFor="let lesson of displayLessons">
                         <div *ngIf = "currentUser.userType==='Teacher' && lesson.teacher === currentUser.name">
                             <app-lesson-card [allUsers]="users" [currentUser] = "currentUser" [lesson] = "lesson"></app-lesson-card>
                         </div>
