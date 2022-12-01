@@ -10,7 +10,7 @@
             <h1 *ngIf = "currentUser.level && currentUser.userType === 'Student'" class="text-center text-warning"> <fa-icon [icon]="faStar"></fa-icon> {{currentUser.level.substring(0, 2)}}  <fa-icon [icon]="faStar"></fa-icon></h1>
         </div> 
         <div *ngFor = "let item of menuItems">
-            <button *ngIf="item.use.includes(currentUser.userType) || (!currentUser) && item.use.includes('Student')" mat-raised-button [color]="item.routerLink === activePage ? 'accent' : 'primary'" class = "mb-4 mt-1 " style="height:48px; width: 210px !important; font-size:18px; display: flex; align-items: center; justify-content: center;" [routerLink]="item.routerLink"> <fa-icon [icon]="item.icon"></fa-icon>  {{item.name}}</button>
+            <button id = "navButton" *ngIf="item.use.includes(currentUser.userType) || (!currentUser) && item.use.includes('Student')" mat-raised-button [color]="item.routerLink === activePage ? 'accent' : 'primary'" class = "mb-4 mt-1 " style="height:48px; width: 210px !important; font-size:18px; display: flex; align-items: center; justify-content: center;" [routerLink]="item.routerLink"> <fa-icon [icon]="item.icon"></fa-icon>  {{item.name}}</button>
 
             <!-- <div class="dropdown">
                 <button type="button" class="btn btn-secondary btn-lg mt-1 mb-3 dropdown-toggle mx-auto d-block" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:75%">My Account</button>

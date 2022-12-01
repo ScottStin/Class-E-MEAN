@@ -14,21 +14,9 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./lesson-card.component.css']
 })
 export class LessonCardComponent implements OnInit {
-  @Input() page: string | undefined;
-  @Input() teacher: string | undefined;
-  @Input() classSize: any | undefined;
-  @Input() studentsEnrolled: any | undefined;
-  @Input() lessonType: string | undefined;
-  @Input() lessonLevel: any | undefined;
-  @Input() description: string | undefined;
-  @Input() lessonDate: String | undefined;
-  @Input() startTime: String | undefined;
+  @Input() lesson: any | undefined;  
   @Input() currentUser: any | undefined;
   @Input() allUsers: any | undefined;
-  @Input() student: any | undefined;
-  @Input() level: any | undefined;
-  @Input() nationality: any | undefined;
-  @Input() email: any | undefined;
 
   urlAddress:string=""
   faEarthAmericas=faEarthAmericas
@@ -41,23 +29,18 @@ export class LessonCardComponent implements OnInit {
   ngOnInit(): void {
     this.urlAddress = this.router.url
     console.log(this.urlAddress)
-    console.log(this.student)
+    // console.log(this.student)
   }
 
   getImageSource(){
-  if(this.student){
-    return this.allUsers.find((obj: { name: string; })=>obj.name === this.student).profilePicture
-  } if (this.teacher){
-    return this.allUsers.find((obj: { name: string; })=>obj.name === this.teacher).profilePicture
-  }
-   
+    return this.allUsers.find((obj: { name: string; })=>obj.name === this.lesson.teacher).profilePicture 
   }
 
   openRegisterDialog(){
     let dialogData
     if(this.currentUser?.userType==="Student" && this.currentUser.level){
       console.log("registered")      
-      if(this.studentsEnrolled.includes(this.currentUser)){
+      if(this.lesson.studentsEnrolled.includes(this.currentUser)){
         dialogData={
           header: 'Are you sure you want to cancel this class?',
           body: "Your place will no longer be reserved. If you're cancelling less than 24 hours before the class starts, you may still be charged a cancellation fee.",

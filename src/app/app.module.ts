@@ -28,6 +28,7 @@ import { ExamDisplayIndividualComponent } from './components/exam-display-indivi
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatInputModule} from '@angular/material/input';
 import {MatChipsModule} from '@angular/material/chips';
+import { UserCardComponent } from './components/user-card/user-card.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {MatChipsModule} from '@angular/material/chips';
     LoginSignupComponent,
     GeneralDialogComponent,
     ExamsShowComponent,
-    ExamDisplayIndividualComponent,    
+    ExamDisplayIndividualComponent,
+    UserCardComponent,    
   ],
   imports: [
     BrowserModule,

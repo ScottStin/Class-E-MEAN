@@ -1,0 +1,14 @@
+#Card:hover{   
+    /* cursor: pointer;   */
+    transform:scale(1.01);
+    /* box-shadow: 0 5em 5em -5em; */
+    /* background-color: aliceblue; */
+    transition: filter 500ms, Transform 500ms, box-shadow 500ms, color 500ms ease-in-out;
+}
+
+#Card{
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}

@@ -17,34 +17,39 @@
                     </div>                
                     <div *ngFor="let lesson of lessons">
                         <div *ngIf = "lesson.classType === filterLessonType && (lesson.level.includes(currentUser.level)||!currentUser.level)">
-                            <app-lesson-card [allUsers]="users" [currentUser] = "currentUser" [teacher] = "lesson.teacher" [studentsEnrolled]="lesson.studentsEnrolled" [classSize] = "lesson.maxSize" [lessonType] = "lesson.classType" [lessonLevel] = "lesson.level" [description] = "lesson.description" [startTime]="lesson.startTime" [lessonDate]="lesson.startDate"  [page] = "'classList'"></app-lesson-card>
+                            <app-lesson-card [allUsers]="users" [currentUser] = "currentUser" [lesson] = "lesson"></app-lesson-card>
                         </div>
                     </div>   
                 </div> 
 
-                <div  *ngIf = "urlAddress ==='/teacher/mystudents'" > 
+                <div  *ngIf = "urlAddress ==='/studentlist' || urlAddress === '/teacherlist'" > 
                     <div class = "card text-dark bg-white shadow m-3 p-1" style="border-radius: 15px;">
                         <div class="row p-3">                            
                             <input class="form-control mr-sm-2" #searchStudents type="search" placeholder="Search..." aria-label="Search" (keyup) = "filterStudents(searchStudents.value)"/>                                                            
                         </div>  
                     </div>                                     
                     <div *ngFor="let user of displayUsers">
-                        <div *ngIf = "user.userType === 'Student'">
-                            <app-lesson-card [allUsers]="users" [currentUser] = "currentUser" [student] = "user.name"  [level] = "user.level" [nationality] = "user.nationality" [email] = "user.email" [page] = "'studentList'"></app-lesson-card>
+                        <div *ngIf = "user.userType === 'Student' && urlAddress ==='/studentlist'">
+                            <app-user-card  [allUsers]="users" [user] = "user" [currentUser] = "currentUser"></app-user-card>
+                        </div>
+                        <div *ngIf = "user.userType === 'Teacher' && urlAddress === '/teacherlist'">
+                            <app-user-card  [allUsers]="users" [user] = "user" [currentUser] = "currentUser"></app-user-card>
                         </div>
                     </div>   
                 </div> 
 
                 <div  *ngIf = "urlAddress ==='/myclasses'" >
                     <div class="text-dark card bg-white m-3 mb-4 shadow padding-3" style="border-radius: 15px;">
-                    
+                        <div class="row p-3">                            
+                            <div *ngFor = "let lessonDate of ['Upcoming Lessons','Past Lessons']" class="filters col-6 text-center" ><h2  (click)="applyFilterLessonDate(lessonDate)">{{lessonDate}}</h2></div>                         
+                        </div>
                     </div>                
                     <div *ngFor="let lesson of lessons">
-                        <div *ngIf = "currentUser.userType==='Teacher'&& lesson.teacher === currentUser.name">
-                            <app-lesson-card [allUsers]="users" [currentUser] = "currentUser" [teacher] = "lesson.teacher" [studentsEnrolled]="lesson.studentsEnrolled" [classSize] = "lesson.maxSize" [lessonType] = "lesson.classType" [lessonLevel] = "lesson.level" [description] = "lesson.description" [startTime]="lesson.startTime" [lessonDate]="lesson.startDate"  [page] = "'classList'"></app-lesson-card>
+                        <div *ngIf = "currentUser.userType==='Teacher' && lesson.teacher === currentUser.name">
+                            <app-lesson-card [allUsers]="users" [currentUser] = "currentUser" [lesson] = "lesson"></app-lesson-card>
                         </div>
                         <div *ngIf = "currentUser.userType==='Student' && lessonStudentsEnrolled(lesson)">
-                            <app-lesson-card [allUsers]="users" [currentUser] = "currentUser" [teacher] = "lesson.teacher" [studentsEnrolled]="lesson.studentsEnrolled" [classSize] = "lesson.maxSize" [lessonType] = "lesson.classType" [lessonLevel] = "lesson.level" [description] = "lesson.description" [startTime]="lesson.startTime" [lessonDate]="lesson.startDate"  [page] = "'classList'"></app-lesson-card>
+                            <app-lesson-card [allUsers]="users" [currentUser] = "currentUser" [lesson] = "lesson"></app-lesson-card>
                         </div>
                     </div>   
                 </div> 

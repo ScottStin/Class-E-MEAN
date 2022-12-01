@@ -1,0 +1,18 @@
+<div class = "card m-3 mb-5 shadow-lg" id="Card">  
+    <div class="row mb-4">
+        <div class = "col-md-4">        
+            <img  alt="" style="border-radius: 50%; width:100%; height:100%;" [src]="getImageSource()" class = "d-flex justify-content-center img-fluid mt-3 offset-1"/>                          
+        </div>
+        <div class="col-md-6 offset-1">
+            <div class="card-body">
+                    <h2>{{user.name}}</h2> <hr>   
+                    <p class = "text-muted" *ngIf = "user.userType==='Teacher'"> <i>"{{user.statement}}"</i></p> 
+                    <h3><fa-icon [icon]="faEarthAmericas"> </fa-icon> {{user.nationality}}</h3>
+                    <h3><fa-icon [icon]="faAt"> </fa-icon> {{user.email}}</h3>
+                    <h3 *ngIf = "user.userType==='Student'" role="listitem"><fa-icon [icon]="faStar"> </fa-icon> <span  *ngIf="user.level">{{user.level}}</span> <a style="text-decoration:none" href="#" *ngIf="!user.level"> Set level...</a></h3>
+                    <button *ngIf = "user.userType==='Student'" #tooltip="matTooltip" matTooltip="Message student" mat-mini-fab style="background-color:blue; position:absolute; right:10px; bottom: 10px;"><mat-icon>message</mat-icon></button>      
+                    <button *ngIf = "user.userType==='Teacher'" #tooltip="matTooltip" matTooltip="Message teacher" mat-mini-fab style="background-color:blue; position:absolute; right:10px; bottom: 10px;"><mat-icon>message</mat-icon></button>      
+            </div> 
+        </div> 
+    </div> 
+</div>    
