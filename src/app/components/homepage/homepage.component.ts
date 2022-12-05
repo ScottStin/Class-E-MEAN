@@ -1,6 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { NewClassComponent } from '../new-class/new-class.component';
 
 @Component({
   selector: 'app-homepage',
@@ -34,6 +36,8 @@ export class HomepageComponent implements OnInit {
   ]
 
   lessons = [
+    {teacher: this.users[3].name,length:1, startDate:'Monday Oct 21 2022', startTime: '14:25', level:['B2 Upper-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
+    {teacher: this.users[3].name,length:1, startDate:'Monday Dec 5 2022', startTime: '18:25', level:['B2 Upper-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
     {teacher: this.users[1].name,length:1, startDate:'Thursday Dec 1 2022', startTime: '19:00', level:['A2 Lower-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
     {teacher: this.users[1].name,length:4, startDate:'Thursday Dec 1 2022', startTime: '20:00', level:['A2 Lower-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
     {teacher: this.users[1].name,length:2, startDate:'Tuesday Oct 22 2022', startTime: '17:00', level:['A2 Lower-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
@@ -64,14 +68,17 @@ export class HomepageComponent implements OnInit {
   currentUser: any =""
   urlAddress:string=""
   displayUsers = this.users 
-  displayLessons:any = this.lessons
+  displayLessons:any = this.lessons.sort(function(a: { startDate: string; startTime: string; },b: { startDate: string; startTime: string; }){return new Date(a.startDate+", "+a.startTime).getTime() - new Date(b.startDate+", "+b.startTime).getTime()})//.filter((obj:any)=>{if( new Date(obj.startDate +" ,"+obj.startTime).getTime()+(obj.length*3600000) - new Date().getTime()>=0){return obj}});
   faPlus = faPlus
 
-  constructor(private router: Router) {  }
+  constructor(
+    private router: Router,
+    public dialog: MatDialog
+    ) {  }
 
   ngOnInit(): void {
     this.filterLessonType = this.lessonTypes[0]
-    this.currentUser=this.users[1]
+    this.currentUser=this.users[7]
     this.urlAddress = this.router.url
     console.log(this.urlAddress)
     this.lessonStudentsEnrolled(this.lessons[1])
@@ -112,15 +119,25 @@ export class HomepageComponent implements OnInit {
           this.displayLessons.push(obj)
         }
     })
-    console.log(this.displayLessons)
-    console.log(this.lessons)
-    console.log(new Date())
-    
-  //   console.log(this.filterLessonDate)
-  //   let lessonDateFormatted = new Date(`${this.lessons[0].startDate} ${this.lessons[0].startTime}:00`) 
-  //   console.log(new Date(lessonDateFormatted.setHours(lessonDateFormatted.getHours()+2)))
-  //   let lessDateFormattedWithHours = new Date(lessonDateFormatted.setHours(lessonDateFormatted.getHours()+2))
-  // //   console.log(new Date(lessonDateFormatted.setDate(lessonDateFormatted.getDate()+(1))))
+    this.displayLessons = this.displayLessons.sort(function(a: { startDate: string; startTime: string; },b: { startDate: string; startTime: string; }){return new Date(a.startDate+", "+a.startTime).getTime() - new Date(b.startDate+", "+b.startTime).getTime()});
+  }
+
+  openNewClassDialog(){ 
+
+    const dialogRef = this.dialog.open(NewClassComponent,{
+      width: '2000px',
+      data: {
+        header: 'Create new lessons',
+        // body: '',
+        rightButton:'Create',
+        leftButton: 'Cancel',
+        // routerLink:''
+      }
+    });  
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
 }

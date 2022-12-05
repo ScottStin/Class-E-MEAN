@@ -42,36 +42,52 @@ export class ExamsShowComponent {
         {questionNumber:1,questionName:'Question 1',questionType:'Audio-Response',questionLength:NaN, points:10,questionDescription:'Read the question below and record your answer.',questionPrompt:'What do you do you a living? Do you enjoy it? Why/why not?',questionImage:'',
           questionAnswer:[
             {
-              'Daniel Angel':[
-                {studentResponse:"I'm a student. I love it."},
-                {teacherResponse:"Great answer, Daniel!"},
-                {questionScore:9},
-              ]
+              studentName: 'Daniel Angel',
+              studentResponse:"I'm a student. I love it.",
+              teacherResponse:"Great answer, Daniel!",
+              questionScore:9
+              // 'Daniel Angel':[
+              //   {studentResponse:"I'm a student. I love it."},
+              //   {teacherResponse:"Great answer, Daniel!"},
+              //   {questionScore:9},
+              // ]
             },
             {
-              'Dom Argentino':[
-                {studentResponse:"I work in a cafe. I hate it."},
-                {teacherResponse:""},
-                {questionScore:''},
-              ]
+              studentName: 'Dom Argentino',
+              studentResponse:"I work in a cafe. I hate it.",
+              teacherResponse:"",
+              questionScore:''
+              // 'Dom Argentino':[
+              //   {studentResponse:"I work in a cafe. I hate it."},
+              //   {teacherResponse:""},
+              //   {questionScore:''},
+              // ]
             },
           ]
         },
-        {questionNumber:2,questionName:'Question 2',questionType:'Audio-Response',questionLength:NaN, questionDescription:'Read the question below and record your answer.',questionPrompt:'If you could quit your job and have any job in the world, what would you be? Why?',questionImage:'',
+        {questionNumber:2,questionName:'Question 2',questionType:'Audio-Response',questionLength:NaN, points:10, questionDescription:'Read the question below and record your answer.',questionPrompt:'If you could quit your job and have any job in the world, what would you be? Why?',questionImage:'',
           questionAnswer:[
             {
-              'Daniel Angel':[
-                {studentResponse:"I would be doctor"},
-                {teacherResponse:"Good answer daniel, but here we need an article, 'a', with the noun 'docotr'"},
-                {questionScore:6},
-              ]
+              studentName: 'Daniel Angel',
+              studentResponse:"I would be doctor.",
+              teacherResponse:"Good answer daniel, but here we need an article, 'a', with the noun 'doctor'",
+              questionScore:6
+              // 'Daniel Angel':[
+              //   {studentResponse:"I would be doctor"},
+              //   {teacherResponse:"Good answer daniel, but here we need an article, 'a', with the noun 'docotr'"},
+              //   {questionScore:6},
+              // ]
             },
             {
-              'Dom Argentino':[
-                {studentResponse:"I want to win the lottery and not work anymore"},
-                {teacherResponse:""},
-                {questionScore:""},
-              ]
+              studentName: 'Dom Argentino',
+              studentResponse:"I want to win the lottery and not work anymore.",
+              teacherResponse:"",
+              questionScore:''
+              // 'Dom Argentino':[
+              //   {studentResponse:"I want to win the lottery and not work anymore"},
+              //   {teacherResponse:""},
+              //   {questionScore:""},
+              // ]
             },
           ]
         },
@@ -128,7 +144,7 @@ export class ExamsShowComponent {
 
     const dialogRef = this.dialog.open(ExamDisplayIndividualComponent,{
       width: '1000px',
-      data: exam,
+      data:{ exam:exam, user:this.currentUser}
     });  
 
     dialogRef.afterClosed().subscribe(result => {

@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { faEarthAmericas } from '@fortawesome/free-solid-svg-icons';
 import { faAt } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { Subscription, timer } from 'rxjs';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-lesson-card',
@@ -18,19 +20,32 @@ export class LessonCardComponent implements OnInit {
   @Input() currentUser: any | undefined;
   @Input() allUsers: any | undefined;
 
+  ms:number =0;
+  days:number =0; 
+  hours:number =0;   
+  min:number=6;
+  sec: number = 0
+
+  subscription: Subscription = new Subscription;
+
   urlAddress:string=""
   faEarthAmericas=faEarthAmericas
   faAt=faAt
   faStar=faStar
 
-  constructor(public dialog: MatDialog, private router: Router) { 
+  constructor(public dialog: MatDialog, private router: Router,private _snackBar: MatSnackBar) { 
   }
 
   ngOnInit(): void {
     this.urlAddress = this.router.url
     console.log(this.urlAddress)
+    // this.startTimer()
     // console.log(this.student)
   }
+  
+  ngOnDestroy() {
+  this.subscription.unsubscribe();
+}
 
   getImageSource(){
     return this.allUsers.find((obj: { name: string; })=>obj.name === this.lesson.teacher).profilePicture 
@@ -87,7 +102,67 @@ export class LessonCardComponent implements OnInit {
         console.log(`Dialog result: ${result}`);
       });
     }
-
   }
+
+  openJoinClassDialog(){
+    const dialogRef = this.dialog.open(GeneralDialogComponent,{
+      width: '530px',
+      data: {
+        header: 'Join The Live Class Now',
+        body: 'Before you join, you should make sure your camera and microphone are working. Please join using a computer or laptop (NOT a phone or tablet). Also, please ensure you join from a QUIET place with a stable internet connection.',
+        rightButton:'Join class',
+        leftButton: 'Return',
+        // routerLink:'/exams'
+      },
+    });
+    
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  // startTimer(){
+  //   const source = timer(1000, 2000);
+  //   this.subscription = source.subscribe(val => {
+  //      console.log('timer')
+  //   })
+  // }
+
+  // stopTimer(){
+  //   this.subscription.unsubscribe();
+  // }
+
+  calculateTime(startDate: any, startTime:any){
+    var today = new Date();    
+    this.ms = (new Date(startDate+", "+startTime).getTime())-today.getTime();
+    this.days =  Math.floor(this.ms/1000/60/60/24);
+    this.hours = Math.floor((this.ms % 86400000) / 3600000);
+    this.min = Math.round(((this.ms % 86400000) % 3600000) / 60000);     
+    // this.sec = ((((this.ms % 86400000) % 3600000) / 60000)/100*60);     
+    // this.sec = ((((this.ms % 86400000) % 3600000) % 60000) / 6000);
+  }
+
+  lessonStartCountdown(startDate: any, startTime:any,length:any,teacher:any){
+    this.calculateTime(startDate, startTime)
+    const source = timer(60000, 60000);
+    this.subscription = source.subscribe(val => {
+      this.calculateTime(startDate,startTime)
+    })    
+    // console.log(this.min,this.days,this.hours,this.ms)
+    var minDisplay, daysDisplay, hoursDisplay
+    if (this.min>=10){minDisplay = this.min} else{minDisplay = "0"+this.min}
+    if (this.hours>=10){hoursDisplay = this.hours} else{hoursDisplay = "0"+this.hours}
+    if (this.days>=10){daysDisplay = this.days} else{daysDisplay = "0"+this.days}
+    if(this.days <=0 && this.hours <=0 && this.hours >= (length*-1) && this.min <=5){
+      // this._snackBar.open(`Hey! Your ${startTime} class with ${teacher} is starting now. Open the 'My Classes' tab to join.`,'close');
+      return 'Join class!!'
+    } if ((this.days <0 || this.hours <0 || this.min < 0) && this.hours< (length*-1)){
+      return 'View Class'
+    } else {
+      return `${daysDisplay} : ${hoursDisplay} : ${minDisplay}`
+    }    
+  }
+
+
 
 }

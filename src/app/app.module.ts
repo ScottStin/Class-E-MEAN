@@ -29,6 +29,13 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatInputModule} from '@angular/material/input';
 import {MatChipsModule} from '@angular/material/chips';
 import { UserCardComponent } from './components/user-card/user-card.component';
+import { NewClassComponent } from './components/new-class/new-class.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import {FormBuilder, FormControl, FormGroup, Validators,FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatSelectModule} from '@angular/material/select';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -42,7 +49,8 @@ import { UserCardComponent } from './components/user-card/user-card.component';
     GeneralDialogComponent,
     ExamsShowComponent,
     ExamDisplayIndividualComponent,
-    UserCardComponent,    
+    UserCardComponent,
+    NewClassComponent,  
   ],
   imports: [
     BrowserModule,
@@ -62,10 +70,17 @@ import { UserCardComponent } from './components/user-card/user-card.component';
     MatTableModule,
     MatStepperModule,
     MatInputModule,
-    MatChipsModule
+    MatChipsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatSnackBarModule
     // CdkDialogContainer
   ],
-  providers: [],
+  providers: [MatDatepickerModule,FormBuilder,FormControl],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

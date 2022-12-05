@@ -1,19 +1,22 @@
 <div class="dialog-modal">
     <div style = "background-color: #6200EE"  class="dialog-header flex align-item-center flex-wrap">
-        <h2 mat-dialog-title style="padding:15px; color:white">{{data.Exam}}</h2>
+        <h2 mat-dialog-title style="padding:15px; color:white">{{data.exam.Exam}}</h2>
     </div>
     <mat-dialog-content class="mat-typography">
-        <h3>{{data.Description}}</h3><hr>        
+        <h3>{{data.exam.Description}}</h3><hr>        
         <mat-vertical-stepper [linear]="false" #stepper [animationDuration]="'200'">
-            <mat-step *ngFor="let question of data.Questions">
+            <mat-step *ngFor="let question of data.exam.Questions">
                 <h2>{{question.questionName}}</h2> 
                 <h4>{{question.questionDescription}}</h4>
                 <p class="m-3 p-3 border border-dark">{{question.questionPrompt}}</p>
-                <form class="example-form">                
+                <form  *ngIf ="!findStudentResponse(question)" class="example-form">                
                     <mat-form-field class="example-full-width">
                       <textarea matInput placeholder="Write your response here..."></textarea>
                     </mat-form-field>
-                  </form>
+                </form>
+                <div *ngIf ="findStudentResponse(question)" > <br> <b>Student Response:</b> {{findStudentResponse(question)}}</div>
+                <div *ngIf ="findTeacherFeedback(question)" > <br> <b>Teacher Feedback:</b> {{findTeacherFeedback(question)}}</div>
+                <div *ngIf ="findResponseScore(question)" > <br> <b>Question Score: </b> {{findResponseScore(question)}} / {{question.points}}</div>
             </mat-step>
             <!-- <mat-step>
                 <ng-template matStepLabel>Done</ng-template>

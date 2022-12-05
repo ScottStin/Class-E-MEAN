@@ -1,11 +1,12 @@
 <mat-tab-group dynamicHeight mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
-    <mat-tab label="New Students">
+    <mat-tab label="New {{user}}">
         <div>
             <div class = "container flex justify-content-center align-items-center mt-5 mb-5">
                 <div class="row">
                     <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
                         <div class="card shadow">
-                            <img [src]="studentImage" alt=""/>
+                            <img *ngIf = "urlAddress.includes('student')" [src]="studentImage" alt=""/>
+                            <img *ngIf = "urlAddress.includes('teacher')" [src]="teacherImage" alt=""/>
                             <div  class = "card-body">
                                 <h5 class = "card-title">Login</h5>
                                 <form>                          
@@ -26,47 +27,48 @@
         </div>
       </div>
     </mat-tab>
-    <mat-tab label="Existing Students">
+    <mat-tab label="Existing {{user}}">
         <div>  
-              <div class = "container flex justify-content-center align-items-center mt-5 mb-5">
-                  <div class="row">
-                      <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
-                          <div class="card shadow">                         
-                              <img [src]="studentImage" alt=""/>
-                              <div  class = "card-body">
-                                  <h5 class = "card-title">Sign up</h5>
-                                  <form enctype="multipart/form-data"> 
-                                      <div class = "mb-3">
-                                          <label class="form-label" for="name">Student Name</label>
-                                          <input class="form-control" type = "text" id="name" name="name" autoFocus/>                                      
-                                      </div>
-                                      <div class = "mb-3">
-                                          <label class="form-label" for="email">Email</label>
-                                          <input class="form-control" type = "email" id="email" name="email"/>                                      
-                                      </div>
-                                      <div class = "mb-3">
-                                          <label class="form-label" for="country" >Country of Origin</label>
-                                          <select class="form-select" data-flag="true" >
-                                              <option value="other">Select country...</option>
-                                              <option *ngFor="let country of countryList">{{country}}</option>                                             
-                                              <option value="other">OTHER</option>
-                                          </select>                                      
-                                      </div>     
-                                      <div class = "mb-3">
-                                          <label class="form-label" for="password">Password</label>
-                                          <input class="form-control" type = "password" id="password" name="password" />                                            
-                                      </div>                             
-                                      <div class="mb-3">
-                                          <label for="formFileMultiple" class="form-label"><h6>Profile Picture</h6></label>
-                                          <input class="form-control" type="file" id="studentPic" name = "studentPic" />
-                                      </div>                                
-                                      <button class = "btn btn-secondary col-12">Creat Account</button>
-                                  </form>                            
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+            <div class = "container flex justify-content-center align-items-center mt-5 mb-5">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+                        <div class="card shadow">                         
+                            <img *ngIf = "urlAddress.includes('student')" [src]="studentImage" alt=""/>
+                            <img *ngIf = "urlAddress.includes('teacher')" [src]="teacherImage" alt=""/>
+                            <div  class = "card-body">
+                                    <h5 class = "card-title">Sign up</h5>
+                                    <form enctype="multipart/form-data"> 
+                                        <div class = "mb-3">
+                                            <label class="form-label" for="name">{{user}} Name</label>
+                                            <input class="form-control" type = "text" id="name" name="name" autoFocus/>                                      
+                                        </div>
+                                        <div class = "mb-3">
+                                            <label class="form-label" for="email">Email</label>
+                                            <input class="form-control" type = "email" id="email" name="email"/>                                      
+                                        </div>
+                                        <div class = "mb-3">
+                                            <label class="form-label" for="country" >Country of Origin</label>
+                                            <select class="form-select" data-flag="true" >
+                                                <option value="other">Select country...</option>
+                                                <option *ngFor="let country of countryList">{{country}}</option>                                             
+                                                <option value="other">OTHER</option>
+                                            </select>                                      
+                                        </div>     
+                                        <div class = "mb-3">
+                                            <label class="form-label" for="password">Password</label>
+                                            <input class="form-control" type = "password" id="password" name="password" />                                            
+                                        </div>                             
+                                        <div class="mb-3">
+                                            <label for="formFileMultiple" class="form-label"><h6>Profile Picture</h6></label>
+                                            <input class="form-control" type="file" id="studentPic" name = "studentPic" />
+                                        </div>                                
+                                        <button class = "btn btn-secondary col-12">Creat Account</button>
+                                    </form>                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </mat-tab>
 </mat-tab-group>

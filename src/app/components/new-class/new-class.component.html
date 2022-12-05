@@ -1,0 +1,90 @@
+<div class="dialog-modal">
+    <div style = "background-color: #6200EE"  class="dialog-header flex align-item-center flex-wrap">
+        <h2 mat-dialog-title style="padding:15px; color:white">{{data.header}}</h2>   
+    </div>
+    <!-- <div style="flex: 100%; padding-right: 20px" [formGroup]="lessonForm"> -->
+    <div style="flex: 100%; padding-right: 20px" [formGroup] = "lessonForm">
+        <mat-dialog-content class="mat-typography">
+
+            <div class="flex-wrap flex">
+                <div style="flex: 10%;">
+            
+                    <mat-form-field  appearance="fill" style="width:10%" class="m-2">
+                        <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="dateInput">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker ></mat-datepicker>
+                    </mat-form-field>  
+
+                    <mat-form-field  appearance="fill" style="width:10%" class="m-2">
+                        <mat-label>Start time</mat-label>
+                        <input matInput formControlName="timeInput">
+                    </mat-form-field>
+
+                    <mat-form-field  appearance="fill" style="width:10%" class="m-2">
+                        <mat-label>Length (min)</mat-label>
+                        <input matInput formControlName="lengthInput">
+                    </mat-form-field>
+                    
+                    <mat-form-field  appearance="fill" style="width:10%" class="m-2">
+                        <mat-label>Max Class Size</mat-label>
+                        <input matInput formControlName="sizeInput">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="m-2">
+                        <mat-label>Class Type</mat-label>
+                        <mat-select formControlName="typeInput">              
+                          <mat-option *ngFor="let type of lessonTypes" [value]="type">{{type}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" class="m-2">
+                        <mat-label>Level</mat-label>
+                        <mat-select formControlName="levelInput" multiple>              
+                          <mat-option *ngFor="let level of levels" [value]="level">{{level}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field  appearance="fill" class="m-2">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput formControlName="descriptionInput"></textarea>
+                    </mat-form-field>
+
+                    <button mat-raised-button color="primary" (click)="addNewLessonRow()"><fa-icon [icon]="faPlus"></fa-icon> Add</button>
+                </div>
+            </div>
+        </mat-dialog-content>
+    </div>
+    <hr>
+    
+    <table *ngIf = "tableData.length>0" class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col" *ngFor ="let column of columnsToDisplayLessonTable">{{column}}</th>  
+          </tr>
+        </thead>
+  
+        <tbody>     
+          <tr *ngFor = "let lesson of tableData">
+            <!-- <th scope="row">{this.state.exams.indexOf(item) +1}</th> -->
+            <td>{{lesson.startDate}}</td>
+            <td>{{lesson.startTime}}</td>
+            <td>{{lesson.length}} </td>
+            <td>{{lesson.maxSize}} </td>
+            <td>{{lesson.classType}} </td>
+            <td> {{lesson.level}}</td>
+            <td> {{lesson.description}}</td>                    
+            <td>        
+              <div class="example-flex-container" style="  display: flex;">           
+                <button #tooltip="matTooltip" matTooltip="Edit lesson" mat-mini-fab style="background-color:orange " aria-label="Example icon button with a delete icon"><mat-icon>edit</mat-icon></button>
+                <button #tooltip="matTooltip" matTooltip="Remove lesson"  mat-mini-fab style="background-color:red" aria-label="Example icon button with a delete icon"><mat-icon>delete</mat-icon></button>
+              </div>
+            </td>         
+          </tr>
+        </tbody>
+      </table>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>{{data.leftButton}}</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>{{data.rightButton}}</button>
+    </mat-dialog-actions>
+</div>

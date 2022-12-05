@@ -16,4 +16,28 @@ export class ExamDisplayIndividualComponent implements OnInit {
     console.log(this.data)
   }
 
+  findStudentResponse(question:any){
+    if(question.questionAnswer.filter((obj:any)=>{return obj.studentName === this.data.user.name})[0]?.studentResponse){
+      return question.questionAnswer.filter((obj:any)=>{return obj.studentName === this.data.user.name})[0]?.studentResponse
+    } else{
+      return false
+    }    
+  }
+
+  findTeacherFeedback(question:any){
+    if(question.questionAnswer.filter((obj:any)=>{return obj.studentName === this.data.user.name})[0]?.teacherResponse){
+      return question.questionAnswer.filter((obj:any)=>{return obj.studentName === this.data.user.name})[0]?.teacherResponse
+    } else{
+      return false
+    }  
+  }
+
+  findResponseScore(question:any){
+    if(question.questionAnswer.filter((obj:any)=>{return obj.studentName === this.data.user.name})[0]?.questionScore){
+      return question.questionAnswer.filter((obj:any)=>{return obj.studentName === this.data.user.name})[0]?.questionScore
+    } else{
+      return false
+    }  
+  }
+
 }

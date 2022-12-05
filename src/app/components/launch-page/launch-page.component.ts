@@ -7,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./launch-page.component.css']
 })
 export class LaunchPageComponent implements OnInit {
-  teacherImage:any = "../../../assets/School.png";
+  teacherImage:any = "../../../assets/Teacher.png";
   studentImage:any = "../../../assets/Student.png";
-  schoolImage:any = "../../../assets/Teacher.png";
+  schoolImage:any = "../../../assets/School.png";
   constructor() { 
     // schoolImage: School
   }

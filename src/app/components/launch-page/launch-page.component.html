@@ -1,18 +1,19 @@
 <body class = "body">
     <div class="container">
         <div class="logIn-planels">
-            <img  [src] = "studentImage" alt="Online Student" class="logIn-img"/>
+            <a routerLink = '/home'><img [src] = "studentImage" alt="Online Student" class="logIn-img"/></a>
             <h2 class="logIn-header">Student</h2>
         </div>
+       
 
         <div class="logIn-planels">
-            <img [src] = "teacherImage" alt="Online Teacher" class="logIn-img">
+            <a routerLink = '/teacher/login-signup'><img [src] = "teacherImage" alt="Online Teacher" class="logIn-img"></a>
             <h2 class="logIn-header">Teacher</h2>
         </div>
 
-        <div class="logIn-planels" hover-class = >
+        <div class="logIn-planels">
             <img [src] = "schoolImage" alt="Online School" class="logIn-img">
             <h2 class="logIn-header">School</h2>
         </div>
-    </div>
+    </div> 
 </body>

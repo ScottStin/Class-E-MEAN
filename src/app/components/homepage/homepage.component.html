@@ -2,7 +2,7 @@
     <app-header></app-header>
     <div class="d-flex flex-row">             
         <div class = "card col-3 text-dark bg-white shadow m-3" style="border-radius: 15px;">
-            <div class="container offset-1">
+            <div class="container">
                 <app-navbar [currentUser] = "currentUser" [activePage]="urlAddress"></app-navbar>
             </div>
         </div>
@@ -39,11 +39,20 @@
                 </div> 
 
                 <div  *ngIf = "urlAddress ==='/myclasses'" >
-                    <div class="text-dark card bg-white m-3 mb-4 shadow padding-3" style="border-radius: 15px;"> 
-                        <div class="row p-3">                            
-                            <div *ngFor = "let lessonDate of ['Upcoming Lessons','Past Lessons','All Lessons']" class="filters col-4 text-center" [ngStyle]="{'color':filterLessonDate === lessonDate ? 'blue':'grey'}"> <h2  (click)="applyFilterLessonDate(lessonDate)">{{lessonDate}}</h2></div>                         
+                    <div class="row">
+                        <div [ngClass]="currentUser.userType==='Teacher' ? 'col-10' : 'col-12'">
+                            <div class="text-dark card bg-white m-3 mb-4 shadow padding-3" style="border-radius: 15px;"> 
+                                <div class="row p-3">                            
+                                    <div *ngFor = "let lessonDate of ['Upcoming Lessons','Past Lessons','All Lessons']" class="filters col-4 text-center" [ngStyle]="{'color':filterLessonDate === lessonDate ? 'blue':'grey'}"> <h2  (click)="applyFilterLessonDate(lessonDate)">{{lessonDate}}</h2></div>                         
+                                </div>
+                                <!-- <button mat-raised-button color="primary"><fa-icon [icon]="faPlus"></fa-icon> Create New Lesson</button> -->
+                            </div>
                         </div>
-                        <!-- <button mat-raised-button color="primary"><fa-icon [icon]="faPlus"></fa-icon> Create New Lesson</button> -->
+                        <div *ngIf = "currentUser.userType==='Teacher'" class="col-2">
+                            <div class="row p-3"> 
+                                <button class = "btn btn-primary pt-2 pb-2 shadow"  (click)="openNewClassDialog()"><fa-icon [icon]="faPlus"></fa-icon> New Class</button>
+                            </div>
+                        </div>
                     </div>
                     
                                     

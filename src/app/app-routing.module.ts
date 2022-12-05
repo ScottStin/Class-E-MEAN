@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'welcome', component: LaunchPageComponent, pathMatch: 'full',},
   { path: 'home', component: HomepageComponent, pathMatch: 'full',},
   { path: 'student/login-signup', component: LoginSignupComponent, pathMatch: 'full',},
+  { path: 'teacher/login-signup', component: LoginSignupComponent, pathMatch: 'full',},
   // { path: 'teacher/exams', component: ExamsShowComponent, pathMatch: 'full',},
   { path: 'exams', component: HomepageComponent, pathMatch: 'full',},
   { path: 'studentlist', component: HomepageComponent, pathMatch: 'full',},
