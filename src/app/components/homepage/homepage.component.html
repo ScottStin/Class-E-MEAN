@@ -15,7 +15,7 @@
                             <div *ngFor = "let lessonType of lessonTypes" [ngStyle]="{'color':filterLessonType === lessonType ? 'blue':''}" class="filters col-3 text-center" ><h2  (click)="applyFilter(lessonType)">{{lessonType}}</h2></div>                         
                         </div>
                     </div>                
-                    <div *ngFor="let lesson of lessons">
+                    <div *ngFor="let lesson of displayLessons">
                         <div *ngIf = "lesson.classType === filterLessonType && (lesson.level.includes(currentUser.level)||!currentUser.level)">
                             <app-lesson-card [allUsers]="users" [currentUser] = "currentUser" [lesson] = "lesson"></app-lesson-card>
                         </div>

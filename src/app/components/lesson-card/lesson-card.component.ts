@@ -150,13 +150,14 @@ export class LessonCardComponent implements OnInit {
     })    
     // console.log(this.min,this.days,this.hours,this.ms)
     var minDisplay, daysDisplay, hoursDisplay
+    console.log(startDate, startTime, this.days, this.hours, this.min, length)
     if (this.min>=10){minDisplay = this.min} else{minDisplay = "0"+this.min}
     if (this.hours>=10){hoursDisplay = this.hours} else{hoursDisplay = "0"+this.hours}
     if (this.days>=10){daysDisplay = this.days} else{daysDisplay = "0"+this.days}
-    if(this.days <=0 && this.hours <=0 && this.hours >= (length*-1) && this.min <=5){
+    if(new Date(new Date(`${startDate} ${startTime}:00`).setHours(new Date(`${startDate} ${startTime}:00`).getHours() + length)) >= new Date() &&  this.min <=5){//if(this.days <=0 && this.hours <=0 && this.hours >= (length*-1) && this.min <=5){
       // this._snackBar.open(`Hey! Your ${startTime} class with ${teacher} is starting now. Open the 'My Classes' tab to join.`,'close');
-      return 'Join class!!'
-    } if ((this.days <0 || this.hours <0 || this.min < 0) && this.hours< (length*-1)){
+      return 'Join class!!'    
+    } if (new Date(new Date(`${startDate} ${startTime}:00`).setHours(new Date(`${startDate} ${startTime}:00`).getHours() + length)) < new Date()){// } if ((this.days <0 || this.hours <0 || this.min < 0) && this.hours< (length*-1)){
       return 'View Class'
     } else {
       return `${daysDisplay} : ${hoursDisplay} : ${minDisplay}`

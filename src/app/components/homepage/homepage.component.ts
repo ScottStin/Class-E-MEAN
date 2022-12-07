@@ -36,11 +36,12 @@ export class HomepageComponent implements OnInit {
   ]
 
   lessons = [
-    {teacher: this.users[3].name,length:1, startDate:'Monday Oct 21 2022', startTime: '14:25', level:['B2 Upper-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
+    {teacher: this.users[4].name,length:1, startDate:'Wednesday Dec 7 2022', startTime: '18:00', level:['B2 Upper-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
+    {teacher: this.users[3].name,length:1, startDate:'Monday Oct 17 2022', startTime: '14:25', level:['B2 Upper-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
     {teacher: this.users[3].name,length:1, startDate:'Monday Dec 5 2022', startTime: '18:25', level:['B2 Upper-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
     {teacher: this.users[1].name,length:1, startDate:'Thursday Dec 1 2022', startTime: '19:00', level:['A2 Lower-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
     {teacher: this.users[1].name,length:4, startDate:'Thursday Dec 1 2022', startTime: '20:00', level:['A2 Lower-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
-    {teacher: this.users[1].name,length:2, startDate:'Tuesday Oct 22 2022', startTime: '17:00', level:['A2 Lower-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
+    {teacher: this.users[1].name,length:3, startDate:'Tuesday Oct 18 2022', startTime: '17:00', level:['A2 Lower-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[9]],studentsAttended:[this.users[7]], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
     {teacher: this.users[1].name,length:2, startDate:'Monday Dec 12 2022', startTime: '17:00', level:['A2 Lower-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[this.users[7],this.users[8],this.users[9]],studentsAttended:[], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
     {teacher: this.users[4].name,length:2, startDate:'Sunday Dec 11 2022', startTime: '11:00', level:['B2 Upper-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:3,studentsEnrolled:[this.users[7],this.users[8],this.users[9]],studentsAttended:[],description:"Weekend general English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
     {teacher: this.users[0].name,length:2, startDate:'Monday Dec 12 2022', startTime: '17:00', level:['B2 Upper-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:8,studentsEnrolled:[this.users[7],this.users[8],this.users[9]],studentsAttended:[],description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
@@ -68,7 +69,7 @@ export class HomepageComponent implements OnInit {
   currentUser: any =""
   urlAddress:string=""
   displayUsers = this.users 
-  displayLessons:any = this.lessons.sort(function(a: { startDate: string; startTime: string; },b: { startDate: string; startTime: string; }){return new Date(a.startDate+", "+a.startTime).getTime() - new Date(b.startDate+", "+b.startTime).getTime()})//.filter((obj:any)=>{if( new Date(obj.startDate +" ,"+obj.startTime).getTime()+(obj.length*3600000) - new Date().getTime()>=0){return obj}});
+  displayLessons:any = this.lessons.sort(function(a: { startDate: string; startTime: string; },b: { startDate: string; startTime: string; }){return new Date(a.startDate+", "+a.startTime).getTime() - new Date(b.startDate+", "+b.startTime).getTime()}).filter((obj:any)=>{return new Date(new Date(`${obj.startDate} ${this.lessons[0].startTime}:00`).setHours(new Date(`${obj.startDate} ${obj.startTime}:00`).getHours()+obj.length)) >= new Date()})//{return new Date(obj.startDate +" ,"+obj.startTime).getTime()+(obj.length*3600000) > new Date().getTime()});
   faPlus = faPlus
 
   constructor(
@@ -108,11 +109,11 @@ export class HomepageComponent implements OnInit {
     this.displayLessons = []
     this.filterLessonDate = lessonDate
     this.lessons.filter(obj=>{     
-      console.log(new Date(new Date(`${obj.startDate} ${this.lessons[0].startTime}:00`).setHours(new Date(`${obj.startDate} ${obj.startTime}:00`).getHours()+2)))   
-        if (this.filterLessonDate === 'Upcoming Lessons' && new Date(new Date(`${obj.startDate} ${this.lessons[0].startTime}:00`).setHours(new Date(`${obj.startDate} ${obj.startTime}:00`).getHours()+2)) >= new Date()){
+      console.log(new Date(new Date(`${obj.startDate} ${this.lessons[0].startTime}:00`).setHours(new Date(`${obj.startDate} ${obj.startTime}:00`).getHours()+obj.length)))   
+        if (this.filterLessonDate === 'Upcoming Lessons' && new Date(new Date(`${obj.startDate} ${this.lessons[0].startTime}:00`).setHours(new Date(`${obj.startDate} ${obj.startTime}:00`).getHours()+obj.length)) >= new Date()){
           this.displayLessons.push(obj)
         }
-        if (this.filterLessonDate === 'Past Lessons' && new Date(new Date(`${obj.startDate} ${this.lessons[0].startTime}:00`).setHours(new Date(`${obj.startDate} ${obj.startTime}:00`).getHours()+2)) < new Date()){
+        if (this.filterLessonDate === 'Past Lessons' && new Date(new Date(`${obj.startDate} ${this.lessons[0].startTime}:00`).setHours(new Date(`${obj.startDate} ${obj.startTime}:00`).getHours()+obj.length)) < new Date()){
           this.displayLessons.push(obj)
         }
         if (this.filterLessonDate === 'All Lessons'){
