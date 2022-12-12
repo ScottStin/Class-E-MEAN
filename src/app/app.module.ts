@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
 import { LaunchPageComponent } from './components/launch-page/launch-page.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -36,6 +37,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {FormBuilder, FormControl, FormGroup, Validators,FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { VideoCallComponent } from './components/video-call/video-call.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
@@ -50,11 +53,13 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     ExamsShowComponent,
     ExamDisplayIndividualComponent,
     UserCardComponent,
-    NewClassComponent,  
+    NewClassComponent,
+    VideoCallComponent,  
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     MatTabsModule,
     MatButtonModule,
     MatSidenavModule,
@@ -77,7 +82,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatSelectModule,
     ReactiveFormsModule,
     FormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatToolbarModule
     // CdkDialogContainer
   ],
   providers: [MatDatepickerModule,FormBuilder,FormControl],

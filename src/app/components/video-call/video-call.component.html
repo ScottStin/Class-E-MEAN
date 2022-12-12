@@ -1,0 +1,31 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>My App</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>share</mat-icon>
+    </button>
+ </mat-toolbar>
+
+ <div class="row">
+    <div class="col-8" style="background-color:grey; color:white">
+        <p class="video-desription">Local:</p>
+        <div class="container">
+            <video #local_video [autoplay]="true" [muted]="true"></video>
+        </div>
+    </div>
+    <div class="col-4" style="background-color:grey; color:white">
+        <p class="video-desription">Remote:</p>
+        <video #received_video [autoplay]="true" [muted]="true"></video>
+    </div>
+ </div>
+ <div class= "m-5" style="text-align: center; width:100%; display: flex;">
+    <button class="m-3" mat-raised-button color="primary">Start call</button>
+    <button class="m-3" mat-raised-button [color]="localVideoOn ? 'primary' : 'accent'" (click)= stopStartLocalVideo()> <fa-icon [icon]="localVideoOn ? faVideo : faVideoSlash"></fa-icon></button>
+    <button class="m-3"mat-raised-button color="primary">End call</button>
+ </div>
