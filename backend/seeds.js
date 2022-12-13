@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const ExamModel = require('./models/lessons-model');
+const lessonmodels = require('./models/lesson-model');
+const databaseName='classEmeanDB';
 
 const connectDB = async () => {
     try {
@@ -14,6 +15,7 @@ const connectDB = async () => {
         process.exit(1)
     }
 }
+connectDB()
 
 const users=[
     {name:"Scott Stinson",userType:"Teacher",school:"YouSTUDY",nationality:"Australia",email:"scott.stinson.1991@gmail.com",hashedPassword:"test123",profilePicture:this.teacherImage1,package:[],level:"",statement:"I specialise in teaching general English. I love to help students improve their vocab, grammar and general conversation skills. I can also help you prepare for the IELTS"},
@@ -28,7 +30,7 @@ const users=[
     {name:"John Wayne",userType:"Student",school:"YouSTUDY",nationality:"Chile",email:"cowboy@gmail.com",hashedPassword:"cowboi99",profilePicture:this.studentImage5,package:[],eltComplete:true,level:"B2 Upper-Intermediate",statement:""},
   ]
 
-const lessons = [
+const lessons =  [
     {teacher: users[4].name,length:1, startDate:'Wednesday Dec 7 2022', startTime: '18:00', level:['B2 Upper-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[users[7].name,users[9].name],studentsAttended:[users[7].name], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
     {teacher: users[3].name,length:1, startDate:'Monday Oct 17 2022', startTime: '14:25', level:['B2 Upper-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[users[7].name,users[9].name],studentsAttended:[users[7].name], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
     {teacher: users[3].name,length:1, startDate:'Monday Dec 5 2022', startTime: '18:25', level:['B2 Upper-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[users[7].name,users[9].name],studentsAttended:[users[7].name], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."},
@@ -55,9 +57,14 @@ const lessons = [
     {teacher: users[4].name,length:3, startDate:'Thursday Dec 15 2022', startTime: '17:30', level:['B1 Intermediate', 'B2 Upper-Intermediate','C1 Intermediate'], classType:"Cambridge Exam Prep", status:'pending',restricted:false,maxSize:12,studentsEnrolled:[],studentsAttended:[],description:"In this lesson, we'll learn tips and tricks to ace the cambridge exam"},
   ]
 
-  ExamModel.insertMany(lessons)
+//   lessonsTest =  new LessonModel( {teacher: users[4].name,length:1, startDate:'Wednesday Dec 7 2022', startTime: '18:00', level:['B2 Upper-Intermediate'], classType:"General English", status:'pending',restricted:false,maxSize:4,studentsEnrolled:[users[7].name,users[9].name],studentsAttended:[users[7].name], description:"General English classes to improve your speaking, reading, writing, vocab and grammar in a conversation settings."})
+//     lessonsTest.save().then(l=>{console.log(l)}).catch(e=>{console.log(e)})
+
+lessonmodels.insertMany(lessons)
     .then(res=>{
+        console.log("SUCCESS!")
         console.log(res)
     }).catch(err=>{
+        console.log("FAIL")
         console.log(err)
     })

@@ -150,7 +150,7 @@ export class LessonCardComponent implements OnInit {
     })    
     // console.log(this.min,this.days,this.hours,this.ms)
     var minDisplay, daysDisplay, hoursDisplay
-    console.log(startDate, startTime, this.days, this.hours, this.min, length)
+    // console.log(startDate, startTime, this.days, this.hours, this.min, length)
     if (this.min>=10){minDisplay = this.min} else{minDisplay = "0"+this.min}
     if (this.hours>=10){hoursDisplay = this.hours} else{hoursDisplay = "0"+this.hours}
     if (this.days>=10){daysDisplay = this.days} else{daysDisplay = "0"+this.days}
