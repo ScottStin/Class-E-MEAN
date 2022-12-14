@@ -19,6 +19,7 @@ const path = require('path'); // If we want this to work from different director
 // const { join } = require('path');
 // const bcrypt = require('bcrypt');
 // const multer = require('multer')
+const bodyParser = require('body-parser'); // this will help us pass data in the req.body object to the backend
 
 // -------------------- CONNECTING TO MONGO SERVER --------------------
 
@@ -42,6 +43,9 @@ const connectDB = async () => {
 const express = require("express")
 const app = express()
 const cors = require ('cors')
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(cors({origin: 'http://localhost:4200'}))
 // app.use(express.json());

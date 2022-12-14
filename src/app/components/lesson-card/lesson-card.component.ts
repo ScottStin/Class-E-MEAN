@@ -1,5 +1,5 @@
 import { Time } from '@angular/common';
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit,Input,Output,EventEmitter } from '@angular/core';
 // import {MatCardModule} from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GeneralDialogComponent } from '../general-dialog/general-dialog.component';
@@ -9,6 +9,7 @@ import { faAt } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { Subscription, timer } from 'rxjs';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import { LessonServiceService } from 'backend/services/lesson-service/lesson-service.service';
 
 @Component({
   selector: 'app-lesson-card',
@@ -19,6 +20,7 @@ export class LessonCardComponent implements OnInit {
   @Input() lesson: any | undefined;  
   @Input() currentUser: any | undefined;
   @Input() allUsers: any | undefined;
+  @Output() refreshData = new EventEmitter<{ update: boolean }>();
 
   ms:number =0;
   days:number =0; 
@@ -33,7 +35,7 @@ export class LessonCardComponent implements OnInit {
   faAt=faAt
   faStar=faStar
 
-  constructor(public dialog: MatDialog, private router: Router,private _snackBar: MatSnackBar) { 
+  constructor(public dialog: MatDialog, private router: Router,private _snackBar: MatSnackBar,    private lessonService: LessonServiceService,) { 
   }
 
   ngOnInit(): void {
@@ -44,23 +46,36 @@ export class LessonCardComponent implements OnInit {
   }
   
   ngOnDestroy() {
-  this.subscription.unsubscribe();
-}
+    this.subscription.unsubscribe();
+  }
 
   getImageSource(){
     return this.allUsers.find((obj: { name: string; })=>obj.name === this.lesson.teacher).profilePicture 
   }
 
-  openRegisterDialog(){
+  async openRegisterDialog(lesson:any){
     let dialogData
     if(this.currentUser?.userType==="Student" && this.currentUser.level){
-      console.log("registered")      
-      if(this.lesson.studentsEnrolled.includes(this.currentUser)){
+      console.log(lesson) 
+      if(!this.lesson.studentsEnrolled.includes(this.currentUser.email)){
+        await this.lessonService.registerLesson(lesson._id,this.currentUser).subscribe((res: any)=>{     
+          console.log(res) 
+          if(res){
+            this.refreshData.emit({update:true})
+            this._snackBar.open(`A seat has been saved for your in this lesson.`);   
+          } else{
+            this._snackBar.open(`Woops, something went wrong.`); 
+          }            
+        })     
+      } 
+
+      if(this.lesson.studentsEnrolled.includes(this.currentUser.email)){
         dialogData={
           header: 'Are you sure you want to cancel this class?',
           body: "Your place will no longer be reserved. If you're cancelling less than 24 hours before the class starts, you may still be charged a cancellation fee.",
           rightButton:'Leave class',
           leftButton: 'Stay in class',
+          result:'leaveClass'
           // routerLink:'/home'
         }
       }
@@ -98,8 +113,19 @@ export class LessonCardComponent implements OnInit {
         data: dialogData,
       });
       
-      dialogRef.afterClosed().subscribe(result => {
+      dialogRef.afterClosed().subscribe(async result => {
         console.log(`Dialog result: ${result}`);
+        if(result === 'leaveClass'){
+          await this.lessonService.unRegisterLesson(lesson._id,this.currentUser).subscribe((res: any)=>{     
+            console.log(res) 
+            if(res){
+              this.refreshData.emit({update:true})
+              this._snackBar.open(`Your have been removed from this lesson`);   
+            } else{
+              this._snackBar.open(`Woops, something went wrong.`); 
+            }            
+          })
+        }
       });
     }
   }
@@ -164,6 +190,33 @@ export class LessonCardComponent implements OnInit {
     }    
   }
 
-
+  deleteLesson(lesson:any){
+    console.log(lesson._id)
+    const dialogRef = this.dialog.open(GeneralDialogComponent,{
+      width: '530px',
+      data: {
+        header: 'Are you sure you want to delete this lesson?',
+        body: 'All students currently enrolled will be notified via email and refunded.',
+        rightButton:'Delete class',
+        leftButton: 'Return',
+        // routerLink:'/exams'
+      },
+    });
+    
+    dialogRef.afterClosed().subscribe(async result => {
+      console.log(`Dialog result: ${result}`);
+      if(result){
+        await this.lessonService.deleteLesson(lesson._id).subscribe((res: any)=>{     
+          console.log(res) 
+          if(res){
+            this.refreshData.emit({update:true})
+            this._snackBar.open(`Lesson deleted`);   
+          } else{
+            this._snackBar.open(`Woops, something went wrong.`); 
+          }            
+        })
+      }
+    });   
+  }
 
 }

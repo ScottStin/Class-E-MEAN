@@ -44,9 +44,26 @@ const lessonSchema = mongoose.Schema({
         type: String,
         // required: true,        
     },
-    studentsEnrolled: [
-        {type: String, }
+    studentsEnrolled:[
+        { type: String }
     ],
+    // studentsEnrolled: [
+    //     // {
+    //     //     // type: mongoose.Schema.Types.ObjectId, 
+    //     //     type: String,
+    //     //  }
+    //         {
+    //             studentName: {
+    //                 type: String,
+    //             },
+    //             studentEmail: {
+    //                 type: String,
+    //             },
+    //             studentId: {
+    //                 type: String,
+    //             },
+    //         }
+    // ],
     lessonStudentsAttended: [
         {type: String,}
     ],

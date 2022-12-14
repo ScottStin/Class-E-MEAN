@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { faVideo, faVideoSlash } from '@fortawesome/free-solid-svg-icons';
+import { faVideo, faVideoSlash, faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons';
 //https://www.youtube.com/watch?v=SWhG0VRdiW8
 const mediaConstraints ={
   audio:true,
@@ -17,8 +17,11 @@ export class VideoCallComponent implements AfterViewInit {
   @ViewChild('local_video')
   localVideo!: ElementRef;
   localVideoOn:boolean = false
+  localMicOn:boolean = false
   faVideo = faVideo
   faVideoSlash = faVideoSlash
+  faMicrophone = faMicrophone
+  faMicrophoneSlash = faMicrophoneSlash
 
   constructor() { }
   ngAfterViewInit(): void {
@@ -49,6 +52,10 @@ export class VideoCallComponent implements AfterViewInit {
       console.log(2)
       this.localVideoOn=false
     }
+  }
+
+  muteUnmuteLocalMic(){
+    this.localMicOn = !this.localMicOn
   }
 
 }

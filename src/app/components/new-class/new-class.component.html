@@ -85,6 +85,6 @@
 
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>{{data.leftButton}}</button>
-        <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>{{data.rightButton}}</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]=tableData [disabled] = "tableData.length<=0"cdkFocusInitial>{{data.rightButton}}</button>
     </mat-dialog-actions>
 </div>

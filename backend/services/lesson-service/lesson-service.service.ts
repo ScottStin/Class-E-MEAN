@@ -11,16 +11,23 @@ export class LessonServiceService {
   ) { }
 
   readLesson(){
-    console.log("test backend")
     return this.http.get('http://localhost:3000/lessons')         
-    
-    // return this.http.get('/lessons/')
-    // return this.http.get("/test2")
-    // console.log("test")
-    // router.get('/lessons/', async function (req: any, res: { json: (arg0: any) => any; status: (arg0: number) => { (): any; new(): any; json: { (arg0: string): any; new(): any; }; }; }) {
-    //     await LessonModel.find()
-    //       .then((lessons: any) => res.json(lessons))
-    //       .catch((err: string) => res.status(400).json('Error: ' + err));
-    // });
-}
+  }
+
+  createLesson(lessons:any){
+    return this.http.post('http://localhost:3000/lessons/new',lessons)         
+  }
+
+  registerLesson(lessonId:any,student:any){
+    return this.http.post('http://localhost:3000/lessons/register/'+lessonId,student)         
+  }
+
+  unRegisterLesson(lessonId:any,student:any){
+    return this.http.post('http://localhost:3000/lessons/leave/'+lessonId,student)         
+  }
+
+  deleteLesson(id:any){
+    return this.http.delete('http://localhost:3000/lessons/delete/'+id)         
+  }
+
 }
