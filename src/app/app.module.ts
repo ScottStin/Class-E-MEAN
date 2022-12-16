@@ -39,6 +39,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { VideoCallComponent } from './components/video-call/video-call.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import{SocketIoModule} from 'ngx-socket-io';
+import { VideoCallV2Component } from './components/video-call-v2/video-call-v2.component'
 
 @NgModule({
   declarations: [
@@ -54,7 +56,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     ExamDisplayIndividualComponent,
     UserCardComponent,
     NewClassComponent,
-    VideoCallComponent,  
+    VideoCallComponent,
+    VideoCallV2Component,  
   ],
   imports: [
     BrowserModule,
@@ -83,7 +86,10 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     ReactiveFormsModule,
     FormsModule,
     MatSnackBarModule,
-    MatToolbarModule
+    MatToolbarModule,
+    SocketIoModule.forRoot({
+      url:'/'
+    })
     // CdkDialogContainer
   ],
   providers: [MatDatepickerModule,FormBuilder,FormControl],

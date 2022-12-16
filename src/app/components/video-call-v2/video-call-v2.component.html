@@ -1,0 +1,14 @@
+<div>
+    <div class="row">
+        <div *ngFor ="let video of videos">            
+            <div class="col-6">
+                <video
+                    [srcObject]="video.srcObject"
+                    (loadedmetadata)="onLoadedMetadata($event)"
+                    [muted]="true"
+                >
+                </video>
+            </div>
+        </div>
+    </div>
+</div>

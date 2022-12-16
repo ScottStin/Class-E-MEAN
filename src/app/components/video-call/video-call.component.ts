@@ -1,9 +1,17 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { faVideo, faVideoSlash, faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons';
+import { VideoCallService } from 'backend/services/videoCall-service/video-call.service';
+
 //https://www.youtube.com/watch?v=SWhG0VRdiW8
+
 const mediaConstraints ={
   audio:true,
   video:{width:720, height:540}
+}
+
+const offerOptions = {
+  offerToReceiveAudio:true,
+  offerToReceiveVideo:true
 }
 
 @Component({
@@ -23,7 +31,9 @@ export class VideoCallComponent implements AfterViewInit {
   faMicrophone = faMicrophone
   faMicrophoneSlash = faMicrophoneSlash
 
-  constructor() { }
+  private peerConnecton?:RTCPeerConnection //reference to remote party
+
+  constructor(private videoCallService:VideoCallService) { }
   ngAfterViewInit(): void {
     // throw new Error('Method not implemented.');
     this.requestMediaDevices();
@@ -45,11 +55,9 @@ export class VideoCallComponent implements AfterViewInit {
     });
     if(!this.localVideo.nativeElement.srcObject){
       this.localVideo.nativeElement.srcObject = this.localStream
-      console.log(1)
       this.localVideoOn = true
     } else{
       this.localVideo.nativeElement.srcObject = undefined
-      console.log(2)
       this.localVideoOn=false
     }
   }
@@ -57,5 +65,34 @@ export class VideoCallComponent implements AfterViewInit {
   muteUnmuteLocalMic(){
     this.localMicOn = !this.localMicOn
   }
+
+  // async call(): Promise<void>{
+  //   this.createPeerConnection();
+  // }
+
+  // this.localStream.getTracks().forEach(){
+  //   track=>this.peerConnecton.addTrack(track,this.localStream); // this will add all tracks rom local stream to remote (peer) party connection
+  // };
+
+  // try{
+  //   const offer: RTCSessionDescriptionInit = await this.peerConnection.createOffer(offerOptions);
+  //   await this.peerConnection.setLocalDescription(offer); //builds offer
+
+  //   this.videoCallService.sendMessage({type:'offer',data:'offer'});
+  // } catch(err){
+  //   this.handleGetUserMediaError(err);
+  // }
+
+  // private createPeerConnection(){
+  //   this.peerConnection = new RTCPeerConnection({
+  //   iceServers:{
+
+  //   }  
+  //   })
+  // }
+
+  // handleGetUserMediaError(){
+
+  // }
 
 }

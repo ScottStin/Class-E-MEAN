@@ -132,7 +132,29 @@ app.use('/lessons',lessonRouter)
 app.set('src', path.join(__dirname, '../src')); // this, along with the 'require path' code above, will allow us to run code in a director different from where the 'views' folder is saved. It's not 100% necessary becuase we usually always work in the views folder, but it is best practice.
 // app.set('view engine','ejs'); // for  ejs to work, it needs to be saved in a folder within the project folder called 'views'. we then need to create a file called 'home.ejs'
 
-// ------------------------- LSITENING -------------------------
+// ----------------------- VIDEO CHAT ------------------
+//  <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
+
+const server = require('http').Server(app)
+const io = require('socket.io')(server)
+
+io.on('connection',(socket)=>{
+    console.log('backend video test 1')
+    socket.on('join-room',(roomId,userId)=>{
+        //join the room
+        console.log('backend video test 2')
+        socket.join(roomId)
+        socket.to(roomId).broadcast.emit('user-connected',userId)
+
+        //leave room
+        socket.on('disconnect',()=>{
+            console.log('backend video test 3')
+            socket.to(roomId).broadcast.emit('user-diconncected',userId)
+        })
+    })
+})
+
+// ------------------------- LISTENING -------------------------
 
 app.listen(PORT, console.log(`Your app is running on port ${PORT}`))
 

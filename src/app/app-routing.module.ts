@@ -5,6 +5,7 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 import  { LoginSignupComponent } from './components/login-signup/login-signup.component';
 import  { ExamsShowComponent } from './components/exams-show/exams-show.component';
 import  { VideoCallComponent } from './components/video-call/video-call.component';
+import { VideoCallV2Component } from './components/video-call-v2/video-call-v2.component';
 
 const routes: Routes = [
   { path: 'welcome', component: LaunchPageComponent, pathMatch: 'full',},
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'myclasses', component: HomepageComponent, pathMatch: 'full',},
   { path: 'teacherlist', component: HomepageComponent, pathMatch: 'full',},
   { path: 'lessonvideo', component: VideoCallComponent, pathMatch: 'full',},
+  { path: 'lessonvideo2', component: VideoCallV2Component, pathMatch: 'full',},
 ];
 
 @NgModule({
