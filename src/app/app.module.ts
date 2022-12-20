@@ -39,8 +39,10 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { VideoCallComponent } from './components/video-call/video-call.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import{SocketIoModule} from 'ngx-socket-io';
+import{SocketIoModule,SocketIoConfig } from 'ngx-socket-io';
 import { VideoCallV2Component } from './components/video-call-v2/video-call-v2.component'
+
+const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
 
 @NgModule({
   declarations: [
@@ -87,9 +89,7 @@ import { VideoCallV2Component } from './components/video-call-v2/video-call-v2.c
     FormsModule,
     MatSnackBarModule,
     MatToolbarModule,
-    SocketIoModule.forRoot({
-      url:'/'
-    })
+    SocketIoModule.forRoot(config)
     // CdkDialogContainer
   ],
   providers: [MatDatepickerModule,FormBuilder,FormControl],

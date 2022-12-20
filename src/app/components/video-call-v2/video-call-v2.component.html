@@ -1,7 +1,77 @@
-<div>
+<body style = "background-color:black; height: 100%;">   
+
+    <mat-toolbar style = "background-color:black; color:white">
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+        </button>
+        <span>Class E Mate</span>
+        <span class="example-spacer"></span>    
+    </mat-toolbar>
+
+    <div class="videoContainer">
+        <div class="row">
+            <div class="col-4" style = "height:300px;" *ngFor ="let video of videos">
+            <!-- <div class="row m-3"> -->            
+                <video class="videoElement"
+                    [srcObject]="video.srcObject"
+                    (loadedmetadata)="onLoadedMetadata($event)"
+                    [muted]=!localMicOn
+                >
+                </video>
+            </div>
+        </div>
+            <!-- <div class="videoContainer col-6 p-3">
+                <video class="videoElement"
+                [srcObject]="video.srcObject"
+                (loadedmetadata)="onLoadedMetadata($event)"
+                [muted]="true"
+            >
+            </video>
+            </div>
+        </div>
+        <div class="row m-3">
+            <div class="videoContainer col-6 p-3" >
+                <video class="videoElement"
+                [srcObject]="video.srcObject"
+                (loadedmetadata)="onLoadedMetadata($event)"
+                [muted]="true"
+            >
+            </video>
+            </div>
+            <div class="videoContainer col-6 p-3" >
+                <video class="videoElement"
+                [srcObject]="video.srcObject"
+                (loadedmetadata)="onLoadedMetadata($event)"
+                [muted]="true"
+            >
+            </video> -->
+    </div>
+    <div class="buttonContainer mt-5 p-3" style = "background-color:black;">
+        <button mat-fab color="basic" aria-label="Example icon button with a delete icon" (click)="stopStartLocalVideo()">
+            <fa-icon [icon]="localVideoOn ? faVideo : faVideoSlash"></fa-icon>
+        </button>
+        <button mat-fab color="basic" aria-label="Example icon button with a delete icon" (click)="muteUnmuteLocalMic()">
+            <fa-icon [icon]="localMicOn ? faMicrophone : faMicrophoneSlash"></fa-icon>
+        </button>
+        <button mat-fab color="warn" aria-label="Example icon button with a delete icon">
+            <mat-icon>call_end</mat-icon>
+        </button>
+        <button mat-fab color="basic" aria-label="Example icon button with a delete icon">
+            <mat-icon>chat</mat-icon>
+        </button>
+        <button mat-fab color="basic" aria-label="Example icon button with a delete icon">
+            <mat-icon>screen_share</mat-icon>
+        </button>
+        <button mat-mini-fab color="basic" aria-label="Example icon button with a delete icon">
+            <mat-icon>settings</mat-icon>
+        </button>
+    </div>
+</body>
+
+<!-- <div class="container">
     <div class="row">
         <div *ngFor ="let video of videos">            
-            <div class="col-6">
+            <div class="col-4 m-2 p-2" style="background-color:darkgray; height:550px;">
                 <video
                     [srcObject]="video.srcObject"
                     (loadedmetadata)="onLoadedMetadata($event)"
@@ -10,5 +80,17 @@
                 </video>
             </div>
         </div>
+        <div>            
+            <div class="col-4 m-2 p-2" style="background-color:darkgray; height:550px;"></div>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div>            
+            <div class="col-4 m-2 p-2" style="background-color:darkgray; height:550px;">        
+            </div>
+        </div>
+        <div>            
+            <div class="col-4 m-2 p-2" style="background-color:darkgray; height:550px;"></div>
+        </div>
+    </div>
+</div> -->

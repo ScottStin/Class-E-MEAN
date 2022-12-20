@@ -4,13 +4,13 @@
             <img class="mb-4 " src="https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png" alt="" style="border-radius:50%; width:100%; display: flex; align-items: center; justify-content: center; text-align:center;"/>
             <a routerLink = '/student/login-signup' class = "text-center" style="font-size:24px; display: flex; align-items: center; justify-content: center; text-align:center;"><h1 class="mb-5 text-center">Log in</h1> </a>       
         </div>   
-        <div *ngIf="currentUser" class="mb-5 mt-5">                      
+        <div id = "userDetails" *ngIf="currentUser" class="mb-5 mt-5">                      
             <img class="mb-4 " [src]="currentUser.profilePicture" alt="" style="border-radius:50%; height: 250px; width:250px; display: flex; align-items: center; justify-content: center;"/>      
             <h2  style="display: flex; align-items: center; justify-content: center;" class="text-center">{{currentUser.name}}</h2>
             <h1 *ngIf = "currentUser.level && currentUser.userType === 'Student'" class="text-center text-warning"> <fa-icon [icon]="faStar"></fa-icon> {{currentUser.level.substring(0, 2)}}  <fa-icon [icon]="faStar"></fa-icon></h1>
         </div> 
         <div *ngFor = "let item of menuItems">
-            <button id = "navButton" *ngIf="item.use.includes(currentUser.userType) || (!currentUser) && item.use.includes('Student')" mat-raised-button [color]="item.routerLink === activePage ? 'accent' : 'primary'" class = "mb-4 mt-1 " style="height:48px; width: 210px !important; font-size:18px; display: flex; align-items: center; justify-content: center;" [routerLink]="currentUser ? item.routerLink : '/student/login-signup'" (click)="!currentUser && openSnackBarLogin(item.name)"> <fa-icon [icon]="item.icon"></fa-icon>  {{item.name}}</button>
+            <button id = "navButton" *ngIf="item.use.includes(currentUser.userType) || (!currentUser) && item.use.includes('Student')" mat-raised-button [color]="item.routerLink === activePage ? 'accent' : 'primary'" class = "mb-4 mt-1" style="height:48px; width: 210px !important; font-size:18px; display: flex; align-items: center; justify-content: center;" [routerLink]="currentUser ? item.routerLink : '/student/login-signup'" (click)="!currentUser && openSnackBarLogin(item.name)"> <fa-icon [icon]="item.icon"></fa-icon>  <span class="d-none d-lg-inline">{{item.name}}</span></button>
 
             <!-- <div class="dropdown">
                 <button type="button" class="btn btn-secondary btn-lg mt-1 mb-3 dropdown-toggle mx-auto d-block" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:75%">My Account</button>

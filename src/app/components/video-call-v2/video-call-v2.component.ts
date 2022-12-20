@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
 import { Peer } from "peerjs";
+import { faVideo, faVideoSlash, faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons';
+
+
 
 // import { PeerServer } from "peer";
 //https://www.youtube.com/watch?v=98rz2GW5Tok
@@ -13,7 +16,7 @@ import { Peer } from "peerjs";
 
 interface VideoElement{
   muted:boolean;
-  srcObject:MediaStream;
+  srcObject:MediaStream | undefined;
   userId:string;
 }
 
@@ -26,6 +29,12 @@ export class VideoCallV2Component implements OnInit {
 
   currentUserId:string='testUser'+Math.floor(Math.random()*1000)//'testUser';
   videos:VideoElement[]=[];
+  localVideoOn:boolean = false
+  localMicOn:boolean = false
+  faVideo = faVideo
+  faVideoSlash = faVideoSlash
+  faMicrophone = faMicrophone
+  faMicrophoneSlash = faMicrophoneSlash
 
   constructor(
     private route: ActivatedRoute,
@@ -49,7 +58,7 @@ export class VideoCallV2Component implements OnInit {
 
       const myPeer = new Peer(this.currentUserId,{
         host:'/',
-        port:3001,
+        port:3000,
       });      
       console.log('myPeer ='); console.log(myPeer)
 
@@ -124,12 +133,14 @@ export class VideoCallV2Component implements OnInit {
   }
 
   addMyVideo(stream:MediaStream){
-    console.log('added')
-    this.videos.push({
-      muted:true,
-      srcObject:stream,
-      userId:this.currentUserId,
-    });
+    for(let i of [0,1,2,3,4,5]){
+      console.log('added')
+      this.videos.push({
+        muted:true,
+        srcObject:stream,
+        userId:this.currentUserId,
+      });
+    }
   }
 
   addOtherUserVideo(userId:string, stream:MediaStream){
@@ -140,7 +151,7 @@ export class VideoCallV2Component implements OnInit {
       return;
     }
     this.videos.push({
-      muted:false,
+      muted:true,
       srcObject:stream,
       userId,
     })
@@ -149,5 +160,28 @@ export class VideoCallV2Component implements OnInit {
   onLoadedMetadata(event:Event){
     (event.target as HTMLVideoElement).play()
   }  
+
+    //------------------------------
+    // ---------- Buttons ----------
+    //------------------------------
+
+  stopStartLocalVideo():void{
+    // this.localStream?.getTracks().forEach(track=>{
+    //   track.enabled = !track.enabled;
+    //   console.log(track.enabled)
+    // });
+    // if(!this.localVideo.nativeElement.srcObject){
+    //   this.localVideo.nativeElement.srcObject = this.localStream
+    //   this.localVideoOn = true
+    // } else{
+    //   this.localVideo.nativeElement.srcObject = undefined
+    //   this.localVideoOn=false
+    // }
+    this.localVideoOn = !this.localVideoOn
+  }
+
+  muteUnmuteLocalMic(){
+    this.localMicOn = !this.localMicOn
+  }
 
 }

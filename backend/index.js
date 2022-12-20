@@ -135,9 +135,21 @@ app.set('src', path.join(__dirname, '../src')); // this, along with the 'require
 // ----------------------- VIDEO CHAT ------------------
 //  <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
 
-const server = require('http').Server(app)
-const io = require('socket.io')(server)
+app.get("/test", (req, res) => {
+    res.json({ message: "Hello from Express!" });
+  });
 
+const http = require('http')//.Server(app);
+const server = http.createServer(app);//const server = require('http').Server(app)
+//const io = require('socket.io')(server)
+const { Server } = require("socket.io");
+const io = new Server(server);
+
+app.get('/', (req, res) => {
+    return res.sendFile(path.join('C:/Users/scott_w5fgszu/OneDrive/Coding/Class-E-MEAN'+'/src/index.html'));
+});
+
+console.log('test')
 io.on('connection',(socket)=>{
     console.log('backend video test 1')
     socket.on('join-room',(roomId,userId)=>{
@@ -156,7 +168,8 @@ io.on('connection',(socket)=>{
 
 // ------------------------- LISTENING -------------------------
 
-app.listen(PORT, console.log(`Your app is running on port ${PORT}`))
+// app.listen(PORT, console.log(`Your app is running on port ${PORT}`))
+server.listen(3000, console.log(`Your video chat is running on port 3000`))
 
 // app.get('/',function(req,res){
 //     res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO ANGULAR FRONTEND' })

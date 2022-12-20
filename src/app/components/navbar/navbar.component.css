@@ -2,3 +2,24 @@
     /* background-color:purple; */
     transform:scale(1.2);
 }
+
+ @media (max-width: 991px){
+    #navButton{
+        max-width:50px;
+    } 
+    .container img{
+        transform:scale(0.5);
+    }    
+}
+
+ @media (max-width: 776px){   
+    .container img{
+        transform:scale(0.4);
+    }    
+    .container h2, h1{
+        display: none !important;
+    }    
+    /* #userDetails{
+        display:none;
+    } */
+}
