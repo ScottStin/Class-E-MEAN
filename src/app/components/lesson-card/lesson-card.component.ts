@@ -62,9 +62,9 @@ export class LessonCardComponent implements OnInit {
           console.log(res) 
           if(res){
             this.refreshData.emit({update:true})
-            this._snackBar.open(`A seat has been saved for your in this lesson.`);   
+            this._snackBar.open(`A seat has been saved for your in this lesson.`,'close');   
           } else{
-            this._snackBar.open(`Woops, something went wrong.`); 
+            this._snackBar.open(`Woops, something went wrong.`,'close'); 
           }            
         })     
       } 
@@ -120,9 +120,9 @@ export class LessonCardComponent implements OnInit {
             console.log(res) 
             if(res){
               this.refreshData.emit({update:true})
-              this._snackBar.open(`Your have been removed from this lesson`);   
+              this._snackBar.open(`Your have been removed from this lesson`,'close');   
             } else{
-              this._snackBar.open(`Woops, something went wrong.`); 
+              this._snackBar.open(`Woops, something went wrong.`,'close'); 
             }            
           })
         }
@@ -210,9 +210,9 @@ export class LessonCardComponent implements OnInit {
           console.log(res) 
           if(res){
             this.refreshData.emit({update:true})
-            this._snackBar.open(`Lesson deleted`);   
+            this._snackBar.open(`Lesson deleted`,'close');   
           } else{
-            this._snackBar.open(`Woops, something went wrong.`); 
+            this._snackBar.open(`Woops, something went wrong.`,'close'); 
           }            
         })
       }

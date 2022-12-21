@@ -3,6 +3,10 @@
     transform:scale(1.2);
 }
 
+#navButton, .container img, h2, h2{
+    transition: ease all .5s;
+}
+
  @media (max-width: 991px){
     #navButton{
         max-width:50px;

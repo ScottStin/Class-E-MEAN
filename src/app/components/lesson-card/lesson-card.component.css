@@ -9,3 +9,37 @@
 #lessonCard{
     border-radius: 15px;
 }
+
+@media (max-width: 767px){
+    #lessonCard img,h2{
+        display:none !important;
+    }
+    #lessonCard h3,h4,p,button{
+        transform:scale(0.8);
+    }
+    #lessonCard{
+        margin-right: 0px !important;
+    }
+    #cardButtonContainer{
+        position:absolute; left:65%; bottom: 10px;
+    }
+    .studentButton{
+        max-width:50px;
+        transform:scale(0.9);
+    }
+    .studentButtonText{
+        display:none
+    }
+}
+
+@media (max-width: 521px){
+    #cardButtonContainer{
+        position:absolute; left:40%; bottom: 10px;
+        transform:scale(0.7);
+    }
+    .studentButton{
+        transform:scale(0.7);
+    }
+}
+
+

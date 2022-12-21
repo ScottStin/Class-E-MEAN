@@ -12,7 +12,8 @@
                 <div  *ngIf = "urlAddress ==='/home'" >
                     <div class="text-dark card bg-white m-3 mb-4 shadow padding-3" style="border-radius: 15px;">
                         <div class="row p-3">                            
-                            <div *ngFor = "let lessonType of lessonTypes" [ngStyle]="{'color':filterLessonType === lessonType ? 'blue':''}" class="filters col-3 text-center" ><h2  (click)="applyFilter(lessonType)">{{lessonType}}</h2></div>                         
+                            <div id= "lessonTypeLongNameFilter" *ngFor = "let lessonType of lessonTypes" [ngStyle]="{'color':filterLessonType === lessonType.longName ? 'blue':''}" class="filters col-3 text-center" ><h2  (click)="applyFilter(lessonType.longName)">{{lessonType.longName}}</h2></div>                         
+                            <div id= "lessonTypeShortNameFilter" *ngFor = "let lessonType of lessonTypes" [ngStyle]="{'color':filterLessonType === lessonType.longName ? 'blue':''}" class="filters col-3 text-center" ><h2  (click)="applyFilter(lessonType.longName)">{{lessonType.shortName}}</h2></div>                         
                         </div>
                     </div>                
                     <div *ngFor="let lesson of displayLessons">

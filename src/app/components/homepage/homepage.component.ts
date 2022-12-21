@@ -40,7 +40,8 @@ export class HomepageComponent implements OnInit {
 
   lessons:Array<any> = []
 
-  lessonTypes:Array<string> = ["General English","IELTS Exam Prep","PTE Exam Prep","Cambridge Exam Prep"]
+  lessonTypes:Array<any> = [{longName:"General English",shortName:"Gen Eng"},{longName:"IELTS Exam Prep",shortName:"IELTS"},{longName:"PTE Exam Prep",shortName:"PTE"},{longName:"Cambridge Exam Prep",shortName:"Camb"}]
+  // lessonTypesShort:Array<string> = ["Gen Eng","IELTS Exam Prep","PTE Exam Prep","Camb Exam Prep"]
   filterLessonType:string = ""
   filterLessonDate:string = "All Lessons"
   currentUser: any =""
@@ -60,9 +61,9 @@ export class HomepageComponent implements OnInit {
 
   async ngOnInit(): Promise<any> {    
 
-    this.currentUser=this.users[1]
+    this.currentUser=this.users[7]
     this.urlAddress = this.router.url 
-    this.filterLessonType = this.lessonTypes[0]
+    this.filterLessonType = this.lessonTypes[0].longName
     this.getLessons()
     console.log(this.lessons)    
   }
@@ -146,12 +147,12 @@ export class HomepageComponent implements OnInit {
         await this.postLessons(result)        
           .then(res=>{
             console.log(res)
-            this._snackBar.open(`New lesson${plural} created!`);
+            this._snackBar.open(`New lesson${plural} created!`,'close');
             this.getLessons()
           })
           .catch(err=>{
             console.log(err)
-            this._snackBar.open(`Woops, something went wrong.`);
+            this._snackBar.open(`Woops, something went wrong.`,'close');
           })        
       }     
     });

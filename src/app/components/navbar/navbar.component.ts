@@ -1,21 +1,5 @@
 import { Component, OnInit,Input } from '@angular/core';
-import { faFilm } from '@fortawesome/free-solid-svg-icons';
-import { faPersonChalkboard } from '@fortawesome/free-solid-svg-icons';
-import { faHouseChimney } from '@fortawesome/free-solid-svg-icons';
-import { faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
-import { faSchool } from '@fortawesome/free-solid-svg-icons';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
-import { faHouseLaptop } from '@fortawesome/free-solid-svg-icons';
-import { faClipboardCheck } from '@fortawesome/free-solid-svg-icons';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
-import { faCertificate } from '@fortawesome/free-solid-svg-icons';
-import { faUsers } from '@fortawesome/free-solid-svg-icons';
-import { faChalkboardUser } from '@fortawesome/free-solid-svg-icons';
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import { faFolder } from '@fortawesome/free-solid-svg-icons';
-import { faMessage } from '@fortawesome/free-solid-svg-icons';
-import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
+import { faMessage,faBullhorn,faFolder,faPenToSquare,faChalkboardUser,faUsers,faCertificate,faGraduationCap,faStar,faClipboardCheck,faHouseLaptop,faBook,faSchool,faPeopleGroup,faHouseChimney ,faPersonChalkboard,faFilm} from '@fortawesome/free-solid-svg-icons';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 
 
