@@ -1,5 +1,5 @@
 import { Component, OnInit,Input } from '@angular/core';
-import { faMessage,faBullhorn,faFolder,faPenToSquare,faChalkboardUser,faUsers,faCertificate,faGraduationCap,faStar,faClipboardCheck,faHouseLaptop,faBook,faSchool,faPeopleGroup,faHouseChimney ,faPersonChalkboard,faFilm} from '@fortawesome/free-solid-svg-icons';
+import { faBoxOpen, faMessage,faBullhorn,faFolder,faPenToSquare,faChalkboardUser,faUsers,faCertificate,faGraduationCap,faStar,faClipboardCheck,faHouseLaptop,faBook,faSchool,faPeopleGroup,faHouseChimney ,faPersonChalkboard,faFilm} from '@fortawesome/free-solid-svg-icons';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 
 
@@ -28,6 +28,8 @@ export class NavbarComponent implements OnInit {
     {name:"My Announcements",icon:faBullhorn,use:["Teacher","Student"],routerLink:''},
     {name:"Class Material",icon:faFolder,use:["Teacher"],routerLink:''},
     {name:"Exam Marking",icon:faPenToSquare,use:["Teacher"],routerLink:''},
+    {name:"My Packages",icon:faBoxOpen,use:["Student"],routerLink:'/packages'},
+    {name:"Packages",icon:faBoxOpen,use:["Teacher"],routerLink:'/packages'},
     {name:"My School",icon:faSchool,use:["Student","Teacher"],routerLink:''},
   ]
   constructor(private _snackBar: MatSnackBar) { }

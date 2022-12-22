@@ -1,0 +1,121 @@
+<div class="dialog-modal">
+    <div style = "background-color: #6200EE"  class="dialog-header flex align-item-center flex-wrap">
+        <h2 mat-dialog-title style="padding:15px; color:white">{{data.header}}</h2>   
+    </div>
+    <div style="flex: 100%; padding-right: 20px" [formGroup] = "packageForm">
+        <mat-dialog-content>
+            <mat-stepper #stepper>
+                <mat-step [stepControl]="firstFormGroup" errorMessage="Required.">
+                    <ng-template matStepLabel>Basic Details</ng-template>
+                    <!-- <div>-->
+                    <!-- <form [formGroup]="firstFormGroup"> -->
+                        <mat-form-field  appearance="fill" style="width:100%" class="m-2">
+                            <mat-label>Name</mat-label>
+                            <input matInput formControlName="nameInput">
+                        </mat-form-field>
+                        <mat-form-field  appearance="fill" style="width:100%" class="m-2">
+                            <mat-label>Description</mat-label>
+                            <textarea matInput formControlName="descriptionInput"></textarea>
+                        </mat-form-field>
+                        <mat-form-field style="width:100%" class = "m-2" appearance="fill">
+                            <mat-label>Package Type</mat-label>
+                            <mat-select multiple>
+                            <mat-option *ngFor="let packageType of packageTypes" [value]="packageType">{{packageType}}</mat-option>
+                            </mat-select>
+                        </mat-form-field> 
+                        <mat-form-field  style="width:100%" class = "m-2" appearance="fill">
+                            <mat-label>Payment Plan</mat-label>
+                            <mat-select formControlName="paymentPlanInput" (ngModelChange)="paymentTypeSelect($event)">
+                            <mat-option *ngFor="let paymentType of paymentTypes" [value]="paymentType">{{paymentType}}</mat-option>
+                            </mat-select>
+                        </mat-form-field> 
+                        <b>$</b><mat-form-field  appearance="fill" style="width:80%" class="m-2">
+                            <mat-label>Price (AUD)</mat-label>
+                            <input matInput formControlName="priceInput" placeholder="$0.00 AUD">
+                        </mat-form-field>
+                        {{paymentTypeValue}}        
+                        <mat-form-field  appearance="fill" style="width:80%" class="m-2">
+                            <mat-label>Required hours of study</mat-label>
+                            <input matInput formControlName="requiredHoursInput">
+                        </mat-form-field>
+                        {{paymentTypeValue}}        
+                    <!-- </div>       -->
+                    <!-- </form>  -->
+                </mat-step>
+
+                <mat-step [stepControl]="secondFormGroup" [editable]="true">
+                    <ng-template matStepLabel>Classes Includes</ng-template>
+                    <!-- <div *ngFor = "let classType of classTypes"> -->
+                        <!-- {{classType}}:  -->
+                        <!-- <mat-form-field *ngIf = "unlimitedClases(classType)" appearance="fill" style="width:60%" class="m-2">
+                            <mat-label>{{classType}} Classes</mat-label>
+                            <input matInput formControlName="{{'isChecked '+classType+' Classes'}}" [disabled]="true"> {{paymentTypeValue}}    
+                        </mat-form-field> 
+                        <mat-slide-toggle (change)="unlimitedClasesToggle(classType)" [checked]="true"><b>Unlimited classes</b></mat-slide-toggle>                                       -->
+                    <!-- </div> -->
+
+                    <div> 
+                        <mat-form-field appearance="fill" style="width:60%" class="m-2">
+                            <mat-label  *ngIf = "!unlimitedGeneralEnglishClassesChecked">General English Classes</mat-label>
+                            <input matInput formControlName="generalEnglishClasses" [readOnly] = unlimitedGeneralEnglishClassesChecked> {{paymentTypeValue}} 
+                        </mat-form-field> 
+                        <mat-slide-toggle (change)="unlimitedClasesToggle('generalEnglishClasses')" [checked]="unlimitedGeneralEnglishClassesChecked"><b *ngIf = "unlimitedGeneralEnglishClassesChecked">Unlimited classes</b><span class="text-muted" *ngIf = "!unlimitedGeneralEnglishClassesChecked">Unlimited classes</span></mat-slide-toggle>              
+                    </div>
+                    <div>
+                        <mat-form-field appearance="fill" style="width:60%" class="m-2">
+                            <mat-label  *ngIf = "!unlimitedPTEClassesChecked">PTE class</mat-label>
+                            <input matInput formControlName="PTEClasses" [readOnly] = unlimitedPTEClassesChecked> {{paymentTypeValue}} 
+                        </mat-form-field> 
+                        <mat-slide-toggle (change)="unlimitedClasesToggle('PTEClasses')" [checked]="unlimitedPTEClassesChecked"><b *ngIf = "unlimitedPTEClassesChecked">Unlimited classes</b><span class="text-muted" *ngIf = "!unlimitedPTEClassesChecked">Unlimited classes</span></mat-slide-toggle>              
+                    </div>
+                    <div> 
+                        <mat-form-field appearance="fill" style="width:60%" class="m-2">
+                            <mat-label *ngIf = "!unlimitedIELTSClassesChecked">IELTS classes</mat-label>
+                            <input matInput formControlName="IELTSClasses" [readOnly] = unlimitedIELTSClassesChecked> {{paymentTypeValue}} 
+                        </mat-form-field> 
+                        <mat-slide-toggle (change)="unlimitedClasesToggle('IELTSClasses')" [checked]="unlimitedIELTSClassesChecked"><b *ngIf = "unlimitedIELTSClassesChecked">Unlimited classes</b><span class="text-muted" *ngIf = "!unlimitedIELTSClassesChecked">Unlimited classes</span></mat-slide-toggle>              
+                    </div>
+
+                    <div>
+                        <mat-form-field appearance="fill" style="width:60%" class="m-2">
+                            <mat-label *ngIf = "!unlimitedCambridgeClassesChecked">Cambirdge Classes</mat-label>
+                            <input matInput formControlName="cambridgeClasses" [readOnly] = unlimitedCambridgeClassesChecked> {{paymentTypeValue}} 
+                        </mat-form-field> 
+                        <mat-slide-toggle (change)="unlimitedClasesToggle('cambridgeClasses')" [checked]="unlimitedCambridgeClassesChecked"><b *ngIf = "unlimitedCambridgeClassesChecked">Unlimited classes</b><span class="text-muted" *ngIf = "!unlimitedCambridgeClassesChecked">Unlimited classes</span></mat-slide-toggle>              
+                    </div>
+
+                    <!-- <div>
+                        <mat-form-field appearance="fill" style="width:60%" class="m-2">
+                            <mat-label *ngIf = "!unlimitedAllClassesChecked">Any class</mat-label>
+                            <input matInput formControlName="allClasses" [readOnly] = "unlimitedAllClassesChecked"> {{paymentTypeValue}} 
+                        </mat-form-field> 
+                        <mat-slide-toggle (change)="unlimitedClasesToggle('allClasses')" [checked]="unlimitedAllClassesChecked"><b *ngIf = "unlimitedAllClassesChecked">Unlimited classes</b><span class="text-muted" *ngIf = "!unlimitedAllClassesChecked">Unlimited classes</span></mat-slide-toggle>              
+                    </div> -->
+                </mat-step>
+
+                <mat-step [stepControl]="thirdFormGroup" [editable]="true">
+                    <ng-template matStepLabel>Courses/Exams Includes</ng-template> 
+                    <div style="display:flex; flex-wrap: wrap; align-items: center; justify-content: center;">
+                        <div><button class = "m-3" mat-fab><fa-icon [icon]="faClipboardCheck"></fa-icon></button> Add an Exam to the Package </div> 
+                        <div style="flex-basis: 100%; height: 1;"></div>
+                        <div> <button class = "m-3" mat-fab><fa-icon [icon]="faBook"></fa-icon></button>  Add Course Work to Package </div>
+                    </div>   
+                </mat-step>
+
+                <!-- <mat-step>
+                  <ng-template matStepLabel>Finish</ng-template>
+                  <p>You are now done.</p>
+                  <div>
+                    <button mat-button mat-dialog-close>Close</button>
+                    <button mat-raised-button color="primary" [mat-dialog-close]=true [disabled] = "false"cdkFocusInitial>Add</button>
+                  </div>
+                </mat-step> -->
+              </mat-stepper>        
+        </mat-dialog-content>
+    </div>    
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Close</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]=true [disabled] = "false"cdkFocusInitial>Finish</button>
+    </mat-dialog-actions>
+</div>

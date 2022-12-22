@@ -71,6 +71,10 @@
                     <app-exams-show [currentUser] = "currentUser"></app-exams-show>
                 </div> 
 
+                <div  *ngIf = "urlAddress ==='/packages'" >
+                    <app-packages [currentUser] = "currentUser"></app-packages>
+                </div> 
+
             </div>
         </div>
     </div>

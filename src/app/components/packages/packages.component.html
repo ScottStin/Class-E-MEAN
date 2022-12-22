@@ -1,0 +1,130 @@
+<div class="text-dark card bg-white m-3 mb-4 shadow padding-3" style="border-radius: 15px;">
+    <div class="row p-3"> 
+        <div class="flex-wrap flex">
+            <div style="flex: 10%;">                           
+                <mat-form-field class = "m-1" appearance="fill">
+                    <mat-label>Class Type</mat-label>
+                    <mat-select multiple>
+                    <mat-option *ngFor="let classType of classTypes" [value]="classType">{{classType}}</mat-option>
+                    </mat-select>
+                </mat-form-field>       
+                <mat-form-field class = "m-1" appearance="fill">
+                    <mat-label>Payment Plan</mat-label>
+                    <mat-select multiple>
+                    <mat-option *ngFor="let paymentType of paymentTypes" [value]="paymentType">{{paymentType}}</mat-option>
+                    </mat-select>
+                </mat-form-field>  
+                <mat-form-field class = "m-1" style = "width:15%" appearance="fill" floatLabel="always">
+                    <mat-label>From</mat-label>
+                    <input matInput type="number" class="example-right-align" placeholder="$0.00 AUD">
+                </mat-form-field>
+                <mat-form-field class = "m-1" style = "width:15%" appearance="fill" floatLabel="always">
+                    <mat-label>To</mat-label>
+                    <input matInput type="number" class="example-right-align" placeholder="$0.00 AUD">
+                    <!-- <span matTextSuffix>.00</span> -->
+                </mat-form-field> 
+                <button class="m-3" mat-fab color="primary"> <mat-icon>search</mat-icon>   </button>                   
+            </div>     
+        </div>  
+    </div>    
+</div>
+<div class="row"><div class="col-3 offset-9"><button *ngIf = "currentUser.userType==='Teacher'" class="m-2" mat-raised-button color="basic" (click)="openNewPackageDialog()"><mat-icon>library_add</mat-icon> Build New Package</button> </div></div>
+
+<div class="container mb-5">
+    <div *ngFor = "let package of packages">
+        <div [ngClass]="package.studentsEnrolled.includes(currentUser.email) && currentUser.userType ==='Student' ? 'card text-right bg-light border-warning text-warning m-1 mt-3 p-1 shadow-lg' : 'card text-right bg-light m-1 mt-3 p-1 shadow-lg'" style="width: 15rem;">
+            <div class="card-body">
+                <h2 class="card-title">{{package.name}}</h2>  
+                <mat-chip-list *ngIf="package.studentsEnrolled.includes(currentUser.email)" class = "me-2" aria-label="Fish selection"><mat-chip color="basic">Current Package</mat-chip></mat-chip-list>
+                <div *ngIf = "currentUser.userType==='Teacher'">
+                    <span id = "menuTrigger" style="position:absolute; right:0px; top:0px;" class="icon icon-primary border-radius-sm ml-auto venue-dropdown-btn" mat-button
+                        [matMenuTriggerFor]="beforeMenu"><span class="material-icons"> more_vert </span>
+                    </span>
+                    <mat-menu #beforeMenu="matMenu" xPosition="before" class="venue-dropdown-content">           
+                        <button mat-menu-item>
+                            <mat-icon>edit</mat-icon>
+                            <span>Edit</span>
+                        </button>
+                        <button mat-menu-item>
+                            <mat-icon>delete</mat-icon>
+                            <span>Delete</span>
+                        </button>
+                    </mat-menu>    
+                </div>      
+                <mat-accordion class="example-headers-align" multi>
+                    <mat-expansion-panel>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Description
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          <mat-icon>description</mat-icon>
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>                
+                      <p class="card-text p-1 text-muted">{{package.description}}</p>
+                    </mat-expansion-panel>                  
+                </mat-accordion>                
+            </div>
+            <div *ngIf = "package.costAUD && package.paymentType" class="card-footer">
+                <small class="text-muted">{{package.paymentType.charAt(0).toUpperCase() + package.paymentType.slice(1)}} Cost: ${{package.costAUD}} AUD</small>
+            </div>
+            <button *ngIf = "currentUser.userType==='Student' && !package.studentsEnrolled.includes(currentUser.email)" class="m-2" mat-raised-button color="accent"><mat-icon>arrow_forward</mat-icon> Switch to this package</button>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="content-wrapper" style="margin-left: 1rem;">
+    <div class="container">      
+        <div class="row flex flex-wrap">
+            <div class="col l4 m6 s12 listing-box" *ngFor="let package of packages">
+                <div class="card card-custom  p-1 margin-bottom2">
+                    <div class="flex flex-wrap border-bottom align-item-center card-heading-row">
+                        <div class="card-heading flex flex-wrap align-items-end">
+                            <span class="user-pic margin-right1">
+                            <img src="" />
+                            </span>
+                            <h4 class="m-0">
+                            <p>{{package.name}}</p>
+                            </h4>
+                            <span class="icon icon-primary border-radius-sm ml-auto venue-dropdown-btn" mat-button
+                            [matMenuTriggerFor]="beforeMenu"><span class="material-icons">
+                                more_vert
+                            </span></span>  
+                            <mat-menu #beforeMenu="matMenu" xPosition="before" class="venue-dropdown-content">
+                            <button mat-menu-item>
+                                <mat-icon>edit</mat-icon>
+                                <span>Edit</span>
+                            </button>
+                            <button mat-menu-item>
+                                <mat-icon>delete</mat-icon>
+                                <span>Delete</span>
+                            </button>
+                            </mat-menu>
+                        </div>
+                        </div>
+                        <div class="card-content">
+                        <div class="flex flex-wrap">
+                            <div class="col l2 m2 s12 padding-0">
+                            <div class="business-type-heading">
+                                <p>{{package.description}}</p>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap">
+                            <div class="col l2 m2 s12 padding-0">
+                            <div class="business-type-heading">
+                                <p>{{package.paymentType}} Cost (AUD):</p>
+                            </div>
+                            </div>
+                            <div class="col l10 m10 s12 padding-0">
+                            <div class="business-type-content">
+                                <h5>{{package.costAUD}}</h5>
+                            </div>
+                            </div>
+                        </div>             
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

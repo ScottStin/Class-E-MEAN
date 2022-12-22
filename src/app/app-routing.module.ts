@@ -19,6 +19,7 @@ const routes: Routes = [
   { path: 'teacherlist', component: HomepageComponent, pathMatch: 'full',},
   { path: 'lessonvideo', component: VideoCallComponent, pathMatch: 'full',},
   { path: 'lesson/:id', component: VideoCallV2Component},
+  { path: 'packages', component: HomepageComponent},
 ];
 
 @NgModule({
