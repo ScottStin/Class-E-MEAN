@@ -39,7 +39,7 @@ export class ExamsShowComponent {
       Description: `Welcome to YouSTUDY! This general English level test will help us to assess your English level and assign you to the correct class. It takes about 10 minutes to complete and is completely free.`,
       totalScore: 10,
       Questions:[
-        {questionNumber:1,questionName:'Question 1',questionType:'Audio-Response',questionLength:NaN, points:10,questionDescription:'Read the question below and record your answer.',questionPrompt:'What do you do you a living? Do you enjoy it? Why/why not?',questionImage:'',
+        {questionNumber:1,questionName:'Question 1',questionType:'Written-Response',questionLength:NaN, points:10,questionDescription:'Read the question below and record your answer.',questionPrompt:'What do you do you a living? Do you enjoy it? Why/why not?',questionImage:'',
           questionAnswer:[
             {
               studentName: 'Daniel Angel',
@@ -65,7 +65,7 @@ export class ExamsShowComponent {
             },
           ]
         },
-        {questionNumber:2,questionName:'Question 2',questionType:'Audio-Response',questionLength:NaN, points:10, questionDescription:'Read the question below and record your answer.',questionPrompt:'If you could quit your job and have any job in the world, what would you be? Why?',questionImage:'',
+        {questionNumber:2,questionName:'Question 2',questionType:'Written-Response',questionLength:NaN, points:10, questionDescription:'Read the question below and record your answer.',questionPrompt:'If you could quit your job and have any job in the world, what would you be? Why?',questionImage:'',
           questionAnswer:[
             {
               studentName: 'Daniel Angel',
@@ -104,7 +104,14 @@ export class ExamsShowComponent {
       'Assigned Teacher': 'Scott Stinson',
       Description: `This exam will test you on the IELTS Reading Section. You have 60 minutes to complete 3 exercises.`,
       totalScore: 10,
-      Questions:[]
+      Questions:[
+        {questionNumber:1,questionName:'Question 1',questionType:'Written-Response',length:'100',questionLength:NaN, points:10,questionDescription:'Read the question below and record your answer.',questionPrompt:'What do you do you a living? Do you enjoy it? Why/why not?',questionImage:'',
+          questionAnswer:[]
+        },
+        {questionNumber:2,questionName:'Question 2',questionType:'Audio-Response', length:'30',questionLength:NaN, points:10, questionDescription:'Read the question below and record your answer.',questionPrompt:'If you could quit your job and have any job in the world, what would you be? Why?',questionImage:'',
+          questionAnswer:[]
+        },
+      ]
     },
   ];
   tableDataFiltered = this.tableData

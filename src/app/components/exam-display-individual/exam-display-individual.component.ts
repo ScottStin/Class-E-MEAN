@@ -1,5 +1,8 @@
 import { Component, OnInit,Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DomSanitizer, SafeResourceUrl, SafeStyle, SafeUrl } from '@angular/platform-browser';
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-exam-display-individual',
@@ -9,8 +12,18 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ExamDisplayIndividualComponent implements OnInit {
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private sanitizer: DomSanitizer
   ) { }
+
+  playerSrc?: MediaStream;
+  downloadLink: any 
+  audioSrc = new Audio();
+  audioURL?: SafeUrl;
+  mediaRecorder?: MediaRecorder;
+  faMicrophone = faMicrophone;
+  recordAudioButtonSpin = false;
+  faSpinner = faSpinner;
 
   ngOnInit(): void {
     console.log(this.data)
@@ -39,5 +52,49 @@ export class ExamDisplayIndividualComponent implements OnInit {
       return false
     }  
   }
+  
+  recordAudio(length:number){ //https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b
+    console.log(length)
+    this.recordAudioButtonSpin = true
+    console.log(this.audioSrc)
+    navigator.mediaDevices
+    .getUserMedia({audio: true, video: false})
+    .then(
+      (stream) =>{
+        console.log(stream)
+   
+        // const mediaRecorder = new MediaRecorder(stream);
+        this.mediaRecorder = new MediaRecorder(stream);
+        this.mediaRecorder.start();
+        const audioChunks: BlobPart[] | undefined = [];
+        this.mediaRecorder.addEventListener("dataavailable", event => {
+          audioChunks.push(event.data);
+        });
+        this.mediaRecorder.addEventListener("stop", () => {
+          const audioBlob = new Blob(audioChunks);
+          const audioUrl = URL.createObjectURL(audioBlob);
+          this.audioSrc = new Audio(audioUrl);
+          this.audioURL = this.sanitizer.bypassSecurityTrustUrl(`${audioUrl}`);
+          // this.audioSrc.play();
+        });
+        setTimeout(() => {
+          this.mediaRecorder?.stop();
+          this.recordAudioButtonSpin = false
+        }, 1000*length);
+      }
+    );
+  }
+
+  pauseAudio(){
+    this.mediaRecorder?.stop();
+    this.recordAudioButtonSpin = false
+  }
+
+  playAudio(){
+    const player = document.getElementById('player');
+    this.audioSrc.play();
+  }
+
+
 
 }

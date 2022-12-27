@@ -46,6 +46,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { NewPackageComponent } from './components/new-package/new-package.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
 
@@ -98,6 +99,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
     MatGridListModule,
     MatExpansionModule,
     MatSlideToggleModule,
+    MatProgressSpinnerModule,
     MatToolbarModule,
     SocketIoModule.forRoot(config)
     // CdkDialogContainer
