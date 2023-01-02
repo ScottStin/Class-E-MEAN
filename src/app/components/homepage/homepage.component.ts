@@ -61,7 +61,7 @@ export class HomepageComponent implements OnInit {
 
   async ngOnInit(): Promise<any> {    
 
-    this.currentUser=this.users[7]
+    this.currentUser=this.users[1]
     this.urlAddress = this.router.url 
     this.filterLessonType = this.lessonTypes[0].longName
     this.getLessons()

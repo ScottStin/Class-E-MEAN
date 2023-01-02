@@ -1,0 +1,134 @@
+<div class="dialog-modal">
+    <div style = "background-color: #6200EE"  class="dialog-header flex align-item-center flex-wrap">
+        <h2 mat-dialog-title style="padding:15px; color:white">{{examName || data.header}}</h2>   
+    </div>
+    <div style="flex: 100%; padding-right: 20px" [formGroup] = "examForm">
+        <mat-dialog-content class="mat-typography">
+
+            <div class="flex-wrap flex">
+                <div style="flex: 10%;" class = "mb-3">
+
+                    <h2>Exam Details - </h2>
+                    <mat-form-field  appearance="fill" style="width:15%" class="m-1">
+                        <mat-label>Exam Name</mat-label>
+                        <input matInput formControlName="examNameInput" type="text" placeholder="Exam Name" (keyup) = "changeExamName()">
+                    </mat-form-field>
+                    <mat-form-field  appearance="fill" style="width:15%" class="m-1">
+                        <mat-label>Exam Description</mat-label>
+                        <input matInput formControlName="examDescriptionInput" type="text" placeholder="Exam Description">
+                    </mat-form-field>
+                    <mat-form-field  appearance="fill" style="width:15%" class="m-1">
+                        <mat-label>Exam Type</mat-label>
+                        <select matNativeControl required>
+                          <option value="ELTExam">ELT</option>
+                          <option value="PTEExam">PTE</option>             
+                          <option value="IELTSExam">IELTS</option>             
+                          <option value="cambridgeExam">Cambridge Exam</option>             
+                          <option value="generalEnglishExam">General English Exam</option>             
+                        </select>
+                    </mat-form-field>
+                    <mat-form-field  appearance="fill" style="width:15%" class="m-1">
+                        <mat-label>Time Limit</mat-label>
+                        <input matInput formControlName="examTimeLimitInput" type="text" placeholder="Time Limit (leave blank for no time limit)">
+                    </mat-form-field>
+                    <mat-form-field  appearance="fill" style="width:15%" class="m-1">
+                        <mat-label>Casual Price (AUD)</mat-label>
+                        <input matInput formControlName="examCostInput" type="text" placeholder="Casual Price (leave blank for no cost)">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill"  style="width:15%" class="m-1">
+                        <mat-label>Assigned Teacher</mat-label>
+                        <select matNativeControl required>
+                          <option value="">Select...</option>
+                        </select>
+                      </mat-form-field>
+                      <mat-slide-toggle class="m-2" (change) = "defaultWelcomeExam =!defaultWelcomeExam"><span [class] = "defaultWelcomeExam ? 'font-weight-bold' : 'text-muted'">Default Welcome Exam<span *ngIf="!defaultWelcomeExam">?</span></span></mat-slide-toggle>
+                    <hr>
+
+                    <h2>{{questionName || 'Question ' + (tableData.length + 1) + ' -'}} </h2>
+                    <mat-form-field  appearance="fill" style="width:100%" class="m-1">
+                        <mat-label>Question Name</mat-label>
+                        <input matInput formControlName="questionNameInput" (keyup) = "changeQuestionName()" type="text" placeholder="Question Name">
+                    </mat-form-field>
+                    <mat-form-field  appearance="fill" style="width:100%" class="m-1">
+                        <mat-label>Question Description / Instructions</mat-label>
+                        <input matInput formControlName="questionDescriptionInput" type="text" placeholder="Question Description">
+                    </mat-form-field>
+                    <mat-form-field  style="width:100%" class="m-3 p-3 border border-dark">
+                        <mat-label>Question Prompt</mat-label>
+                        <input matInput formControlName="questionPromptInput" type="text" placeholder="Question Prompt">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill"  style="width:100%" class="m-1">
+                        <mat-label>Response Type</mat-label>
+                        <select matNativeControl required formControlName="responseTypeInput">
+                          <option value="Written Response">Written Response</option>
+                          <option value="Audio Response">Audio Response</option>
+                          <option value="multipleChoiceSingle" disabled>Multiple Choice Single Option</option>
+                          <option value="multipleChoiceMult" disabled>Multiple Choice Multiple Options</option>
+                          <option value="reorderResponses" disabled>Reorder Response</option>
+                          <option value="fillInBlanks" disabled>Fill in the Blanks</option>
+                        </select>
+                      </mat-form-field>
+                    <!-- <mat-form-field appearance="fill" style="width:100%" class="m-2"> -->
+                        <!-- <mat-label>Upload Photo, Video or Audio File for Question...</mat-label> -->
+                        <div class="m-1">
+                          <button type="button" mat-raised-button (click)="fileInput.click()">Choose Media File</button>
+                          <input hidden style = "display:none" (change)="onFileSelected($event)" style="width:100%"  #fileInput type="file">  
+                          <mat-form-field appearance="fill"  style="width:82%" class="m-1">
+                            <mat-label>Upload Photo, Video or Audio File for Question...</mat-label>                        
+                            <input matInput formControlName="questionFileInput" type="text" (click)="fileInput.click()" placeholder="Choose a Media File To Upload">
+                          </mat-form-field>
+                          <!-- <span class="file-name">{{selectedFile?.name}}</span>  -->
+                        </div> 
+                        <!-- <input matInput type="file" formControlName="questionFileInput" placeholder="Upload File"> -->
+                        <!-- <app-file-upload formControlName="mediaConentInput" class="form-control" id="customFile"></app-file-upload> -->
+                    <!-- </mat-form-field> -->
+                    <mat-form-field appearance="fill" style="width:49%" class="m-1 p-1">
+                        <mat-label>Question Time Limit</mat-label>
+                        <input matInput formControlName="questionTimeLimitInput" type="text" placeholder="Question Time Limit">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" style="width:49%" class="m-1 p-1">
+                        <mat-label>Points</mat-label>
+                        <input matInput formControlName="questionPoints" type="text" placeholder="Question Points">
+                    </mat-form-field>
+
+                    <button mat-raised-button color="primary" (click) = "addNewQuestionRow()"><fa-icon [icon]="faPlus" ></fa-icon> Add Question</button>
+                </div>
+            </div>
+        </mat-dialog-content>
+    </div>
+    <hr>
+    
+    <table *ngIf = "tableData.length>0" class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col" *ngFor ="let column of columnsToDisplayLessonTable">{{column}}</th>  
+          </tr>
+        </thead>
+  
+        <tbody>     
+          <tr *ngFor = "let questions of tableData">
+            <td>{{questions.questionName}}</td>
+            <td>{{questions.questionDescription}}</td>
+            <td>{{questions.questionPrompt}} </td>
+            <td>{{questions.questionType}} </td>
+            <td> {{questions.questionTime}}</td>
+            <td> {{questions.questionPoints}}</td>   
+            <td> {{questions.questionMedia}}</td>   
+            <td>        
+              <div class="example-flex-container" style="  display: flex;">           
+                <button #tooltip="matTooltip" matTooltip="Edit question" mat-mini-fab style="background-color:orange " aria-label="Example icon button with a delete icon"><mat-icon>edit</mat-icon></button>
+                <button #tooltip="matTooltip" matTooltip="Remove question"  mat-mini-fab style="background-color:red" aria-label="Example icon button with a delete icon" (click) = "removeQuestion(questions)"><mat-icon>delete</mat-icon></button>
+              </div>
+            </td>         
+          </tr>
+        </tbody>
+    </table>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>{{data.leftButton}}</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]=tableData [disabled] = "tableData.length<=0" (click) = "postExams()" cdkFocusInitial>{{data.rightButton}}</button>
+        <!-- <button mat-raised-button color="primary" cdkFocusInitial>{{data.rightButton}}</button> -->
+    </mat-dialog-actions>
+</div>
+
+

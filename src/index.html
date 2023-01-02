@@ -10,10 +10,17 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap Drop and Drag Table Rows: -->
+  <!-- <link rel="stylesheet" href="extensions/reorder-rows/bootstrap-table-reorder-rows.css">
+  <script src=".../jquery.tablednd.js"></script>
+  <script src="extensions/reorder-rows/bootstrap-table-reorder-rows.js"></script> -->
+
 </head>
 <body class="mat-typography">
   <app-root></app-root>
 
+   <!-- Video Calling: -->
   <script src="http://localhost:3001/socket.io/socket.io.js"></script>
   <script>
     var socket = io.connect('http://localhost:3000/');
@@ -22,5 +29,6 @@
       socket.emit('my other event', { my: 'data' });
     });
   </script>
+
 </body>
 </html>

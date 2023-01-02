@@ -47,6 +47,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { NewPackageComponent } from './components/new-package/new-package.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { NewExamComponent } from './components/new-exam/new-exam.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
 
@@ -67,7 +68,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
     VideoCallComponent,
     VideoCallV2Component,
     PackagesComponent,
-    NewPackageComponent,  
+    NewPackageComponent,
+    NewExamComponent,  
   ],
   imports: [
     BrowserModule,

@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
     {name:"My Messages",icon:faMessage,use:["Teacher","Student"],routerLink:''},
     {name:"My Announcements",icon:faBullhorn,use:["Teacher","Student"],routerLink:''},
     {name:"Class Material",icon:faFolder,use:["Teacher"],routerLink:''},
-    {name:"Exam Marking",icon:faPenToSquare,use:["Teacher"],routerLink:''},
+    {name:"Exam Marking",icon:faPenToSquare,use:["Teacher"],routerLink:'/exams'},
     {name:"My Packages",icon:faBoxOpen,use:["Student"],routerLink:'/packages'},
     {name:"Packages",icon:faBoxOpen,use:["Teacher"],routerLink:'/packages'},
     {name:"My School",icon:faSchool,use:["Student","Teacher"],routerLink:''},

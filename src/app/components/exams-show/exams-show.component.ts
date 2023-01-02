@@ -6,6 +6,8 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {FormBuilder, FormGroup,Validators} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ExamDisplayIndividualComponent } from '../exam-display-individual/exam-display-individual.component';
+import { NewExamComponent } from '../new-exam/new-exam.component';
+import { ExamService } from 'backend/services/exam-services/exam.service';
 
 @Component({
   selector: 'app-exams-show',
@@ -116,7 +118,10 @@ export class ExamsShowComponent {
   ];
   tableDataFiltered = this.tableData
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    private examService: ExamService,
+    ) {}
   ngOnInit(): void{
     // this.getExamResult()
    }
@@ -148,10 +153,27 @@ export class ExamsShowComponent {
   }
 
   openExamDialog(exam: any){ 
-
     const dialogRef = this.dialog.open(ExamDisplayIndividualComponent,{
       width: '1000px',
       data:{ exam:exam, user:this.currentUser}
+    });  
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openNewExamDialog(){ 
+    
+    const dialogRef = this.dialog.open(NewExamComponent,{
+      width: '1000px',
+      data: {
+        header: 'Create new exam',
+        // body: '',
+        rightButton:'Create',
+        leftButton: 'Cancel',
+        // routerLink:''
+      }
     });  
 
     dialogRef.afterClosed().subscribe(result => {

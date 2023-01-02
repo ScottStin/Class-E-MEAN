@@ -75,7 +75,7 @@
     </table>
     <div class="row">
       <div class="col offset-10">
-        <button *ngIf="currentUser.userType === 'Teacher'" mat-raised-button color="basic" #tooltip="matTooltip" matTooltip="Create a new exam" ><mat-icon>note_add</mat-icon> Create new</button>  
+        <button *ngIf="currentUser.userType === 'Teacher'" mat-raised-button color="basic" #tooltip="matTooltip" matTooltip="Create a new exam" (click)="openNewExamDialog()"><mat-icon>note_add</mat-icon> Create new</button>  
       </div>
     </div>   
   </div>  

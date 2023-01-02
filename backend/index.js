@@ -64,7 +64,8 @@ const PORT = 3000 // || process.env.PORT
 // const TeacherModel = require('./backend/config/models/teacherModel');
 // const StudentModel = require('./backend/config/models/studentModel');
 // const LessonModel = require('./backend/config/models/lessonModel');
-const ExamModel = require('./models/lesson-model');
+const LessonModel = require('./models/lesson-model');
+const ExamModel = require('./models/exam-model');
 
 // -------------------- COOKIES, SESSIONS, PASSPORT (AUTHENTICATION and AUTHORISATION) AND FLASH  --------------------
 
@@ -120,10 +121,10 @@ app.get("/test", (req, res) => {
 
 const lessonRouter = require ('./routes/LessonRoutes')
 // const userRouter = require ('./backend/routes/TeacherRoutes.js')
-// const examRouter = require ('./backend/routes/ExamRoutes')
+const examRouter = require ('./routes/ExamRoutes')
 
 // app.use('/users',userRouter)
-// app.use('/exams',examRouter)
+app.use('/exams',examRouter)
 app.use('/lessons',lessonRouter)
 
 // -------------------- EJS ENGINE SETUP --------------------
@@ -133,6 +134,7 @@ app.set('src', path.join(__dirname, '../src')); // this, along with the 'require
 // app.set('view engine','ejs'); // for  ejs to work, it needs to be saved in a folder within the project folder called 'views'. we then need to create a file called 'home.ejs'
 
 // ----------------------- VIDEO CHAT ------------------
+
 //  <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
 
 app.get("/test", (req, res) => {
@@ -168,8 +170,8 @@ io.on('connection',(socket)=>{
 
 // ------------------------- LISTENING -------------------------
 
-// app.listen(PORT, console.log(`Your app is running on port ${PORT}`))
-server.listen(3000, console.log(`Your video chat is running on port 3000`))
+app.listen(PORT, console.log(`Your app is running on port ${PORT}`))
+// server.listen(3000, console.log(`Your video chat is running on port 3000`))
 
 // app.get('/',function(req,res){
 //     res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO ANGULAR FRONTEND' })

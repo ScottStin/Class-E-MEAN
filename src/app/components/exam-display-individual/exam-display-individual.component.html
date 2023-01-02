@@ -11,7 +11,7 @@
                 <p class="m-3 p-3 border border-dark">{{question.questionPrompt}}</p>
                 <form  *ngIf ="!findStudentResponse(question)" class="example-form">                
                     <mat-form-field  *ngIf = "question.questionType === 'Written-Response'" class="example-full-width">
-                      <textarea matInput placeholder="Write your response here..."></textarea>
+                    <textarea matInput placeholder="Write your response here..."></textarea>
                     </mat-form-field>
                     <div style = "display: flex; align-items: center;" *ngIf = "question.questionType === 'Audio-Response'">
                         <!-- <input type="file" accept="audio/*" capture id="recorder" (change)="recordAudio($event)"/> -->
