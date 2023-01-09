@@ -22,7 +22,8 @@ export class NewExamComponent implements OnInit {
     questionFileInput:"",
     questionTimeLimitInput:"",
     questionPoints:"",
-    responseTypeInput:""
+    responseTypeInput:"",
+    questionLengthInput:""
   });
 
   columnsToDisplayLessonTable = ['Name','Desc','Prompt', 'Resp','Time','Points','File', 'Actions'];
@@ -32,6 +33,7 @@ export class NewExamComponent implements OnInit {
   faPlus = faPlus;
   questionName = "";
   examName = "";
+  responseType = "";
 
   constructor(    
     private formBuilder: FormBuilder,
@@ -53,6 +55,7 @@ export class NewExamComponent implements OnInit {
         questionMedia: this.selectedFile?.name,
         questionTime: this.examForm.get('questionTimeLimitInput')?.value,
         questionPoints: this.examForm.get('questionPoints')?.value,
+        questionLength: this.examForm.get('questionLengthInput')?.value,
       }
     )
     this.tableData = this.tableData
@@ -66,6 +69,11 @@ export class NewExamComponent implements OnInit {
 
   changeExamName(){
     this.examName = this.examForm.get('examNameInput')?.value
+  }
+
+  changeResponseType(){
+    this.responseType =  this.examForm.get('responseTypeInput')?.value
+    return this.responseType
   }
 
   selectedFile: any = null;

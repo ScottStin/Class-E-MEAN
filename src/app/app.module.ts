@@ -48,6 +48,7 @@ import { NewPackageComponent } from './components/new-package/new-package.compon
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { NewExamComponent } from './components/new-exam/new-exam.component';
+import {CloudinaryModule} from '@cloudinary/ng';
 
 const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
 
@@ -103,6 +104,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatToolbarModule,
+    CloudinaryModule,
     SocketIoModule.forRoot(config)
     // CdkDialogContainer
   ],

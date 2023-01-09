@@ -50,7 +50,7 @@ export class LessonCardComponent implements OnInit {
   }
 
   getImageSource(){
-    return this.allUsers.find((obj: { name: string; })=>obj.name === this.lesson.teacher).profilePicture 
+    return this.allUsers.find((obj: { name: string; })=>obj.name === this.lesson.teacher).profilePicture.url
   }
 
   async openRegisterDialog(lesson:any){

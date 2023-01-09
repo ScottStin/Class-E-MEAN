@@ -2,9 +2,10 @@
 
 // -------------------- DEVELOPMENT or PRODUCTION MODE --------------------
 
-// if(process.env.NODE_ENV !=="production"){
-//     require('dotenv').config();
-// }
+// process.env.NODE_ENV = 'development'
+if(process.env.NODE_ENV !=="production"){
+    require('dotenv').config();
+}
 
 // -------------------- REQUIRE NODE PACKAGES --------------------
 
@@ -18,7 +19,7 @@ const mongoose = require('mongoose');
 const path = require('path'); // If we want this to work from different directories, we are going to require this 'path' module from express.
 // const { join } = require('path');
 // const bcrypt = require('bcrypt');
-// const multer = require('multer')
+const multer = require('multer')
 const bodyParser = require('body-parser'); // this will help us pass data in the req.body object to the backend
 
 // -------------------- CONNECTING TO MONGO SERVER --------------------
@@ -61,11 +62,9 @@ const PORT = 3000 // || process.env.PORT
 
 //----------------------  REQURING MODELS ------------------------------------
 
-// const TeacherModel = require('./backend/config/models/teacherModel');
-// const StudentModel = require('./backend/config/models/studentModel');
-// const LessonModel = require('./backend/config/models/lessonModel');
 const LessonModel = require('./models/lesson-model');
 const ExamModel = require('./models/exam-model');
+const UserModel = require('./models/user-models');
 
 // -------------------- COOKIES, SESSIONS, PASSPORT (AUTHENTICATION and AUTHORISATION) AND FLASH  --------------------
 
@@ -120,10 +119,10 @@ app.get("/test", (req, res) => {
 });
 
 const lessonRouter = require ('./routes/LessonRoutes')
-// const userRouter = require ('./backend/routes/TeacherRoutes.js')
+const userRouter = require ('./routes/UserRoutes')
 const examRouter = require ('./routes/ExamRoutes')
 
-// app.use('/users',userRouter)
+app.use('/users',userRouter)
 app.use('/exams',examRouter)
 app.use('/lessons',lessonRouter)
 

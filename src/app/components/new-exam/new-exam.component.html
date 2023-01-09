@@ -57,7 +57,7 @@
                         <mat-label>Question Prompt</mat-label>
                         <input matInput formControlName="questionPromptInput" type="text" placeholder="Question Prompt">
                     </mat-form-field>
-                    <mat-form-field appearance="fill"  style="width:100%" class="m-1">
+                    <mat-form-field appearance="fill"  [ngStyle]= "{'width': changeResponseType() ? '75%' : '100%'}" class="m-1">
                         <mat-label>Response Type</mat-label>
                         <select matNativeControl required formControlName="responseTypeInput">
                           <option value="Written Response">Written Response</option>
@@ -67,7 +67,13 @@
                           <option value="reorderResponses" disabled>Reorder Response</option>
                           <option value="fillInBlanks" disabled>Fill in the Blanks</option>
                         </select>
-                      </mat-form-field>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf = "changeResponseType()" appearance="fill" style="width:23%" class="m-1">
+                      <mat-label *ngIf = "changeResponseType() === 'Written Response'">Word Limit</mat-label>
+                      <mat-label *ngIf = "changeResponseType() === 'Audio Response'">Recording Limit (seconds)</mat-label>
+                      <input matInput formControlName="questionLengthInput" type="text" placeholder="Limit">
+                    </mat-form-field>
                     <!-- <mat-form-field appearance="fill" style="width:100%" class="m-2"> -->
                         <!-- <mat-label>Upload Photo, Video or Audio File for Question...</mat-label> -->
                         <div class="m-1">

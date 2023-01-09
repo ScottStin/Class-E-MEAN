@@ -52,13 +52,13 @@
       <tbody>     
         <tr *ngFor = "let exam of tableDataFiltered">
           <!-- <th scope="row">{this.state.exams.indexOf(item) +1}</th> -->
-          <td> {{exam.Exam}}</td>
-          <td> {{exam.Type}}</td>
-          <td> <span *ngIf="exam.Time">{{exam.Time}}</span><span *ngIf="!exam.Time">-</span></td>
-          <td *ngIf="currentUser.userType === 'Teacher'"> <span *ngIf="exam['Default Welcome Exam?']">Yes</span><span *ngIf="!exam['Default Welcome Exam?']">No</span> </td> 
-          <td *ngIf="currentUser.userType === 'Teacher'">{{exam['Assigned Teacher']}}</td>
-          <td *ngIf="currentUser.userType === 'Teacher'"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'">{{exam['Students Enrolled'].length}}</button></td> 
-          <td *ngIf="currentUser.userType === 'Teacher'"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'">{{exam['Students Completed'].length}}</button></td>         
+          <td> {{exam.examName}}</td>
+          <td> {{exam.examType}}</td>
+          <td> <span *ngIf="exam.examTime">{{exam.examTime}}</span><span *ngIf="!exam.examTime">-</span></td>
+          <td *ngIf="currentUser.userType === 'Teacher'"> <span *ngIf="exam['defaultWelcomeExam']">Yes</span><span *ngIf="!exam['defaultWelcomeExam']">No</span> </td> 
+          <td *ngIf="currentUser.userType === 'Teacher'">{{exam['assignedTeacher']}}</td>
+          <td *ngIf="currentUser.userType === 'Teacher'"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'">{{exam['studentEnrolled']?.length}}</button></td> 
+          <td *ngIf="currentUser.userType === 'Teacher'"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'">{{exam['studentCompleted']?.length}}</button></td>         
           <td *ngIf="currentUser.userType === 'Student'">{{getExamResult(exam)}}</td>         
           <td>        
             <div class="example-flex-container" style="  display: flex;">

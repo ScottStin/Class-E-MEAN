@@ -20,6 +20,7 @@ export class NewClassComponent implements OnInit {
     lengthInput: "",
     levelInput: "",
     descriptionInput: "",
+    questionLength: "",
   });
   
   columnsToDisplayLessonTable = ['Date','Start Time','Length (hours)', 'Max Size','Class Type','Level','Description','Action'];

@@ -9,9 +9,9 @@
                             <img *ngIf = "urlAddress.includes('teacher')" [src]="teacherImage" alt=""/>
                             <div  class = "card-body">
                                     <h5 class = "card-title">Sign up</h5>
-                                    <form enctype="multipart/form-data"> 
+                                    <form enctype="multipart/form-data" (ngSubmit)="onSubmit($event)"> 
                                         <div class = "mb-3">
-                                            <label class="form-label" for="name">{{user}} Name</label>
+                                            <label class="form-label"  for="name">{{user}} Name</label>
                                             <input class="form-control" type = "text" id="name" name="name" autoFocus/>                                      
                                         </div>
                                         <div class = "mb-3">
@@ -32,9 +32,9 @@
                                         </div>                             
                                         <div class="mb-3">
                                             <label for="formFileMultiple" class="form-label"><h6>Profile Picture</h6></label>
-                                            <input class="form-control" type="file" id="studentPic" name = "studentPic" />
+                                            <input class="form-control" type="file" id="profilePic" name = "profilePic" />
                                         </div>                                
-                                        <button class = "btn btn-secondary col-12">Creat Account</button>
+                                        <button type = "submit" class = "btn btn-secondary col-12">Creat Account</button>
                                     </form>                            
                             </div>
                         </div>
@@ -72,4 +72,6 @@
         </div>
     </mat-tab>
 </mat-tab-group>
+
+<!-- <advanced-image [cldImg]="myImage"></advanced-image> -->
 

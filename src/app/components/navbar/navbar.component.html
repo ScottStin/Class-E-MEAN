@@ -5,7 +5,7 @@
             <a routerLink = '/student/login-signup' class = "text-center" style="font-size:24px; display: flex; align-items: center; justify-content: center; text-align:center;"><h1 class="mb-5 text-center">Log in</h1> </a>       
         </div>   
         <div id = "userDetails" *ngIf="currentUser" class="mb-5 mt-5">                      
-            <img class="mb-4 " [src]="currentUser.profilePicture" alt="" style="border-radius:50%; height: 250px; width:250px; display: flex; align-items: center; justify-content: center;"/>      
+            <img class="mb-4 " [src]="currentUser.profilePicture.url.replace('/upload','/upload/w_900,h_900,c_thumb,c_crop,g_face')" alt="" style="border-radius:50%; height: 250px; width:250px; display: flex; align-items: center; justify-content: center;"/>      
             <h2  style="display: flex; align-items: center; justify-content: center;" class="text-center">{{currentUser.name}}</h2>
             <h1 *ngIf = "currentUser.level && currentUser.userType === 'Student'" class="text-center text-warning"> <fa-icon [icon]="faStar"></fa-icon> {{currentUser.level.substring(0, 2)}}  <fa-icon [icon]="faStar"></fa-icon></h1>
         </div> 
