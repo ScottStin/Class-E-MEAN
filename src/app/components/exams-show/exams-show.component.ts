@@ -153,9 +153,9 @@ export class ExamsShowComponent {
 
   getExamResult(exam:any){
     let result=""
-    if(exam['studentEnrolled'].filter((obj: { student: any; })=>{return obj.student === this.currentUser.name}).length>0){
-      if (exam['studentCompleted'].filter((obj: { student: any; })=>{return obj.student === this.currentUser.name})[0].score!==''){
-        result = `${exam['studentCompleted'].filter((obj: { student: any; })=>{return obj.student === this.currentUser.name})[0].score} / ${exam.examTotalScore}`
+    if(exam['studentEnrolled']?.filter((obj: { student: any; })=>{return obj.student === this.currentUser.name}).length>0){
+      if (exam['studentCompleted']?.filter((obj: { student: any; })=>{return obj.student === this.currentUser.name})[0].score!==''){
+        result = `${exam['studentCompleted']?.filter((obj: { student: any; })=>{return obj.student === this.currentUser.name})[0].score} / ${exam.examTotalScore}`
       } else {
         result = "Your exam is still being marked"
       }

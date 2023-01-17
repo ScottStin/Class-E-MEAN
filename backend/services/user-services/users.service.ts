@@ -22,4 +22,8 @@ export class UsersService {
     return this.http.delete('http://localhost:3000/users/delete/'+id)         
   }
 
+  userLogin(user:any){
+    return this.http.post('http://localhost:3000/users/login',user) 
+  }
+
 }

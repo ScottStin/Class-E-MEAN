@@ -11,13 +11,13 @@
     #navButton{
         max-width:50px;
     } 
-    .container img{
+    .container img, #logOutButton{
         transform:scale(0.5);
     }    
 }
 
  @media (max-width: 776px){   
-    .container img{
+    .container img, #logOutButton{
         transform:scale(0.4);
     }    
     .container h2, h1{
@@ -26,4 +26,9 @@
     /* #userDetails{
         display:none;
     } */
+}
+
+#logOutButton:hover{
+    Transform: translateY(1.0em) translateX(-1.0em) scale(1.2);
+    transition: ease all .25s;
 }

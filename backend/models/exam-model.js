@@ -14,7 +14,10 @@ const examSchema = mongoose.Schema({
         {type: String,}
     ],
     studentCompleted:[
-        {type: String,}
+        {
+            studentEmail:{type: String},
+            dateCompleted:{type: Date},
+        }
     ],
     defaultWelcomeExam:{
         type: Boolean,
@@ -63,6 +66,9 @@ const examSchema = mongoose.Schema({
             questionAnswer:[
                 {
                     studentName:{
+                        type: String,
+                    },
+                    studentEmail:{
                         type: String,
                     },
                     studentResponse:{

@@ -17,7 +17,7 @@
                         </div>
                     </div>                
                     <div *ngFor="let lesson of displayLessons">
-                        <div *ngIf = "lesson.classType === filterLessonType && (lesson.level.includes(currentUser.level)||!currentUser.level)">
+                        <div *ngIf = "lesson.classType === filterLessonType && (!currentUser || lesson.level.includes(currentUser.level)||!currentUser.level)">
                             <app-lesson-card [allUsers]="users" [currentUser] = "currentUser" [lesson] = "lesson" (refreshData)=dataChange($event)></app-lesson-card>
                         </div>
                     </div>   
@@ -58,7 +58,7 @@
                     
                                     
                     <div *ngFor="let lesson of displayLessons">
-                        <div *ngIf = "currentUser.userType==='Teacher' && lesson.teacher === currentUser.name">
+                        <div *ngIf = "currentUser.userType==='Teacher' && lesson.teacher.email === currentUser.email">
                             <app-lesson-card [allUsers]="users" [currentUser] = "currentUser" [lesson] = "lesson" (refreshData)=dataChange($event)></app-lesson-card>
                         </div>
                         <div *ngIf = "currentUser.userType==='Student' && lessonStudentsEnrolled(lesson)">

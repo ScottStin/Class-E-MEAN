@@ -38,13 +38,31 @@ export class LoginSignupComponent implements OnInit {
     // this.myImage =  new CloudinaryImage('sample', {cloudName: 'dkny57jpp'}).resize(fill().width(100).height(150));
   }
 
-  onSubmit(event: any){
+  onSubmitLogin(event: any){    
+    const existingUser = {
+      email:event.target.email.value,
+      password:event.target.password.value,
+    }
+    console.log(existingUser)
+    this.userService.userLogin(existingUser).subscribe((res: any)=>{   
+      console.log(res)
+      if(res){
+        this._snackBar.open(`Welcome back, ${res.name}.`,'close');
+        localStorage.setItem('currentUser',JSON.stringify(res))
+        this.router.navigate(['/home'])
+      } else{
+        this._snackBar.open(`Username or password incorrect`,'close');
+      }
+    })
+  }
+
+  onSubmitSignup(event: any){
     const newUser = {
       name:event.target.name.value,
       userType:this.user,
-      nationality:event.target.name.value,
+      nationality:event.target.nationality.value,
       email:event.target.email.value,
-      statement:event.target.name.value,
+      statement:event.target.statement?.value,
       package:'Casual',
       hashedPassword:event.target.password.value,
       // profilePic:event.target.profilePic.value,

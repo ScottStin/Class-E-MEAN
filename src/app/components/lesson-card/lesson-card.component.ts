@@ -50,7 +50,8 @@ export class LessonCardComponent implements OnInit {
   }
 
   getImageSource(){
-    return this.allUsers.find((obj: { name: string; })=>obj.name === this.lesson.teacher).profilePicture.url
+    // return this.allUsers.find((obj: { name: string; })=>obj.name === this.lesson.teacher).profilePicture.url
+    return this.allUsers.find((obj: { email: string; })=>obj.email === this.lesson.teacher.email).profilePicture.url
   }
 
   async openRegisterDialog(lesson:any){
@@ -89,7 +90,7 @@ export class LessonCardComponent implements OnInit {
         leftButton: 'Cancel',
         routerLink:'student/login-signup'
       }
-      } if (this.currentUser.userType === "Student"&& !this.currentUser.level && !this.currentUser.eltComplete){
+      } if (this.currentUser?.userType === "Student"&& !this.currentUser?.level && !this.currentUser?.eltComplete){
         dialogData={
           header: 'You need to take your free English Level Test first',
           body: 'Before you enrol in your first lesson, we need to assess your English level so we can put you in the right class. The test takes about 10 minutes and is compeletely free. Click below to take it.',
@@ -97,7 +98,7 @@ export class LessonCardComponent implements OnInit {
           leftButton: 'Cancel',
           routerLink:'/exams'
         }
-      } if (this.currentUser.userType === "Student"&& !this.currentUser.level && this.currentUser.eltComplete){
+      } if (this.currentUser?.userType === "Student"&& !this.currentUser?.level && this.currentUser.eltComplete){
         dialogData={
           header: 'Your level test is being marked',
           body: "Your level test is being marked by one of our native English teachers. This usually takes 12-48 hours. Once your test is marked, you'll be recieve your results and be able to join the live classes.",

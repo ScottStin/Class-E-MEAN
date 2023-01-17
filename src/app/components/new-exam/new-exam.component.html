@@ -9,38 +9,53 @@
                 <div style="flex: 10%;" class = "mb-3">
 
                     <h2>Exam Details - </h2>
+
                     <mat-form-field  appearance="fill" style="width:15%" class="m-1">
                         <mat-label>Exam Name</mat-label>
                         <input matInput formControlName="examNameInput" type="text" placeholder="Exam Name" (keyup) = "changeExamName()">
                     </mat-form-field>
+
                     <mat-form-field  appearance="fill" style="width:15%" class="m-1">
                         <mat-label>Exam Description</mat-label>
                         <input matInput formControlName="examDescriptionInput" type="text" placeholder="Exam Description">
                     </mat-form-field>
+
                     <mat-form-field  appearance="fill" style="width:15%" class="m-1">
                         <mat-label>Exam Type</mat-label>
-                        <select matNativeControl required>
-                          <option value="ELTExam">ELT</option>
-                          <option value="PTEExam">PTE</option>             
-                          <option value="IELTSExam">IELTS</option>             
-                          <option value="cambridgeExam">Cambridge Exam</option>             
-                          <option value="generalEnglishExam">General English Exam</option>             
+                        <select formControlName = "examTypeInput" matNativeControl required>
+                          <option value="ELT Exam">ELT</option>
+                          <option value="PTE Exam">PTE</option>             
+                          <option value="IELTS Exam">IELTS</option>             
+                          <option value="Cambridge Exam">Cambridge Exam</option>             
+                          <option value="General English Exam">General English Exam</option>             
                         </select>
                     </mat-form-field>
+
                     <mat-form-field  appearance="fill" style="width:15%" class="m-1">
                         <mat-label>Time Limit</mat-label>
                         <input matInput formControlName="examTimeLimitInput" type="text" placeholder="Time Limit (leave blank for no time limit)">
                     </mat-form-field>
+
                     <mat-form-field  appearance="fill" style="width:15%" class="m-1">
                         <mat-label>Casual Price (AUD)</mat-label>
                         <input matInput formControlName="examCostInput" type="text" placeholder="Casual Price (leave blank for no cost)">
                     </mat-form-field>
+
                     <mat-form-field appearance="fill"  style="width:15%" class="m-1">
                         <mat-label>Assigned Teacher</mat-label>
-                        <select matNativeControl required>
+                        <select formControlName = "assignedTeacherInput" matNativeControl required>
                           <option value="">Select...</option>
+                          <option *ngFor="let teacher of teachers" [value]=teacher.email >{{teacher.name}}</option>
                         </select>
                       </mat-form-field>
+
+                      <!-- <mat-form-field appearance="fill" class="m-2">
+                        <mat-label>Enrol Students</mat-label>
+                        <mat-select formControlName="studentEnrolled" multiple>              
+                          <mat-option *ngFor="let user of users" [value]="user.email">{{user}}</mat-option>
+                        </mat-select>
+                      </mat-form-field> -->
+
                       <mat-slide-toggle class="m-2" (change) = "defaultWelcomeExam =!defaultWelcomeExam"><span [class] = "defaultWelcomeExam ? 'font-weight-bold' : 'text-muted'">Default Welcome Exam<span *ngIf="!defaultWelcomeExam">?</span></span></mat-slide-toggle>
                     <hr>
 

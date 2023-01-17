@@ -31,15 +31,19 @@ export class NavbarComponent implements OnInit {
     {name:"My Packages",icon:faBoxOpen,use:["Student"],routerLink:'/packages'},
     {name:"Packages",icon:faBoxOpen,use:["Teacher"],routerLink:'/packages'},
     {name:"My School",icon:faSchool,use:["Student","Teacher"],routerLink:''},
-  ]
-  constructor(private _snackBar: MatSnackBar) { }
+  ];
+  constructor(private _snackBar: MatSnackBar) { };
 
   ngOnInit(): void {
     console.log(this.currentUser)
-  }
+  };
 
   openSnackBarLogin(item: any){
     this._snackBar.open(`You must be signed in to access ${item}`,'close');
-  }
+  };
+
+  logout(){
+    localStorage.removeItem('currentUser')
+  };
 
 }

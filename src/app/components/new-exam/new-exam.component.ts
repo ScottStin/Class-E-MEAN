@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ExamService } from 'backend/services/exam-services/exam.service';
+import { UsersService } from 'backend/services/user-services/users.service';
 
 @Component({
   selector: 'app-new-exam',
@@ -23,7 +24,9 @@ export class NewExamComponent implements OnInit {
     questionTimeLimitInput:"",
     questionPoints:"",
     responseTypeInput:"",
-    questionLengthInput:""
+    questionLengthInput:"",
+    examTypeInput:"",
+    assignedTeacherInput:""
   });
 
   columnsToDisplayLessonTable = ['Name','Desc','Prompt', 'Resp','Time','Points','File', 'Actions'];
@@ -34,15 +37,25 @@ export class NewExamComponent implements OnInit {
   questionName = "";
   examName = "";
   responseType = "";
+  teachers:Array<any> = [];
 
   constructor(    
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private examServices: ExamService,
+    private userService: UsersService,
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data)
+    console.log(this.data);
+    this.getUsers();
+  }
+
+  getUsers = async()=>{
+    await this.userService.readUsers().subscribe((res: any)=>{     
+      console.log(res)
+      this.teachers = res.filter((obj: { userType: string; })=>{return obj.userType === 'Teacher'})
+    })
   }
 
   addNewQuestionRow(){
@@ -91,7 +104,7 @@ export class NewExamComponent implements OnInit {
     const exam = {
       examName: this.examForm.get('examNameInput')?.value,
       examDescription: this.examForm.get('examDescriptionInput')?.value,
-      examType: this.examForm.get('examDescriptionInput')?.value,
+      examType: this.examForm.get('examTypeInput')?.value,
       examTime: this.examForm.get('examTimeLimitInput')?.value,
       defaultWelcomeExam: this.defaultWelcomeExam,
       examCasualPrice: this.examForm.get('examCostInput')?.value,
@@ -99,7 +112,7 @@ export class NewExamComponent implements OnInit {
       Questions:this.tableData,
       // studentEnrolled: [],
       // studentCompleted: [],
-      // assignedTeacher:"",
+      assignedTeacher: this.examForm.get('assignedTeacherInput')?.value,
     }
     console.log(exam)
     await this.examServices.createExam(exam).subscribe((res: any)=>{     

@@ -5,21 +5,26 @@
     <mat-dialog-content class="mat-typography">
         <h3>{{data.exam.examDescription}}</h3><hr>        
         <mat-vertical-stepper [linear]="false" #stepper [animationDuration]="'200'">
-            <mat-step *ngFor="let question of data.exam.Questions">
+            <mat-step *ngFor="let question of data.exam.Questions; let i=index;">
                 <h2>{{question.questionName}}</h2> 
                 <h4>{{question.questionDescription}}</h4>
                 <p class="m-3 p-3 border border-dark">{{question.questionPrompt}}</p>
-                <form  *ngIf ="!findStudentResponse(question)" class="example-form">                
+                <form  *ngIf ="!findStudentResponse(question)" class="example-form">    
+
                     <mat-form-field  *ngIf = "question.questionType === 'Written Response'" class="example-full-width">
-                    <textarea matInput placeholder="Write your response here..."></textarea>
+                        <textarea (change)  = "updateAnswer(question,$event)" matInput placeholder="Write your response here..."></textarea>
                     </mat-form-field>
+
                     <div style = "display: flex; align-items: center;" *ngIf = "question.questionType === 'Audio Response'">
                         <!-- <input type="file" accept="audio/*" capture id="recorder" (change)="recordAudio($event)"/> -->
-                        <button mat-fab  [color]="recordAudioButtonSpin ? 'accent' : 'primary'" [matTooltip]="recordAudioButtonSpin ? 'recording' : 'record'" (click)="recordAudio(question.questionLength)"><mat-icon *ngIf="!this.recordAudioButtonSpin">record_voice_over</mat-icon><fa-icon [icon]="faSpinner" [spin]="true" *ngIf="this.recordAudioButtonSpin"></fa-icon></button>
-                        <button mat-fab class="ms-3" *ngIf = "recordAudioButtonSpin" matTooltip="Stop recording" color="basic"(click)="pauseAudio()"><mat-icon>stop</mat-icon></button>
+                        <button mat-fab  [color]="recordAudioButtonSpin ? 'accent' : 'primary'" [matTooltip]="recordAudioButtonSpin ? 'recording' : 'record'" (click)="recordAudio(question)"><mat-icon *ngIf="!this.recordAudioButtonSpin">record_voice_over</mat-icon><fa-icon [icon]="faSpinner" [spin]="true" *ngIf="this.recordAudioButtonSpin"></fa-icon></button>
+                        <button mat-fab class="ms-3" *ngIf = "recordAudioButtonSpin" matTooltip="Stop recording" color="basic"(click)="pauseAudio(question)"><mat-icon>stop</mat-icon></button>
                         <!-- <button (click)="playAudio()">play</button> -->
-                        <audio class = "m-3" id="player" [src]="audioURL" controls></audio>
+                        <audio class = "m-3" id="player" [src]="studentResponses[question._id]?.studentResponse" controls></audio>
+                        <!-- <audio class = "m-3" id="player" [src]="getAudioSrc(question)" controls></audio> -->
+                        <!-- <audio class = "m-3" id="player" [src]="audioURL" controls></audio> -->
                     </div>
+
                 </form>
                 <div *ngIf ="findStudentResponse(question)" > <br> <b>Student Response:</b> {{findStudentResponse(question)}}</div>
                 <div *ngIf ="findTeacherFeedback(question)" > <br> <b>Teacher Feedback:</b> {{findTeacherFeedback(question)}}</div>
@@ -38,6 +43,7 @@
     </mat-dialog-content>
     <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>  
-    <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Submit Exam</button>
+    <button mat-raised-button color="primary" (click)="submitStudentResponses()" *ngIf = "data.user?.userType==='Student'" [mat-dialog-close]="true" cdkFocusInitial>Submit Exam</button>
+    <!-- <button mat-raised-button color="primary" *ngIf = "currentUser?.userType==='Teacher'" [mat-dialog-close]="true" cdkFocusInitial>Submit Feedback</button> -->
     </mat-dialog-actions>
 </div>

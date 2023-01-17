@@ -3,7 +3,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl, SafeStyle, SafeUrl } from '@angular/platform-browser';
 import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import {FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule, FormArray} from '@angular/forms';
+import { ExamService } from 'backend/services/exam-services/exam.service';
 
 @Component({
   selector: 'app-exam-display-individual',
@@ -12,10 +13,16 @@ import {FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFo
 })
 export class ExamDisplayIndividualComponent implements OnInit {
 
+  studentResponseForm: FormGroup = this.formBuilder.group({
+    // questionWrittenResponseInput: "",
+    // responses: this.formBuilder.array([])
+  });
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private sanitizer: DomSanitizer,
     private formBuilder: FormBuilder,
+    private examServices: ExamService
   ) { }
 
   playerSrc?: MediaStream;
@@ -26,9 +33,14 @@ export class ExamDisplayIndividualComponent implements OnInit {
   faMicrophone = faMicrophone;
   recordAudioButtonSpin = false;
   faSpinner = faSpinner;
+  studentResponses: any={}
 
   ngOnInit(): void {
-    console.log(this.data)
+    console.log(this.data);
+    // for(let question of this.data.exam.Questions){
+      // (this.studentResponseForm.get('responses') as FormArray).push(this.formBuilder.control(''));
+    // }
+    
   }
 
   findStudentResponse(question:any){
@@ -55,8 +67,8 @@ export class ExamDisplayIndividualComponent implements OnInit {
     }  
   }
   
-  recordAudio(length:number){ //https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b
-    console.log(length)
+  recordAudio(question:any){ //https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b
+    console.log(question)
     this.recordAudioButtonSpin = true
     console.log(this.audioSrc)
     navigator.mediaDevices
@@ -76,19 +88,28 @@ export class ExamDisplayIndividualComponent implements OnInit {
           const audioBlob = new Blob(audioChunks);
           const audioUrl = URL.createObjectURL(audioBlob);
           this.audioSrc = new Audio(audioUrl);
-          this.audioURL = this.sanitizer.bypassSecurityTrustUrl(`${audioUrl}`);
+          // const audioSrc = new Audio(audioUrl);
+          this.audioURL = this.sanitizer.bypassSecurityTrustUrl(`${audioUrl}`);   
+          this.studentResponses[question._id]={studentName:this.data.user.name,studentEmail:this.data.user.email,studentResponse:this.audioURL}       
           // this.audioSrc.play();
         });
         setTimeout(() => {
           this.mediaRecorder?.stop();
+          // this.studentResponses[question._id]={studentName:this.data.user.name,studentEmail:this.data.user.email,studentResponse:this.audioURL}
           this.recordAudioButtonSpin = false
-        }, 1000*length);
+        }, 1000*question.questionLength);
       }
     );
+    console.log(this.studentResponses[question._id]?.studentResponse)
   }
 
-  pauseAudio(){
+  // getAudioSrc(question:any){
+  //   return this.studentResponses[question._id].studentResponse
+  // }
+
+  pauseAudio(question:any){
     this.mediaRecorder?.stop();
+    // this.studentResponses[question._id]={studentName:this.data.user.name,studentEmail:this.data.user.email,studentResponse:this.audioURL}
     this.recordAudioButtonSpin = false
   }
 
@@ -97,6 +118,17 @@ export class ExamDisplayIndividualComponent implements OnInit {
     this.audioSrc.play();
   }
 
+  updateAnswer(question: any, event:any){
+    // console.log(question)
+    // console.log(event.target.value)
+    this.studentResponses[question._id]={studentName:this.data.user.name,studentEmail:this.data.user.email,studentResponse:event.target.value}
+    console.log(this.studentResponses)    
+  }
 
+  async submitStudentResponses(){
+    await this.examServices.submitStudentResponses({parentExamRef:this.data.exam._id,studentResponses:this.studentResponses}).subscribe((res: any)=>{     
+      console.log(res)      
+    })
+  }
 
 }

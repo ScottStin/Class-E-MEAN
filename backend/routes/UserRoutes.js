@@ -14,6 +14,34 @@ router.get('/', async function (req, res) {
       .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// router.get('/login', async function (req, res) {
+//     await userModel.find()
+//       .then(lessons => {res.json(lessons)})
+//       .catch(err => res.status(400).json('Error: ' + err));
+// });
+
+router.post('/login',async (req,res) =>{
+  console.log('req.body')
+  console.log(req.body)
+  try{
+    const user = await userModel.findOne({email:req.body.email})
+    console.log("FOUND: "+user)
+    const validPassword = await bcrypt.compare(req.body.password,user.hashedPassword)
+    console.log(validPassword)
+    // if(validPassword){
+      console.log("success")
+      res.status(200).send(user)
+    // }else{
+    //   console.log("username or password incorrect")
+    //   res.status(200).send(err)
+    // }
+  } catch{
+    console.log("username or password incorrect")
+    res.status(200).send(null)
+  }
+
+})
+
 router.post('/new', upload.single('profilePic'), async function (req, res) {
   // console.log(req.body.email)
   //   const existingUser = await userModel.findOne({email:req.body.email})

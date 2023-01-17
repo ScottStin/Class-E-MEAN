@@ -25,7 +25,8 @@ const lessonSchema = mongoose.Schema({
         // required: true
     },
     teacher: {
-        type: String,
+        name: String,
+        email: String,
         // required: true,
     },
     maxSize: {

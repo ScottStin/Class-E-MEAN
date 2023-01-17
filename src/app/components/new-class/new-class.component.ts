@@ -28,7 +28,8 @@ export class NewClassComponent implements OnInit {
   levels = ['A2 Lower-Intermediate','B1 Intermediate','B2 Upper-Intermediate','C1 Advanced']
   lessonTypes:Array<string> = ["General English","IELTS Exam Prep","PTE Exam Prep","Cambridge Exam Prep"]
   faPlus = faPlus
-  currentUser:any = {name:"Tamara Loyacono",userType:"Teacher",school:"YouSTUDY",nationality:"Argentina",email:"tamaraloyacono@gmail.com",hashedPassword:"Test1234",package:[],level:"",statement:"My area of expertise is improving grammar and pronuciation. When I'm not teaching, I love reading, hiking, camping and studying languages."};
+  // currentUser:any = {name:"Tamara Loyacono",userType:"Teacher",school:"YouSTUDY",nationality:"Argentina",email:"tamaraloyacono@gmail.com",hashedPassword:"Test1234",package:[],level:"",statement:"My area of expertise is improving grammar and pronuciation. When I'm not teaching, I love reading, hiking, camping and studying languages."};
+  currentUser:any =JSON.parse(localStorage.getItem('currentUser')!)
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -61,7 +62,7 @@ export class NewClassComponent implements OnInit {
     const date = JSON.stringify(this.lessonForm.get('dateInput')?.value).slice(1,11)
     this.tableData.push(
       {
-        teacher:this.currentUser.name,
+        teacher:{email:this.currentUser.email,name:this.currentUser.name},
         // startDate: JSON.stringify(this.lessonForm.get('dateInput')?.value.slice(1,11)),
         startDate: `${days[new Date (date).getDay()]} ${months[new Date (date).getMonth()].slice(0,3)} ${new Date (date).getDate()} ${new Date (date).getFullYear()}`,
         classType: this.lessonForm.get('typeInput')?.value,
