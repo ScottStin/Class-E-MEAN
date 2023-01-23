@@ -34,6 +34,9 @@
 
 <div>
   <div class="card mb-4 container bg-white shadow mt-3 p-5" style="border-radius: 15px;">
+    <!-- <mat-tab-group> -->
+      <!-- <mat-tab *ngFor = "let tab of ['My Exams','All Exams']" label="{{tab}}"> -->
+  
     <div class="row p-3">                            
       <input class="form-control mr-sm-2" #searchExams type="search" placeholder="Search" aria-label="Search" (keyup) = "filterExams(searchExams.value)"/>                                                            
     </div>
@@ -57,14 +60,15 @@
           <td> <span *ngIf="exam.examTime">{{exam.examTime}}</span><span *ngIf="!exam.examTime">-</span></td>
           <td *ngIf="currentUser.userType === 'Teacher'"> <span *ngIf="exam['defaultWelcomeExam']">Yes</span><span *ngIf="!exam['defaultWelcomeExam']">No</span> </td> 
           <td *ngIf="currentUser.userType === 'Teacher'">{{exam['assignedTeacher']}}</td>
-          <td *ngIf="currentUser.userType === 'Teacher'"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'">{{exam['studentEnrolled']?.length}}</button></td> 
-          <td *ngIf="currentUser.userType === 'Teacher'"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'">{{exam['studentCompleted']?.length}}</button></td>         
-          <td *ngIf="currentUser.userType === 'Student'">{{getExamResult(exam)}}</td>         
+          <td *ngIf="currentUser.userType === 'Teacher'"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'" (click) = "openStudentsEnrolledDialog(exam)">{{exam['studentEnrolled']?.length}}</button></td> 
+          <td *ngIf="currentUser.userType === 'Teacher'"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'" (click) = "openStudentsCompletedDialog(exam)">{{exam['studentCompleted']?.length}}</button></td>         
+          <td *ngIf="currentUser.userType === 'Student'"><span *ngIf = "getExamResult(exam)==='examMarked'">{{getExamResult(exam)}}</span></td>         
           <td>        
             <div class="example-flex-container" style="  display: flex;">
-              <button *ngIf="currentUser.userType === 'Student' && getExamResult(exam)==='-'" #tooltip="matTooltip" matTooltip="Begin exam" mat-mini-fab style="background-color:blue " aria-label="Example icon button with a delete icon" (click)="openExamDialog(exam)"><mat-icon>play_circle_outline</mat-icon></button>
-              <button *ngIf="currentUser.userType === 'Student' && getExamResult(exam)==='Your exam is still being marked'" #tooltip="matTooltip" matTooltip="Your exam is still being marked. Click here to view or edit your answers" mat-mini-fab style="background-color:orange " aria-label="Example icon button with a delete icon" (click)="openExamDialog(exam)"><mat-icon>hourglass_full</mat-icon></button>
-              <button *ngIf="currentUser.userType === 'Student' && (getExamResult(exam)!=='Your exam is still being marked'&& getExamResult(exam)!=='-')" #tooltip="matTooltip" matTooltip="Click here to view your feedback" mat-mini-fab style="background-color:purple " aria-label="Example icon button with a delete icon" (click)="openExamDialog(exam)"><mat-icon>remove_red_eye</mat-icon></button>
+              <button *ngIf="currentUser.userType === 'Student' && getExamResult(exam)==='-'" #tooltip="matTooltip" matTooltip="Click here to enroll in this exam" mat-mini-fab style="background-color:green " aria-label="Example icon button with a delete icon" (click)="enrollStudent(exam)"><mat-icon>how_to_reg</mat-icon></button>
+              <button *ngIf="currentUser.userType === 'Student' && getExamResult(exam)==='studentEnrolled'" #tooltip="matTooltip" matTooltip="Begin exam" mat-mini-fab style="background-color:blue " aria-label="Example icon button with a delete icon" (click)="openExamDialog(exam)"><mat-icon>play_circle_outline</mat-icon></button>
+              <button *ngIf="currentUser.userType === 'Student' && getExamResult(exam)==='studentCompleted'" #tooltip="matTooltip" matTooltip="Your exam is still being marked. Click here to view or edit your answers" mat-mini-fab style="background-color:orange " aria-label="Example icon button with a delete icon" (click)="openExamDialog(exam)"><mat-icon>hourglass_full</mat-icon></button>
+              <button *ngIf="currentUser.userType === 'Student' && getExamResult(exam)==='examMarked'" #tooltip="matTooltip" matTooltip="Click here to view your feedback" mat-mini-fab style="background-color:purple " aria-label="Example icon button with a delete icon" (click)="openExamDialog(exam)"><mat-icon>remove_red_eye</mat-icon></button>
               <button *ngIf="currentUser.userType === 'Teacher'" #tooltip="matTooltip" matTooltip="View exam" mat-mini-fab style="background-color:purple " aria-label="Example icon button with a delete icon" (click)="openExamDialog(exam)"><mat-icon>remove_red_eye</mat-icon></button>
               <button *ngIf="currentUser.userType === 'Teacher'" #tooltip="matTooltip" matTooltip="Edit exam" mat-mini-fab style="background-color:orange " aria-label="Example icon button with a delete icon"><mat-icon>edit</mat-icon></button>
               <button *ngIf="currentUser.userType === 'Teacher'" #tooltip="matTooltip" matTooltip="Delete exam"  mat-mini-fab style="background-color:red" aria-label="Example icon button with a delete icon"><mat-icon>delete</mat-icon></button>
@@ -78,5 +82,7 @@
         <button *ngIf="currentUser.userType === 'Teacher'" mat-raised-button color="basic" #tooltip="matTooltip" matTooltip="Create a new exam" (click)="openNewExamDialog()"><mat-icon>note_add</mat-icon> Create new</button>  
       </div>
     </div>   
+      <!-- </mat-tab> -->
+    <!-- </mat-tab-group> -->
   </div>  
 </div>

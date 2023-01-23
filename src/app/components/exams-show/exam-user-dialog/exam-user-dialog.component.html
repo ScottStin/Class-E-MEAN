@@ -1,0 +1,32 @@
+
+<div class="dialog-modal">
+    <div style = "background-color: #6200EE"  class="dialog-header flex align-item-center flex-wrap">
+        <h2 mat-dialog-title style="padding:15px; color:white">{{data.header}}</h2>
+        <!-- <span mat-dialog-close class="ml-auto close-btn" style="position: absolute; left: 0px; right: 0px;">
+            <fa-icon style="color:black; font-size: 20px;" [icon]="faXmark"></fa-icon>
+        </span> -->
+    </div>
+    <mat-dialog-content class="mat-typography">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col" *ngFor ="let column of ['Student Name','Student Email','Result']">{{column}}</th>  
+              </tr>
+            </thead>
+      
+            <tbody>     
+              <tr *ngFor = "let student of data.body.studentCompleted">
+                <!-- <th scope="row">{this.state.exams.indexOf(item) +1}</th> -->
+                <td> {{student.studentName}}</td>
+                <td> {{student.studentEmail}}</td>                   
+                <td (click)="showUserExam(student)"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'" >{{student.score || 'Click to Mark'}}</button></td>                   
+              </tr>
+            </tbody>
+        </table>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>{{data.leftButton}}</button>
+    <!-- <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial><mat-icon *ngIf="data.icon">{{data.icon}}</mat-icon> {{data.rightButton}}</button> -->
+    <button mat-raised-button color="primary" [mat-dialog-close]="data.result || true" cdkFocusInitial [routerLink]="data.routerLink">{{data.rightButton}}</button>
+    </mat-dialog-actions>
+</div>

@@ -8,6 +8,8 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogConfig } from '@angu
 import { ExamDisplayIndividualComponent } from '../exam-display-individual/exam-display-individual.component';
 import { NewExamComponent } from '../new-exam/new-exam.component';
 import { ExamService } from 'backend/services/exam-services/exam.service';
+import { ExamUserDialogComponent } from './exam-user-dialog/exam-user-dialog.component';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-exams-show',
@@ -28,94 +30,7 @@ export class ExamsShowComponent {
   // const ELEMENT_DATA: PeriodicElement[] = [
   columnsToDisplayTeacher = ['Exam Name', 'Type', 'Time (min)', 'Default Welcome Exam?', 'Assigned Teacher','Students Enrolled','Students Completed','Actions'];
   columnsToDisplayStudent = ['Exam Name', 'Type', 'Time (min)', 'My Result','Actions'];
-  tableData: Array<any> = [
-    {
-    //   position: 1,
-    //   examName: 'English Level Test',
-    //   examType: 'ELT',
-    //   examTime: NaN,
-    //   studentEnrolled: ['Naufal Omarieza','Daniel Angel','Dom Argentino'],
-    //   studentCompleted: [{student:'Daniel Angel',score:7.5},{student:'Dom Argentino',score:''}],
-    //   defaultWelcomeExam:true,
-    //   assignedTeacher: 'Scot Stinson',
-    //   examDescription: `Welcome to YouSTUDY! This general English level test will help us to assess your English level and assign you to the correct class. It takes about 10 minutes to complete and is completely free.`,
-    //   examTotalScore: 10,
-    //   Questions:[
-    //     {questionNumber:1,questionName:'Question 1',questionType:'Written-Response',questionLength:NaN, questionPoints:10,questionDescription:'Read the question below and record your answer.',questionPrompt:'What do you do you a living? Do you enjoy it? Why/why not?',questionMedia:'',
-    //       questionAnswer:[
-    //         {
-    //           studentName: 'Daniel Angel',
-    //           studentResponse:"I'm a student. I love it.",
-    //           teacherResponse:"Great answer, Daniel!",
-    //           questionScore:9
-    //           // 'Daniel Angel':[
-    //           //   {studentResponse:"I'm a student. I love it."},
-    //           //   {teacherResponse:"Great answer, Daniel!"},
-    //           //   {questionScore:9},
-    //           // ]
-    //         },
-    //         {
-    //           studentName: 'Dom Argentino',
-    //           studentResponse:"I work in a cafe. I hate it.",
-    //           teacherResponse:"",
-    //           questionScore:''
-    //           // 'Dom Argentino':[
-    //           //   {studentResponse:"I work in a cafe. I hate it."},
-    //           //   {teacherResponse:""},
-    //           //   {questionScore:''},
-    //           // ]
-    //         },
-    //       ]
-    //     },
-    //     {questionNumber:2,questionName:'Question 2',questionType:'Written-Response',questionLength:NaN, points:10, questionDescription:'Read the question below and record your answer.',questionPrompt:'If you could quit your job and have any job in the world, what would you be? Why?',questionMedia:'',
-    //       questionAnswer:[
-    //         {
-    //           studentName: 'Daniel Angel',
-    //           studentResponse:"I would be doctor.",
-    //           teacherResponse:"Good answer daniel, but here we need an article, 'a', with the noun 'doctor'",
-    //           questionScore:6
-    //           // 'Daniel Angel':[
-    //           //   {studentResponse:"I would be doctor"},
-    //           //   {teacherResponse:"Good answer daniel, but here we need an article, 'a', with the noun 'docotr'"},
-    //           //   {questionScore:6},
-    //           // ]
-    //         },
-    //         {
-    //           studentName: 'Dom Argentino',
-    //           studentResponse:"I want to win the lottery and not work anymore.",
-    //           teacherResponse:"",
-    //           questionScore:''
-    //           // 'Dom Argentino':[
-    //           //   {studentResponse:"I want to win the lottery and not work anymore"},
-    //           //   {teacherResponse:""},
-    //           //   {questionScore:""},
-    //           // ]
-    //         },
-    //       ]
-    //     },
-    //   ]
-    // },
-    // {
-    //   position: 2,
-    //   examName: 'IELTS Reading Exam 1',
-    //   examType: 'IELTS',
-    //   examTime: 60,
-    //   studentEnrolled: [],
-    //   studentCompleted: [],
-    //   defaultWelcomeExam:false,
-    //   assignedTeacher: 'Scott Stinson',
-    //   examDescription: `This exam will test you on the IELTS Reading Section. You have 60 minutes to complete 3 exercises.`,
-    //   examTotalScore: 10,
-    //   Questions:[
-    //     {questionNumber:1,questionName:'Question 1',questionType:'Written-Response',length:'100',questionLength:NaN, points:10,questionDescription:'Read the question below and record your answer.',questionPrompt:'What do you do you a living? Do you enjoy it? Why/why not?',questionImage:'',
-    //       questionAnswer:[]
-    //     },
-    //     {questionNumber:2,questionName:'Question 2',questionType:'Audio-Response', length:'30',questionLength:NaN, points:10, questionDescription:'Read the question below and record your answer.',questionPrompt:'If you could quit your job and have any job in the world, what would you be? Why?',questionImage:'',
-    //       questionAnswer:[]
-    //     },
-    //   ]
-    },
-  ];
+  tableData: Array<any> = [{},];
 
   tableDataFiltered: Array<any> = [{}]
 
@@ -132,6 +47,7 @@ export class ExamsShowComponent {
   constructor(
     public dialog: MatDialog,
     private examService: ExamService,
+    private _snackBar: MatSnackBar,
     ) {}
 
   ngOnInit(): void{
@@ -146,6 +62,29 @@ export class ExamsShowComponent {
     })
   }
 
+  // getTableDataFiltered(tab:string){
+  //   console.log(this.tableData[0].studentEnrolled)
+  //   console.log({studentEmail:this.currentUser.email,studentName:this.currentUser.name,_id:this.currentUser._id})
+  //   if (tab==='All Exams'){
+  //     this.tableDataFiltered = this.tableData.filter(obj=>{
+  //       return !obj.studentEnrolled.includes({studentEmail:this.currentUser.email,studentName:this.currentUser.name,_id:this.currentUser._id})
+  //     })
+  //   } else if (tab==='My Exams'){
+  //     this.tableDataFiltered = this.tableData.filter(obj=>{
+  //       return obj.studentEnrolled.includes({studentEmail:this.currentUser.email,studentName:this.currentUser.name,_id:this.currentUser._id})
+  //     })
+  //   }
+  //   return this.tableDataFiltered
+  // }
+
+  async enrollStudent(exam:any){
+    await this.examService.enrolStudent({exam:exam,student:this.currentUser}).subscribe((res: any)=>{   
+      console.log(res)      
+    })
+    this.getExams()  
+    this._snackBar.open(`You have successfully enrolled in this exam. You can take it any time you'd like!`,'close'); 
+  }
+
   sortExams(){
    // return 'keyboard_arrow_down' 
    // return <mat-icon>arrow_upward</mat-icon>
@@ -153,16 +92,47 @@ export class ExamsShowComponent {
 
   getExamResult(exam:any){
     let result=""
-    if(exam['studentEnrolled']?.filter((obj: { student: any; })=>{return obj.student === this.currentUser.name}).length>0){
-      if (exam['studentCompleted']?.filter((obj: { student: any; })=>{return obj.student === this.currentUser.name})[0].score!==''){
-        result = `${exam['studentCompleted']?.filter((obj: { student: any; })=>{return obj.student === this.currentUser.name})[0].score} / ${exam.examTotalScore}`
-      } else {
-        result = "Your exam is still being marked"
+    if(exam['studentEnrolled']?.filter((obj: { studentEmail: string; })=>{return obj.studentEmail === this.currentUser.email}).length>0){
+      result='studentEnrolled'
+      if(exam['studentCompleted']?.filter((obj: { studentEmail: string; })=>{return obj.studentEmail === this.currentUser.email}).length>0){
+        result = 'studentCompleted'//"Your exam is still being marked"
       }
+        // try{        
+        //   if (exam['studentCompleted']?.filter((obj: { studentEmail: string; })=>{return obj.studentEmail === this.currentUser.email})[0].score!==''){
+        //     result = `${exam['studentCompleted']?.filter((obj: { studentEmail: string; })=>{return obj.studentEmail === this.currentUser.email})[0].score} / ${exam.examTotalScore}`//'examMarked'
+        //   } 
+        //   else if (exam['studentCompleted']?.filter((obj: { studentEmail: string; })=>{return obj.studentEmail === this.currentUser.email})[0].score==='') {
+        //     result = 'studentCompleted'//"Your exam is still being marked"
+        //   }
+        // }
+        // catch{}
+        
     } else{
       result = '-'
     }
     return result
+  }
+
+  openStudentsCompletedDialog(exam:any){    
+    console.log(exam.studentCompleted)
+    const dialogRef = this.dialog.open(ExamUserDialogComponent,{
+      width: '530px',
+      data: {
+        header: `Students Who Have Completed ${exam.examName}`,
+        body: exam,
+        rightButton:'Enroll a New Student',
+        leftButton: 'Close',
+        // routerLink:'/exams'
+      },
+    });
+    
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openStudentsEnrolledDialog(exam:any){
+    console.log(exam.studentEnrolled)
   }
 
   openExamDialog(exam: any){ 

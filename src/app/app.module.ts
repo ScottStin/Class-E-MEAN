@@ -49,6 +49,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { NewExamComponent } from './components/new-exam/new-exam.component';
 import {CloudinaryModule} from '@cloudinary/ng';
+import { ExamUserDialogComponent } from './components/exams-show/exam-user-dialog/exam-user-dialog.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
 
@@ -70,7 +71,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
     VideoCallV2Component,
     PackagesComponent,
     NewPackageComponent,
-    NewExamComponent,  
+    NewExamComponent,
+    ExamUserDialogComponent,  
   ],
   imports: [
     BrowserModule,

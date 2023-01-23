@@ -11,12 +11,18 @@ const examSchema = mongoose.Schema({
         type: Number,
     },
     studentEnrolled:[
-        {type: String,}
+        {
+            studentEmail:{type: String},
+            studentName:{type: String},
+        }
     ],
     studentCompleted:[
         {
             studentEmail:{type: String},
+            studentName:{type: String},
             dateCompleted:{type: Date},
+            score:{type: String},
+            finalComments:{type: String},
         }
     ],
     defaultWelcomeExam:{
@@ -72,7 +78,7 @@ const examSchema = mongoose.Schema({
                         type: String,
                     },
                     studentResponse:{
-                        type: String,
+                        type: String || Audio,
                     },
                     teacherResponse:{
                         type: String,

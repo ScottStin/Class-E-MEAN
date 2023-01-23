@@ -34,18 +34,20 @@ export class ExamDisplayIndividualComponent implements OnInit {
   recordAudioButtonSpin = false;
   faSpinner = faSpinner;
   studentResponses: any={}
+  teacherFeedback: any={}
+  finalComments:String = ""
+  score:String = ""
 
   ngOnInit(): void {
     console.log(this.data);
     // for(let question of this.data.exam.Questions){
       // (this.studentResponseForm.get('responses') as FormArray).push(this.formBuilder.control(''));
     // }
-    
   }
 
   findStudentResponse(question:any){
-    if(question.questionAnswer.filter((obj:any)=>{return obj.studentName === this.data.user.name})[0]?.studentResponse){
-      return question.questionAnswer.filter((obj:any)=>{return obj.studentName === this.data.user.name})[0]?.studentResponse
+    if(question.questionAnswer.filter((obj:any)=>{return obj.studentEmail === this.data.user.email})[0]?.studentResponse){
+      return question.questionAnswer.filter((obj:any)=>{return obj.studentEmail === this.data.user.email})[0]?.studentResponse
     } else{
       return false
     }    
@@ -65,6 +67,18 @@ export class ExamDisplayIndividualComponent implements OnInit {
     } else{
       return false
     }  
+  }
+
+  findFinalScore(){
+    if (this.data.exam.studentCompleted.filter((obj: { studentEmail: any; })=>{return obj.studentEmail===this.data.user.email})){
+      // console.log(this.data.exam.studentCompleted.filter((obj: { studentEmail: any; })=>{return obj.studentEmail===this.data.user.email}))
+      // return this.data.exam.studentCompleted.filter((obj: { studentEmail: any; })=>{return obj.studentEmail===this.data.user.email})[0].finalComments
+     this.finalComments =  this.data.exam.studentCompleted.filter((obj: { studentEmail: any; })=>{return obj.studentEmail===this.data.user.email})[0].finalComments
+     this.score =  this.data.exam.studentCompleted.filter((obj: { studentEmail: any; })=>{return obj.studentEmail===this.data.user.email})[0].score
+      return true
+    } else{
+      return false
+    }
   }
   
   recordAudio(question:any){ //https://medium.com/@bryanjenningz/how-to-record-and-play-audio-in-javascript-faa1b2b3e49b
@@ -119,14 +133,24 @@ export class ExamDisplayIndividualComponent implements OnInit {
   }
 
   updateAnswer(question: any, event:any){
-    // console.log(question)
-    // console.log(event.target.value)
     this.studentResponses[question._id]={studentName:this.data.user.name,studentEmail:this.data.user.email,studentResponse:event.target.value}
     console.log(this.studentResponses)    
   }
 
+  updateTeacherFeedback(question: any, event:any){
+    this.teacherFeedback[question._id]={teacherResponse:event.target.value}
+    console.log(this.teacherFeedback)    
+  }
+
   async submitStudentResponses(){
     await this.examServices.submitStudentResponses({parentExamRef:this.data.exam._id,studentResponses:this.studentResponses}).subscribe((res: any)=>{     
+      console.log(res)      
+    })
+  }
+
+  async submitFeedback(){
+    console.log(this.data)
+    await this.examServices.submitTeacherFeedback({parentExamRef:this.data.exam._id,teacherFeedback:this.teacherFeedback,finalComments:(<HTMLInputElement>document.getElementById("finalComments")).value, score:(<HTMLInputElement>document.getElementById("finalScore")).value, userEmail:this.data.user.email}).subscribe((res: any)=>{     
       console.log(res)      
     })
   }

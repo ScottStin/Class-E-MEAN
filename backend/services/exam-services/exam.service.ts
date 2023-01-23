@@ -19,8 +19,15 @@ export class ExamService {
   }
 
   submitStudentResponses(exam:any){
-    // console.log(exam)
     return this.http.post('http://localhost:3000/exams/new/StudentResponse',exam)         
+  }
+
+  submitTeacherFeedback(exam:any){
+    return this.http.post('http://localhost:3000/exams/new/TeacherFeedback',exam)         
+  }
+
+  enrolStudent(exam:any){
+    return this.http.post('http://localhost:3000/exams/enrollStudent',exam)
   }
 
 }
