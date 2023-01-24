@@ -45,6 +45,14 @@ export class ExamDisplayIndividualComponent implements OnInit {
     // }
   }
 
+  studentCompleted(){
+    if(this.data.exam.studentCompleted.filter((obj:any)=>{return obj.studentEmail === this.data.user.email})[0]){
+      return true
+    } else{
+      return false
+    }    
+  }
+
   findStudentResponse(question:any){
     if(question.questionAnswer.filter((obj:any)=>{return obj.studentEmail === this.data.user.email})[0]?.studentResponse){
       return question.questionAnswer.filter((obj:any)=>{return obj.studentEmail === this.data.user.email})[0]?.studentResponse
@@ -70,12 +78,14 @@ export class ExamDisplayIndividualComponent implements OnInit {
   }
 
   findFinalScore(){
-    if (this.data.exam.studentCompleted.filter((obj: { studentEmail: any; })=>{return obj.studentEmail===this.data.user.email})){
+    if (this.data.exam.studentCompleted.filter((obj: { studentEmail: any; })=>{return obj.studentEmail===this.data.user.email})[0]?.score){
       // console.log(this.data.exam.studentCompleted.filter((obj: { studentEmail: any; })=>{return obj.studentEmail===this.data.user.email}))
       // return this.data.exam.studentCompleted.filter((obj: { studentEmail: any; })=>{return obj.studentEmail===this.data.user.email})[0].finalComments
-     this.finalComments =  this.data.exam.studentCompleted.filter((obj: { studentEmail: any; })=>{return obj.studentEmail===this.data.user.email})[0].finalComments
-     this.score =  this.data.exam.studentCompleted.filter((obj: { studentEmail: any; })=>{return obj.studentEmail===this.data.user.email})[0].score
-      return true
+     this.finalComments =  this.data.exam.studentCompleted.filter((obj: { studentEmail: any; })=>{return obj.studentEmail===this.data.user.email})[0]?.finalComments
+     this.score =  this.data.exam.studentCompleted.filter((obj: { studentEmail: any; })=>{return obj.studentEmail===this.data.user.email})[0]?.score
+    //  console.log(this.data.exam)
+     return true
+      
     } else{
       return false
     }
@@ -144,7 +154,12 @@ export class ExamDisplayIndividualComponent implements OnInit {
 
   async submitStudentResponses(){
     await this.examServices.submitStudentResponses({parentExamRef:this.data.exam._id,studentResponses:this.studentResponses}).subscribe((res: any)=>{     
-      console.log(res)      
+      console.log(res) 
+      if(res){
+        console.log('TEST')
+        console.log(res)
+        localStorage.setItem('currentUser',JSON.stringify(res)) 
+      }   
     })
   }
 

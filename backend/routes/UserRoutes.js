@@ -67,6 +67,14 @@ router.post('/new', upload.single('profilePic'), async function (req, res) {
     })
   });
 
+  router.post('/setlevel',async function(req,res){
+    console.log(req.body)
+    const user = await userModel.findById(req.body.user);
+    console.log(user)
+    user.level = req.body.level
+    user.save();
+  })
+
   router.delete ('/delete/:id', (async function(req,res){
     //res.send("IT WORKED")
     const { id } = req.params;

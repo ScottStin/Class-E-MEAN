@@ -17,8 +17,8 @@
             <tbody>     
               <tr *ngFor = "let student of data.body.studentCompleted">
                 <!-- <th scope="row">{this.state.exams.indexOf(item) +1}</th> -->
-                <td> {{student.studentName}}</td>
-                <td> {{student.studentEmail}}</td>                   
+                <td [routerLink]="'/studentlist'"> <button class="btn btn-link" style="color: 'black';text-Decoration:'none'" >{{student.studentName}}</button></td>
+                <td [routerLink]="'/studentlist'"> <button class="btn btn-link" style="color: 'black';text-Decoration:'none'" >{{student.studentEmail}}</button></td>                   
                 <td (click)="showUserExam(student)"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'" >{{student.score || 'Click to Mark'}}</button></td>                   
               </tr>
             </tbody>

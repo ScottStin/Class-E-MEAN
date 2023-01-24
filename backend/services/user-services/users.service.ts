@@ -26,4 +26,8 @@ export class UsersService {
     return this.http.post('http://localhost:3000/users/login',user) 
   }
 
+  setUserLevel(user:any,result:any){
+    return this.http.post('http://localhost:3000/users/setlevel',{user:user,level:result}) 
+  }
+
 }

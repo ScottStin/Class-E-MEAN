@@ -42,7 +42,7 @@ export class LessonCardComponent implements OnInit {
     this.urlAddress = this.router.url
     console.log(this.urlAddress)
     // this.startTimer()
-    // console.log(this.student)
+    console.log(this.currentUser)
   }
   
   ngOnDestroy() {

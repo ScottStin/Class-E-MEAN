@@ -80,9 +80,9 @@ export class ExamsShowComponent {
   async enrollStudent(exam:any){
     await this.examService.enrolStudent({exam:exam,student:this.currentUser}).subscribe((res: any)=>{   
       console.log(res)      
-    })
-    this.getExams()  
+    })    
     this._snackBar.open(`You have successfully enrolled in this exam. You can take it any time you'd like!`,'close'); 
+    this.getExams();
   }
 
   sortExams(){
@@ -96,6 +96,9 @@ export class ExamsShowComponent {
       result='studentEnrolled'
       if(exam['studentCompleted']?.filter((obj: { studentEmail: string; })=>{return obj.studentEmail === this.currentUser.email}).length>0){
         result = 'studentCompleted'//"Your exam is still being marked"
+        if(exam['studentCompleted']?.filter((obj: { studentEmail: string; })=>{return obj.studentEmail === this.currentUser.email})[0].finalComments){
+          result = exam['studentCompleted']?.filter((obj: { studentEmail: string; })=>{return obj.studentEmail === this.currentUser.email})[0].score//'examMarked'
+        }
       }
         // try{        
         //   if (exam['studentCompleted']?.filter((obj: { studentEmail: string; })=>{return obj.studentEmail === this.currentUser.email})[0].score!==''){
@@ -142,8 +145,9 @@ export class ExamsShowComponent {
     });  
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      console.log(`Dialog result: ${result}`);      
     });
+    this.getExams()
   }
 
   openNewExamDialog(){ 

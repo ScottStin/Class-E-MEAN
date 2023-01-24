@@ -39,19 +39,20 @@
                 <div *ngIf ="findTeacherFeedback(question)" > <br> <b>Teacher Feedback:</b> {{findTeacherFeedback(question)}}</div>
                 <div *ngIf ="findResponseScore(question)" > <br> <b>Question Score: </b> {{findResponseScore(question)}} / {{question.points}}</div>
             </mat-step>
-            <mat-step  *ngIf = "data.user?.userType==='Teacher'">
+            <mat-step  *ngIf = "data.user?.userType==='Teacher' && !findFinalScore()">
                 <ng-template matStepLabel>Done</ng-template>
-                <mat-form-field  class="example-full-width" *ngIf = !findFinalScore()>
+                <mat-form-field  class="example-full-width">
                     <input matInput placeholder="Final Score" id="finalScore">
                 </mat-form-field>  
-                <mat-form-field   class="example-full-width"  *ngIf = !findFinalScore()>
+                <mat-form-field   class="example-full-width">
                     <textarea matInput placeholder="Final comments" id="finalComments"></textarea>
                 </mat-form-field> 
-                <div *ngIf = findFinalScore()>
-                    <b>Final Comments: </b> <br>
-                    <p class="m-3 p-3 border border-dark">{{finalComments}}</p> <br>
-                    <b>Score: </b> {{score}}
-                </div> 
+            </mat-step>
+            <mat-step *ngIf = findFinalScore()>
+                <ng-template matStepLabel>Final Score</ng-template>
+                <b>Final Comments: </b> <br>
+                <p class="m-3 p-3 border border-dark">{{finalComments}}</p> <br>
+                <b>Score: </b> {{score}}            
             </mat-step>
             <!-- <mat-step>
                 <ng-template matStepLabel>Done</ng-template>
@@ -66,8 +67,8 @@
     </mat-dialog-content>
     <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>  
-    <button mat-raised-button color="primary" (click)="submitStudentResponses()" *ngIf = "data.user?.userType==='Student'" [mat-dialog-close]="true" cdkFocusInitial>Submit Exam</button>
-    <button mat-raised-button color="primary" (click)="submitFeedback()" *ngIf = "data.user?.userType==='Teacher'" [mat-dialog-close]="true" cdkFocusInitial>Submit Feedback</button>
+    <button mat-raised-button color="primary" (click)="submitStudentResponses()" *ngIf = "data.user?.userType==='Student' && !studentCompleted()" [mat-dialog-close]="true" cdkFocusInitial>Submit Exam</button>
+    <button mat-raised-button color="primary" (click)="submitFeedback()" *ngIf = "data.user?.userType==='Teacher' && studentCompleted() && !findFinalScore()" [mat-dialog-close]="true" cdkFocusInitial>Submit Feedback</button>
     <!-- <button mat-raised-button color="primary" *ngIf = "currentUser?.userType==='Teacher'" [mat-dialog-close]="true" cdkFocusInitial>Submit Feedback</button> -->
     </mat-dialog-actions>
 </div>

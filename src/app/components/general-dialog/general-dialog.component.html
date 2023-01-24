@@ -8,6 +8,20 @@
     </div>
     <mat-dialog-content class="mat-typography">
     <h3>{{data.body}}</h3>
+
+    <div *ngIf = "data.inputFormType ==='radio'">
+        <!-- <label id="example-radio-group-label">Set Level</label> -->
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
+            <mat-radio-button class="example-radio-button" *ngFor="let level of data.inputFormValues" [value]="level" (change)="setLevel(level)">
+                {{level}}
+            </mat-radio-button>
+        </mat-radio-group>
+        <!-- <mat-radio-group  aria-labelledby="example-radio-group-label" class="example-radio-group">
+            <mat-radio-button class="example-radio-button" *ngFor="let level of data.inputFormValues" [value]="level">
+                {{level}}
+            </mat-radio-button>
+        </mat-radio-group> -->
+    </div>
     
     </mat-dialog-content>
     <mat-dialog-actions align="end">

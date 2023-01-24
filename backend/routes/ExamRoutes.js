@@ -2,6 +2,7 @@ const express = require("express");
 // const { json } = require("stream/consumers");
 const router = express.Router();
 const examModel = require ('../models/exam-model.js');
+const userModel = require ('../models/user-models.js');
 
 // all routes prefixed by '/exams' in index.js file
 
@@ -42,9 +43,18 @@ router.post('/new/StudentResponse', async function (req, res) {
             dateCompleted:dateCompleted,
         }
         // console.log(Object.values(req.body.studentResponses)[0].studentEmail)
-        exam[0].studentCompleted = [...exam[0].studentCompleted,newComplete]  
-        await exam[0].save()
-        console.log(exam[0])
+        exam[0].studentCompleted = [...exam[0].studentCompleted,newComplete] ; 
+        await exam[0].save();
+        console.log(exam[0]);
+        const user = await userModel.find({email:Object.values(req.body.studentResponses)[0].studentEmail})
+        console.log(user[0]);
+        // if(exam[0].defaultELT){
+            // await user[0].update({eltComplete: true})
+            user[0].eltComplete= true;
+            user[0].save();
+            // console.log(user[0])
+            res.status(200).send(user[0]);
+        //}
     }catch(e){
         console.log(e)        
     }
@@ -54,6 +64,7 @@ router.post('/new/TeacherFeedback', async function (req, res) {
     try{
         const exam = await examModel.find({_id:req.body.parentExamRef})
         console.log(req.body)
+        console.log(exam)
         for(let i in req.body.teacherFeedback){         
             // exam[0].Questions.find(obj=>{return obj.id===i}).questionAnswer = [...exam[0].Questions.find(obj=>{return obj.id===i}).questionAnswer,{teacherResponse: req.body.teacherFeedback[i].teacherResponse}]
             exam[0].Questions.find(obj=>{return obj.id===i}).questionAnswer.find(obj=>{return obj.studentEmail===req.body.userEmail}).teacherResponse= req.body.teacherFeedback[i].teacherResponse

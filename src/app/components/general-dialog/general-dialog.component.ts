@@ -21,4 +21,9 @@ export class GeneralDialogComponent implements OnInit {
     console.log(this.data)
   }
 
+  setLevel(level:string){
+    console.log(level)
+    this.data.result=level
+  }
+
 }

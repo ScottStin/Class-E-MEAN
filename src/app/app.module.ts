@@ -39,11 +39,13 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { VideoCallComponent } from './components/video-call/video-call.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatBadgeModule} from '@angular/material/badge';
 import{SocketIoModule,SocketIoConfig } from 'ngx-socket-io';
 import { VideoCallV2Component } from './components/video-call-v2/video-call-v2.component';
 import { PackagesComponent } from './components/packages/packages.component'
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatRadioModule} from '@angular/material/radio';
 import { NewPackageComponent } from './components/new-package/new-package.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -93,6 +95,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
     MatTableModule,
     MatStepperModule,
     MatInputModule,
+    MatRadioModule,
     MatChipsModule,
     MatDatepickerModule,
     MatFormFieldModule,
@@ -103,6 +106,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
     MatSnackBarModule,
     MatGridListModule,
     MatExpansionModule,
+    MatBadgeModule,
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatToolbarModule,

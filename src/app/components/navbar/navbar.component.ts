@@ -1,7 +1,7 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { faBoxOpen, faMessage,faBullhorn,faFolder,faPenToSquare,faChalkboardUser,faUsers,faCertificate,faGraduationCap,faStar,faClipboardCheck,faHouseLaptop,faBook,faSchool,faPeopleGroup,faHouseChimney ,faPersonChalkboard,faFilm} from '@fortawesome/free-solid-svg-icons';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
-
+import { ExamService } from 'backend/services/exam-services/exam.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,6 +12,7 @@ export class NavbarComponent implements OnInit {
   @Input() currentUser: any | undefined;
   @Input() activePage: string | undefined;
   faStar = faStar;
+  examsToMark:any=""
 
   menuItems: any = [
     {name:"Home Page",icon:faHouseChimney,use:["Student","Teacher"],routerLink:'/home'},
@@ -32,10 +33,11 @@ export class NavbarComponent implements OnInit {
     {name:"Packages",icon:faBoxOpen,use:["Teacher"],routerLink:'/packages'},
     {name:"My School",icon:faSchool,use:["Student","Teacher"],routerLink:''},
   ];
-  constructor(private _snackBar: MatSnackBar) { };
+  constructor(private _snackBar: MatSnackBar, private examService: ExamService,) { };
 
   ngOnInit(): void {
-    console.log(this.currentUser)
+    // console.log(this.currentUser)
+    this.getExams()
   };
 
   openSnackBarLogin(item: any){
@@ -45,5 +47,22 @@ export class NavbarComponent implements OnInit {
   logout(){
     localStorage.removeItem('currentUser')
   };
+
+  getExams = async()=>{
+    await this.examService.readExams().subscribe((res: any)=>{   
+      console.log(res)   
+      var count=0
+      for (let exam of res){
+        count = count + (exam.studentCompleted.length - exam.studentCompleted.filter((obj: { score: any; })=>{return obj.score!==undefined}).length)
+        // console.log(exam.studentCompleted.filter((obj: { score: any; })=>{return !obj.score}).length)
+        // console.log(exam.studentCompleted.length)
+        // console.log("COUNT:")
+        // console.log(exam.studentCompleted.length - exam.studentCompleted.filter((obj: { score: any; })=>{obj.score!==undefined}).length)
+      }
+      this.examsToMark = JSON.stringify(count)
+      // console.log(count)
+      // return count
+    })    
+  }
 
 }
