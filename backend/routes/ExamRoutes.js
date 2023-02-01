@@ -16,6 +16,16 @@ router.post('/new', async function (req, res) {
     console.log(req.body)
     const newExam = new examModel(req.body);
     // await examModel.insert(req.body)
+    if(req.body.defaultWelcomeExam){
+        console.log("default welcome exam true");
+        const currentDefaul = await examModel.find({defaultWelcomeExam: true});
+        console.log(currentDefaul)
+        for(exam of currentDefaul){
+            exam.defaultWelcomeExam = false
+            await exam.save()
+        }
+        console.log(currentDefaul)
+    }
     await newExam.save()
       .then(res=>{
           console.log(res)

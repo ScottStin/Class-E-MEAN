@@ -10,6 +10,7 @@ import { NewExamComponent } from '../new-exam/new-exam.component';
 import { ExamService } from 'backend/services/exam-services/exam.service';
 import { ExamUserDialogComponent } from './exam-user-dialog/exam-user-dialog.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import { GeneralDialogComponent } from '../general-dialog/general-dialog.component';
 
 @Component({
   selector: 'app-exams-show',
@@ -28,21 +29,24 @@ export class ExamsShowComponent {
   @Input() currentUser: any | undefined;
 
   // const ELEMENT_DATA: PeriodicElement[] = [
-  columnsToDisplayTeacher = ['Exam Name', 'Type', 'Time (min)', 'Default Welcome Exam?', 'Assigned Teacher','Students Enrolled','Students Completed','Actions'];
-  columnsToDisplayStudent = ['Exam Name', 'Type', 'Time (min)', 'My Result','Actions'];
+  columnsToDisplayTeacher = ['Exam Name', 'Type', 'Time (min)', 'Default Welcome Exam?', 'Assigned Teacher','Price (AUD)', 'Students Enrolled','Students Completed','Actions'];
+  columnsToDisplayStudent = ['Exam Name', 'Type', 'Time (min)', 'Price (AUD)', 'My Result','Actions'];
   tableData: Array<any> = [{},];
-
-  tableDataFiltered: Array<any> = [{}]
+  tableDataFiltered: Array<any> = [{}];
+  selectedTabIndex: number | undefined;
 
   getExams = async()=>{
     await this.examService.readExams().subscribe((res: any)=>{      
       this.tableData = res
       console.log(this.tableData)
-      this.tableDataFiltered = this.tableData
+      if(this.currentUser.userType === 'Student'){
+        this.tableDataFiltered = this.tableData.filter(obj=>{ return obj.studentEnrolled.find((student: { studentEmail: string; })=>{return student.studentEmail=== this.currentUser.email})})
+      } if(this.currentUser.userType ==='Teacher'){
+        this.tableDataFiltered = this.tableData.filter(obj=>{ return obj.assignedTeacher === this.currentUser.email})
+      }      
       console.log(this.tableDataFiltered)
     })
-  }
-  
+  }  
 
   constructor(
     public dialog: MatDialog,
@@ -55,11 +59,24 @@ export class ExamsShowComponent {
     // this.getExamResult()
    }
 
-  filterExams(searchExams: any){
+  filterExams(searchExams: any, tab:string){
     console.log(searchExams)
-    this.tableDataFiltered = this.tableData.filter(obj=>{
-      return obj.examName.toLowerCase().includes(searchExams.toLowerCase())
-    })
+    if(tab==='All Exams'){
+      this.tableDataFiltered = this.tableData.filter(obj=>{
+        return obj.examName.toLowerCase().includes(searchExams.toLowerCase())
+      })
+    }
+    if(tab==='My Exams'&&this.currentUser.userType==='Student'){
+      this.tableDataFiltered = this.tableData.filter(obj=>{ return obj.studentEnrolled.find((student: { studentEmail: string; })=>{return student.studentEmail=== this.currentUser.email})}).filter(obj=>{
+        return obj.examName.toLowerCase().includes(searchExams.toLowerCase())
+      })
+    }
+    if(tab==='My Exams'&&this.currentUser.userType==='Teacher'){
+      this.tableDataFiltered = this.tableData.filter(obj=>{ return obj.assignedTeacher === this.currentUser.email}).filter(obj=>{
+        return obj.examName.toLowerCase().includes(searchExams.toLowerCase())
+      })
+    }
+
   }
 
   // getTableDataFiltered(tab:string){
@@ -78,11 +95,30 @@ export class ExamsShowComponent {
   // }
 
   async enrollStudent(exam:any){
-    await this.examService.enrolStudent({exam:exam,student:this.currentUser}).subscribe((res: any)=>{   
-      console.log(res)      
-    })    
-    this._snackBar.open(`You have successfully enrolled in this exam. You can take it any time you'd like!`,'close'); 
-    this.getExams();
+    const dialogRef = this.dialog.open(GeneralDialogComponent,{
+      width: '530px',
+      data: {
+        header: `Enroll in ${exam.examName}?`,
+        body: `Are you sure you want to enroll in this exam? ${exam.examCasualPrice && exam.examCasualPrice!==0 ? `Your account will automatically be changed the exam price of $${exam.examCasualPrice} AUD` : "The exam is free and you won't be charged."}`,
+        icon: "faRightToBracket",
+        rightButton:'Enrol',
+        leftButton: 'Cancel',
+        // routerLink:'student/login-signup'
+      }
+    });
+    
+    dialogRef.afterClosed().subscribe(async result => {
+      console.log(`Dialog result: ${result}`);
+      if(result){
+        await this.examService.enrolStudent({exam:exam,student:this.currentUser}).subscribe((res: any)=>{   
+          console.log(res)      
+        })    
+        this._snackBar.open(`You have successfully enrolled in this exam. You can take it any time you'd like!`,'close'); 
+        // this.getExams();
+        this.selectedTabIndex = 0
+      }
+      await this.getExams();
+    });
   }
 
   sortExams(){
@@ -116,8 +152,21 @@ export class ExamsShowComponent {
     return result
   }
 
+  changeTabs(tab:any){
+    console.log(tab.index)
+    if(tab.index===0 && this.currentUser.userType ==='Student'){
+      this.tableDataFiltered = this.tableData.filter(obj=>{ return obj.studentEnrolled.find((student: { studentEmail: string; })=>{return student.studentEmail=== this.currentUser.email})})
+      // console.log(this.tableDataFiltered.filter(obj=>{obj.studentEnrolled.studentEmail=== "test20@gmail.com"}))
+    } if(tab.index===0 && this.currentUser.userType ==='Teacher'){
+      this.tableDataFiltered = this.tableData.filter(obj=>{ return obj.assignedTeacher === this.currentUser.email})
+    }
+    if (tab.index===1){
+      this.tableDataFiltered = this.tableData
+    }
+  }
+
   openStudentsCompletedDialog(exam:any){    
-    console.log(exam.studentCompleted)
+    console.log(exam.studentCompleted.filter((obj: { studentEmail: string; }) => {return obj.studentEmail === this.currentUser.email}).dateCompleted)
     const dialogRef = this.dialog.open(ExamUserDialogComponent,{
       width: '530px',
       data: {
@@ -125,6 +174,8 @@ export class ExamsShowComponent {
         body: exam,
         rightButton:'Enroll a New Student',
         leftButton: 'Close',
+        purpose:'Completed',
+        // date:new Date(exam.updatedAt)
         // routerLink:'/exams'
       },
     });
@@ -136,6 +187,18 @@ export class ExamsShowComponent {
 
   openStudentsEnrolledDialog(exam:any){
     console.log(exam.studentEnrolled)
+    const dialogRef = this.dialog.open(ExamUserDialogComponent,{
+      width: '530px',
+      data: {
+        header: `Students Who Have Enrolled in ${exam.examName}`,
+        body: exam,
+        rightButton:'Enroll a New Student',
+        leftButton: 'Close',
+        purpose:'Enrolled',
+        // date:new Date(exam.updatedAt)
+        // routerLink:'/exams'
+      },
+    });
   }
 
   openExamDialog(exam: any){ 
@@ -144,10 +207,11 @@ export class ExamsShowComponent {
       data:{ exam:exam, user:this.currentUser}
     });  
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);      
+    dialogRef.afterClosed().subscribe(async result => {
+      console.log(`Dialog result: ${result}`);  
+      await this.getExams();    
     });
-    this.getExams()
+    // this.getExams()
   }
 
   openNewExamDialog(){ 
@@ -163,9 +227,12 @@ export class ExamsShowComponent {
       }
     });  
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       console.log(`Dialog result: ${result}`);
-      this.getExams()
+      await this.getExams()
     });
+    // this.getExams();
   }
+
+
 }

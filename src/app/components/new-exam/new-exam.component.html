@@ -56,7 +56,8 @@
                         </mat-select>
                       </mat-form-field> -->
 
-                      <mat-slide-toggle class="m-2" (change) = "defaultWelcomeExam =!defaultWelcomeExam"><span [class] = "defaultWelcomeExam ? 'font-weight-bold' : 'text-muted'">Default Welcome Exam<span *ngIf="!defaultWelcomeExam">?</span></span></mat-slide-toggle>
+                      <!-- <mat-slide-toggle class="m-2" (change) = "defaultWelcomeExam =!defaultWelcomeExam" (click) = "defaultWarningMessage()"><span [class] = "defaultWelcomeExam ? 'font-weight-bold' : 'text-muted'">Default Welcome Exam<span *ngIf="!defaultWelcomeExam">?</span></span></mat-slide-toggle> -->
+                      <mat-slide-toggle class="m-2" (change) = "defaultWarningMessage()"><span [class] = "defaultWelcomeExam ? 'font-weight-bold' : 'text-muted'">Default Welcome Exam<span *ngIf="!defaultWelcomeExam">?</span></span></mat-slide-toggle>
                     <hr>
 
                     <h2>{{questionName || 'Question ' + (tableData.length + 1) + ' -'}} </h2>

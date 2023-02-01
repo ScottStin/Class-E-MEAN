@@ -9,8 +9,13 @@
     <mat-dialog-content class="mat-typography">
         <table class="table table-hover">
             <thead>
-              <tr>
-                <th scope="col" *ngFor ="let column of ['Student Name','Student Email','Result']">{{column}}</th>  
+              <tr *ngIf = "this.data.purpose ==='Enrolled'">
+                <!-- <th  scope="col" *ngFor ="let column of ['Student Name','Student Email','Date Completed', 'Result']">{{column}}</th>   -->
+                <th  scope="col" *ngFor ="let column of ['Student Name','Student Email','Date Enrolled']">{{column}}</th>  
+              </tr>
+              <tr *ngIf = "this.data.purpose ==='Completed'">
+                <th  scope="col" *ngFor ="let column of ['Student Name','Student Email','Date Completed', 'Result']">{{column}}</th>  
+                <!-- <th  scope="col" *ngFor ="let column of ['Student Name','Student Email','Date Enrolled']">{{column}}</th>   -->
               </tr>
             </thead>
       
@@ -19,7 +24,8 @@
                 <!-- <th scope="row">{this.state.exams.indexOf(item) +1}</th> -->
                 <td [routerLink]="'/studentlist'"> <button class="btn btn-link" style="color: 'black';text-Decoration:'none'" >{{student.studentName}}</button></td>
                 <td [routerLink]="'/studentlist'"> <button class="btn btn-link" style="color: 'black';text-Decoration:'none'" >{{student.studentEmail}}</button></td>                   
-                <td (click)="showUserExam(student)"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'" >{{student.score || 'Click to Mark'}}</button></td>                   
+                <td>{{student.dateCompleted.substring(0,10)}}</td>                   
+                <td *ngIf = "this.data.purpose ==='Completed'" (click)="showUserExam(student)"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'" >{{student.score || 'Click to Mark'}}</button></td>                   
               </tr>
             </tbody>
         </table>

@@ -34,55 +34,56 @@
 
 <div>
   <div class="card mb-4 container bg-white shadow mt-3 p-5" style="border-radius: 15px;">
-    <!-- <mat-tab-group> -->
-      <!-- <mat-tab *ngFor = "let tab of ['My Exams','All Exams']" label="{{tab}}"> -->
+    <mat-tab-group  (selectedTabChange)="changeTabs($event)" [(selectedIndex)]="selectedTabIndex">
+      <mat-tab *ngFor = "let tab of ['My Exams','All Exams']" label="{{tab}}">
   
-    <div class="row p-3">                            
-      <input class="form-control mr-sm-2" #searchExams type="search" placeholder="Search" aria-label="Search" (keyup) = "filterExams(searchExams.value)"/>                                                            
-    </div>
-    <table class="table table-hover">
+        <div class="row p-3">                            
+          <input class="form-control mr-sm-2" #searchExams type="search" placeholder="Search" aria-label="Search" (keyup) = "filterExams(searchExams.value, tab)"/>                                                            
+        </div>
+        <table class="table table-hover">
 
-      <thead>
-        <tr *ngIf="currentUser.userType === 'Student'">
-          <!-- <th scope="col">#</th> -->
-          <th scope="col" *ngFor ="let column of columnsToDisplayStudent">{{column}}</th>  
-        </tr>
-        <tr *ngIf="currentUser.userType === 'Teacher'">
-          <th scope="col" *ngFor ="let column of columnsToDisplayTeacher">{{column}}</th>  
-        </tr>
-      </thead>
+          <thead>
+            <tr *ngIf="currentUser.userType === 'Student'">
+              <!-- <th scope="col">#</th> -->
+              <th scope="col" *ngFor ="let column of columnsToDisplayStudent">{{column}}</th>  
+            </tr>
+            <tr *ngIf="currentUser.userType === 'Teacher'">
+              <th scope="col" *ngFor ="let column of columnsToDisplayTeacher">{{column}}</th>  
+            </tr>
+          </thead>
 
-      <tbody>     
-        <tr *ngFor = "let exam of tableDataFiltered">
-          <!-- <th scope="row">{this.state.exams.indexOf(item) +1}</th> -->
-          <td> {{exam.examName}}</td>
-          <td> {{exam.examType}}</td>
-          <td> <span *ngIf="exam.examTime">{{exam.examTime}}</span><span *ngIf="!exam.examTime">-</span></td>
-          <td *ngIf="currentUser.userType === 'Teacher'"> <span *ngIf="exam['defaultWelcomeExam']">Yes</span><span *ngIf="!exam['defaultWelcomeExam']">No</span> </td> 
-          <td *ngIf="currentUser.userType === 'Teacher'">{{exam['assignedTeacher']}}</td>
-          <td *ngIf="currentUser.userType === 'Teacher'"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'" (click) = "openStudentsEnrolledDialog(exam)">{{exam['studentEnrolled']?.length}}</button></td> 
-          <td *ngIf="currentUser.userType === 'Teacher'"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'" (click) = "openStudentsCompletedDialog(exam)">{{exam['studentCompleted']?.length}}</button></td>         
-          <td *ngIf="currentUser.userType === 'Student'"><span *ngIf = "!['studentEnrolled', 'studentCompleted', '-'].includes(getExamResult(exam))">{{getExamResult(exam)}}</span></td>         
-          <td>        
-            <div class="example-flex-container" style="  display: flex;">
-              <button *ngIf="currentUser.userType === 'Student' && getExamResult(exam)==='-'" #tooltip="matTooltip" matTooltip="Click here to enroll in this exam" mat-mini-fab style="background-color:green " aria-label="Example icon button with a delete icon" (click)="enrollStudent(exam)"><mat-icon>how_to_reg</mat-icon></button>
-              <button *ngIf="currentUser.userType === 'Student' && getExamResult(exam)==='studentEnrolled'" #tooltip="matTooltip" matTooltip="Begin exam" mat-mini-fab style="background-color:blue " aria-label="Example icon button with a delete icon" (click)="openExamDialog(exam)"><mat-icon>play_circle_outline</mat-icon></button>
-              <button *ngIf="currentUser.userType === 'Student' && getExamResult(exam)==='studentCompleted'" #tooltip="matTooltip" matTooltip="Your exam is still being marked. Click here to view or edit your answers" mat-mini-fab style="background-color:orange " aria-label="Example icon button with a delete icon" (click)="openExamDialog(exam)"><mat-icon>hourglass_full</mat-icon></button>
-              <button *ngIf="currentUser.userType === 'Student' && !['studentEnrolled', 'studentCompleted', '-'].includes(getExamResult(exam))" #tooltip="matTooltip" matTooltip="Click here to view your feedback" mat-mini-fab style="background-color:purple " aria-label="Example icon button with a delete icon" (click)="openExamDialog(exam)"><mat-icon>remove_red_eye</mat-icon></button>
-              <button *ngIf="currentUser.userType === 'Teacher'" #tooltip="matTooltip" matTooltip="View exam" mat-mini-fab style="background-color:purple " aria-label="Example icon button with a delete icon" (click)="openExamDialog(exam)"><mat-icon>remove_red_eye</mat-icon></button>
-              <button *ngIf="currentUser.userType === 'Teacher'" #tooltip="matTooltip" matTooltip="Edit exam" mat-mini-fab style="background-color:orange " aria-label="Example icon button with a delete icon"><mat-icon>edit</mat-icon></button>
-              <button *ngIf="currentUser.userType === 'Teacher'" #tooltip="matTooltip" matTooltip="Delete exam"  mat-mini-fab style="background-color:red" aria-label="Example icon button with a delete icon"><mat-icon>delete</mat-icon></button>
-            </div>
-          </td>         
-        </tr>
-      </tbody>
-    </table>
-    <div class="row">
-      <div class="col offset-10">
-        <button *ngIf="currentUser.userType === 'Teacher'" mat-raised-button color="basic" #tooltip="matTooltip" matTooltip="Create a new exam" (click)="openNewExamDialog()"><mat-icon>note_add</mat-icon> Create new</button>  
-      </div>
-    </div>   
-      <!-- </mat-tab> -->
-    <!-- </mat-tab-group> -->
+          <tbody>     
+            <tr *ngFor = "let exam of tableDataFiltered">
+              <!-- <th scope="row">{this.state.exams.indexOf(item) +1}</th> -->
+              <td> {{exam.examName}}</td>
+              <td> {{exam.examType}}</td>
+              <td> <span *ngIf="exam.examTime">{{exam.examTime}}</span><span *ngIf="!exam.examTime">-</span></td>
+              <td *ngIf="currentUser.userType === 'Teacher'"> <span *ngIf="exam['defaultWelcomeExam']">Yes</span><span *ngIf="!exam['defaultWelcomeExam']">No</span> </td> 
+              <td *ngIf="currentUser.userType === 'Teacher'">{{exam['assignedTeacher']}}</td>
+              <td><span *ngIf = "exam.examCasualPrice && exam.examCasualPrice !== 0">$ {{exam.examCasualPrice}}</span><span *ngIf = "!exam.examCasualPrice || exam.examCasualPrice===0">Free</span></td>
+              <td *ngIf="currentUser.userType === 'Teacher'"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'" (click) = "openStudentsEnrolledDialog(exam)">{{exam['studentEnrolled']?.length}}</button></td> 
+              <td *ngIf="currentUser.userType === 'Teacher'"><button class="btn btn-link" style="color: 'black';text-Decoration:'none'" (click) = "openStudentsCompletedDialog(exam)">{{exam['studentCompleted']?.length}}</button></td>         
+              <td *ngIf="currentUser.userType === 'Student'"><span *ngIf = "!['studentEnrolled', 'studentCompleted', '-'].includes(getExamResult(exam))">{{getExamResult(exam)}}</span></td>         
+              <td>        
+                <div class="example-flex-container" style="  display: flex;">
+                  <button *ngIf="currentUser.userType === 'Student' && getExamResult(exam)==='-'" #tooltip="matTooltip" matTooltip="Click here to enroll in this exam" mat-mini-fab style="background-color:green " aria-label="Example icon button with a delete icon" (click)="enrollStudent(exam)"><mat-icon *ngIf = "exam.examCasualPrice && exam.examCasualPrice!==0">add_shopping_cart</mat-icon> <mat-icon *ngIf="!exam.examCasualPrice || exam.examCasualPrice === 0">how_to_reg</mat-icon></button>
+                  <button *ngIf="currentUser.userType === 'Student' && getExamResult(exam)==='studentEnrolled'" #tooltip="matTooltip" matTooltip="Begin exam" mat-mini-fab style="background-color:blue " aria-label="Example icon button with a delete icon" (click)="openExamDialog(exam)"><mat-icon>play_circle_outline</mat-icon></button>
+                  <button *ngIf="currentUser.userType === 'Student' && getExamResult(exam)==='studentCompleted'" #tooltip="matTooltip" matTooltip="Your exam is still being marked. Click here to view or edit your answers" mat-mini-fab style="background-color:orange " aria-label="Example icon button with a delete icon" (click)="openExamDialog(exam)"><mat-icon>hourglass_full</mat-icon></button>
+                  <button *ngIf="currentUser.userType === 'Student' && !['studentEnrolled', 'studentCompleted', '-'].includes(getExamResult(exam))" #tooltip="matTooltip" matTooltip="Click here to view your feedback" mat-mini-fab style="background-color:purple " aria-label="Example icon button with a delete icon" (click)="openExamDialog(exam)"><mat-icon>remove_red_eye</mat-icon></button>
+                  <button *ngIf="currentUser.userType === 'Teacher'" #tooltip="matTooltip" matTooltip="View exam" mat-mini-fab style="background-color:purple " aria-label="Example icon button with a delete icon" (click)="openExamDialog(exam)"><mat-icon>remove_red_eye</mat-icon></button>
+                  <button *ngIf="currentUser.userType === 'Teacher'" #tooltip="matTooltip" matTooltip="Edit exam" mat-mini-fab style="background-color:orange " aria-label="Example icon button with a delete icon"><mat-icon>edit</mat-icon></button>
+                  <button *ngIf="currentUser.userType === 'Teacher'" #tooltip="matTooltip" matTooltip="Delete exam"  mat-mini-fab style="background-color:red" aria-label="Example icon button with a delete icon"><mat-icon>delete</mat-icon></button>
+                </div>
+              </td>         
+            </tr>
+          </tbody>
+        </table>
+        <div class="row">
+          <div class="col offset-10">
+            <button *ngIf="currentUser.userType === 'Teacher'" mat-raised-button color="basic" #tooltip="matTooltip" matTooltip="Create a new exam" (click)="openNewExamDialog()" class="mb-3 mt-3"><mat-icon>note_add</mat-icon> Create new</button>  
+          </div>
+        </div>   
+      </mat-tab>
+    </mat-tab-group>
   </div>  
 </div>
