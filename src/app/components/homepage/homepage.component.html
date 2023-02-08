@@ -31,10 +31,10 @@
                         </div>  
                     </div>                                     
                     <div *ngFor="let user of displayUsers">
-                        <div *ngIf = "user.userType === 'Student' && urlAddress ==='/studentlist'">
+                        <div *ngIf = "user.userType === 'Student' && urlAddress ==='/studentlist' && user.email !== currentUser.email">
                             <app-user-card  [allUsers]="users" [user] = "user" [currentUser] = "currentUser"></app-user-card>
                         </div>
-                        <div *ngIf = "user.userType === 'Teacher' && urlAddress === '/teacherlist'">
+                        <div *ngIf = "user.userType === 'Teacher' && urlAddress === '/teacherlist'  && user.email !== currentUser.email">
                             <app-user-card  [allUsers]="users" [user] = "user" [currentUser] = "currentUser"></app-user-card>
                         </div>
                     </div>   

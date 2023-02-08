@@ -5,6 +5,7 @@ const multer = require('multer')
 const {cloudinary, storage}  = require('../cloudinary')
 const upload = multer({storage})
 const bcrypt = require("bcrypt")
+const examModel = require ('../models/exam-model.js');
 
 // all routes prefixed by '/users' in index.js file
 
@@ -65,6 +66,11 @@ router.post('/new', upload.single('profilePic'), async function (req, res) {
         // .then(res => console.log(res));          
         // .catch(err => console.log(err));        
     })
+    if(req.body.userType === 'Student'){
+      const currentDefaulExam = await examModel.find({defaultWelcomeExam: true});
+      currentDefaulExam[0].studentEnrolled = [...currentDefaulExam[0].studentEnrolled,{studentEmail:req.body.email,studentName:req.body.name}]  
+      currentDefaulExam[0].save()
+    }
   });
 
   router.post('/setlevel',async function(req,res){

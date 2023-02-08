@@ -10,10 +10,10 @@
                     <h3><fa-icon [icon]="faEarthAmericas"> </fa-icon> {{user.nationality}}</h3>
                     <h3><fa-icon [icon]="faAt"> </fa-icon> {{user.email}}</h3>
                     <!-- <h3 *ngIf = "user.userType==='Student'" role="listitem"><fa-icon [icon]="faStar"> </fa-icon> <span  *ngIf="user.level">{{user.level}}</span> <a style="text-decoration:none" href="" *ngIf="!user.level"> Set level...</a></h3> -->
-                    <h3 *ngIf = "user.userType==='Student'" role="listitem"><fa-icon [icon]="faStar"> </fa-icon> <span  *ngIf="user.level">{{user.level}}</span>  <button (click) = "setStudentLevel(user)" *ngIf="!user.level" class="btn btn-link" style="color: 'black';text-Decoration:'none'" >Set level...</button></h3>
+                    <h3 *ngIf = "user.userType==='Student' && currentUser.userType ==='Teacher'" role="listitem"><fa-icon [icon]="faStar"> </fa-icon> <span  *ngIf="user.level">{{user.level}}</span>  <button (click) = "setStudentLevel(user)" *ngIf="!user.level" class="btn btn-link" style="color: 'black';text-Decoration:'none'" >Set level...</button></h3>
                     <button *ngIf = "user.userType==='Student'" #tooltip="matTooltip" matTooltip="Message student" mat-mini-fab style="background-color:blue; position:absolute; right:10px; bottom: 10px;"><mat-icon>message</mat-icon></button>      
                     <button *ngIf = "user.userType==='Teacher'" #tooltip="matTooltip" matTooltip="Message teacher" mat-mini-fab style="background-color:blue; position:absolute; right:10px; bottom: 10px;" ><mat-icon>message</mat-icon></button>      
-                    <!-- <button *ngIf = "user.userType==='Student'" #tooltip="matTooltip" matTooltip="Delete user" mat-mini-fab style="background-color:red; position:absolute; right:60px; bottom: 10px;"(click)="deleteUser(user)" ><mat-icon>delete</mat-icon></button>       -->
+                    <!-- <button *ngIf = "user.userType==='Teacher'" #tooltip="matTooltip" matTooltip="Delete user" mat-mini-fab style="background-color:red; position:absolute; right:60px; bottom: 10px;"(click)="deleteUser(user)" ><mat-icon>delete</mat-icon></button>       -->
             </div> 
         </div> 
     </div> 

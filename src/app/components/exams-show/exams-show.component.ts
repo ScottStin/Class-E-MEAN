@@ -229,9 +229,40 @@ export class ExamsShowComponent {
 
     dialogRef.afterClosed().subscribe(async result => {
       console.log(`Dialog result: ${result}`);
-      await this.getExams()
+      await this.getExams();
+      this.selectedTabIndex = 0;
     });
     // this.getExams();
+  }
+
+  async deleteExam(exam:any){
+    const dialogRef = this.dialog.open(GeneralDialogComponent,{
+      width: '530px',
+      data: {
+        header: `Are you sure you want to delete ${exam.examName}?`,
+        body: `Are you sure you want to enroll in this exam? Once deleted, this action cannot be undone.`,
+        icon: "faRightToBracket",
+        rightButton:'Delete',
+        leftButton: 'Cancel',
+      }
+    });
+    
+    dialogRef.afterClosed().subscribe(async result => {
+      console.log(`Dialog result: ${result}`);
+      if(result){
+        await this.examService.deleteExams(exam._id).subscribe((res: any)=>{     
+          console.log(res)   
+          this.getExams()             
+        }) 
+        this._snackBar.open(`Exam deleted`,'close'); 
+        // this.selectedTabIndex = 0
+        // await this.getExams();
+      }
+      this.selectedTabIndex = 0
+      await this.getExams();
+      
+    }); 
+
   }
 
 

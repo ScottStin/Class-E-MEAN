@@ -30,4 +30,8 @@ export class ExamService {
     return this.http.post('http://localhost:3000/exams/enrollStudent',exam)
   }
 
+  deleteExams(id:any){
+    return this.http.delete('http://localhost:3000/exams/delete/'+id)         
+  }
+
 }

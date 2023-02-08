@@ -102,4 +102,9 @@ router.post('/enrollStudent', async function (req, res) {
     }
   });
 
+  router.delete ('/delete/:id', (async function(req,res){   
+    const { id } = req.params;
+    await examModel.findByIdAndDelete(req.params.id); 
+}));
+
   module.exports = router;
